@@ -1,36 +1,53 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package FctPojo;
 
-import Pojo.Statistique;
-
-/**
- *
- * @author Eddy Joret
- */
 public class FctStatistique {
     
-    /*-------------------------POUR TOUT LES JOUEURS--------------------------*/
-    //addition des données avec division du nombre de joueurs au besoin
+    //INITIALISATION
     
-    //Nombre de partie totale calculé à partir de Nb_Victoire 
+        //Initialisation de tous les champs lié au Code_Joueur (passé en
+        //paramètre) à 0
     
-    //Moyenne de partie jouée calculée à partir de Nb_Parti
+    //AFFICHAGE
     
-    //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyen
+        /*-----------------------POUR TOUT LES JOUEURS------------------------*/
+
+        //Nombre de partie totale calculé à partir de Nb_Victoire 
+
+        //Moyenne de partie jouée calculée à partir de Nb_Partie
+
+        //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyen
+
+        //Nombre de points totals gagnés calculé à partir de Nb_Pts_Tot
+
+        //Moyenne de points calculée à partir de Sc_Moyen
+
+        //Moyenne de suite gagnée calculée à partir de Su_Moyen_G
+
+        //Moyenne de chouette velute perdue calculée à partir de CV_Moyen_G
+
+        /*--------------------------POUR UN JOUEUR----------------------------*/
+
+        //Stats du Code_Joueur
+
+        //Une stat du Code_Joueur (à définir en paramètre)
+
+    //MISE A JOUR 
     
-    //Nombre de points totals gagnés calculé à partir de Nb_Pts_Tot
+        //Incrémentation Nb_Partie
     
-    //Moyenne de points calculée à partir de Sc_Moyen
+        //Incrémentation Nb_Victoire
+        
+        //Incrémentation Nb_Victoire_Moyen
     
-    //Moyenne de suite gagnée calculée à partir de Su_Moyen_G
+        //Incrémentation Nb_Pts_Tot
     
-    //Moyenne de chouette velute perdue calculée à partir de CV_Moyen_G
+        //Incrémentation Score_Moyen
     
-    /*----------------------------POUR UN JOUEUR------------------------------*/
+        //Incrémentation Nb_Suite
     
-    //Affichage des stats du joueur en question
+        //Incrémentation Suite_Moyen_G
+    
+        //Incrémentation Nb_ChouVel
+    
+        //Incrémentation ChouVel_Moyen_P
 }

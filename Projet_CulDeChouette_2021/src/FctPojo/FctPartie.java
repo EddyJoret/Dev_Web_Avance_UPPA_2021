@@ -1,28 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package FctPojo;
 
-/**
- *
- * @author Eddy Joret
- */
 public class FctPartie {
     
-    /*------------------------POUR TOUTES LES PARTIES-------------------------*/
-    //addition des données avec division du nombre de joueurs au besoin
+    //INITIALISATION
     
-    //Nombre de partie total
+        //Initialisation avec les Code_Joueur en paramètres 
+        //+ création Code_Partie
+        //+ création des lignes correspondantes de SCOREPARTIE
     
-    //Nombre de joueur total 
+    //AFFICHAGE
     
-    //Moyenne de joueur par partie
+        /*----------------------POUR TOUTES LES PARTIES-----------------------*/
+
+        //Nombre de partie total
     
-    //Score total
+        //Nombre de partie total en cours
+
+        //Nombre de joueur total 
+
+        //Moyenne de joueur par partie
+
+        //Score moyen
     
-    //Score moyen par partie
+        /*--------------------------POUR UNE PARTIE---------------------------*/
     
-    //
+        //Nombre de joueur
+    
+        //Liste des joueurs
+    
+        //Partie terminée?
+    
+        //Statistiques des Code_Joueur
+    
+        //Statistiques d'un Code_Joueur
+
+    //MISE A JOUR
+    
+        //Score du Code_Joueur d'un Code_Partie
+    
+        //Nb_Suite_G du Code_Joueur d'un Code_Partie
+    
+        //Nb_ChouVel_P du Code_Joueur d'un Code_Partie
+    
+        //Enregistrement du dernier lancé de dès effectué de Code_Partie
 }
