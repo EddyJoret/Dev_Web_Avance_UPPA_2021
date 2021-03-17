@@ -52,9 +52,9 @@ public class Statistique implements Serializable {
     @Column(name = "SC_MOYEN")
     private BigInteger scMoyen;
     @Column(name = "SU_MOYEN_G")
-    private BigInteger suMoyenG;
+    private BigInteger suMoyenG; //suites moyennes gagnées
     @Column(name = "CV_MOYEN_P")
-    private BigInteger cvMoyenP;
+    private BigInteger cvMoyenP; //chouettee velutes moyennes perdues
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "statistique")
     private Joueur joueur;
 
