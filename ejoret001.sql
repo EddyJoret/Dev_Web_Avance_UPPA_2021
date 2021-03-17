@@ -15,7 +15,7 @@ CREATE TABLE PARTIE
 
 CREATE TABLE SCOREPARTIE
 (
-    Code_Partie INT, /*PK composé 1ère clé + FK -> Code_Partie*/
+    Code_Partie INT, /*PK composé 1ère clé + FK -> PARTIE*/
     Code_Joueur INT, /*PK composé 2nd clé*/
     Score INT,
     Nb_Suite_G INT,
@@ -24,7 +24,7 @@ CREATE TABLE SCOREPARTIE
 
 CREATE TABLE RESUME
 (
-    Code_Partie INT, /*PK composé 1ère clé + FK -> Code_Partie*/
+    Code_Partie INT, /*PK composé 1ère clé + FK -> PARTIE*/
     Num_Lance_Des INT, /*PK composé 2nd clé*/
     Des_1 INT,
     Des_2 INT,
