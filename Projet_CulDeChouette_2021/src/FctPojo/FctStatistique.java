@@ -172,6 +172,24 @@ public class FctStatistique{
             case "Nb_Partie":
                 stats += stat.getNbPartie()+"}";
                 break;
+            case "Nb_Victoire":
+                stats += stat.getNbVictoire()+"}";
+                break;
+            case "Nb_Victoire_Moyen":
+                stats += stat.getNbVictoireMoyen()+"}";
+                break;
+            case "Nb_Pts_Tot":
+                stats += stat.getNbPtsTot()+"}";
+                break;
+            case "Score_Moyen":
+                stats += stat.getScoreMoyen()+"}";
+                break;
+            case "Suite_Moyen_G":
+                stats += stat.getSuiteMoyenG()+"}";
+                break;
+            case "Chouvel_Moyen_P":
+                stats += stat.getChouvelMoyenP()+"}";
+                break;
         }
         
         return stats;
