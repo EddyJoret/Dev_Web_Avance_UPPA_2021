@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Pojo;
 
 import java.io.Serializable;
@@ -14,6 +19,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author pauline
+ */
 @Entity
 @Table(name = "STATISTIQUE")
 @XmlRootElement
@@ -22,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Statistique.findByCodeJoueur", query = "SELECT s FROM Statistique s WHERE s.codeJoueur = :codeJoueur"),
     @NamedQuery(name = "Statistique.findByNbPartie", query = "SELECT s FROM Statistique s WHERE s.nbPartie = :nbPartie"),
     @NamedQuery(name = "Statistique.findByNbVictoire", query = "SELECT s FROM Statistique s WHERE s.nbVictoire = :nbVictoire"),
-    @NamedQuery(name = "Statistique.findByNbVictoireMoyen", query = "SELECT s FROM Statistique s WHERE s.nbVictoireMoyen = :nbVictoireMoyen"),
+    @NamedQuery(name = "Statistique.findByNbVictoireMoyenne", query = "SELECT s FROM Statistique s WHERE s.nbVictoireMoyenne = :nbVictoireMoyenne"),
     @NamedQuery(name = "Statistique.findByNbPtsTot", query = "SELECT s FROM Statistique s WHERE s.nbPtsTot = :nbPtsTot"),
     @NamedQuery(name = "Statistique.findByScoreMoyen", query = "SELECT s FROM Statistique s WHERE s.scoreMoyen = :scoreMoyen"),
     @NamedQuery(name = "Statistique.findByNbSuite", query = "SELECT s FROM Statistique s WHERE s.nbSuite = :nbSuite"),
@@ -41,20 +50,20 @@ public class Statistique implements Serializable {
     private BigInteger nbPartie;
     @Column(name = "NB_VICTOIRE")
     private BigInteger nbVictoire;
-    @Column(name = "NB_VICTOIRE_MOYEN")
-    private BigInteger nbVictoireMoyen;
+    @Column(name = "NB_VICTOIRE_MOYENNE")
+    private BigDecimal nbVictoireMoyenne;
     @Column(name = "NB_PTS_TOT")
     private BigInteger nbPtsTot;
     @Column(name = "SCORE_MOYEN")
-    private BigInteger scoreMoyen;
+    private BigDecimal scoreMoyen;
     @Column(name = "NB_SUITE")
     private BigInteger nbSuite;
     @Column(name = "SUITE_MOYEN_G")
-    private BigInteger suiteMoyenG;
+    private BigDecimal suiteMoyenG;
     @Column(name = "NB_CHOUVEL")
     private BigInteger nbChouvel;
     @Column(name = "CHOUVEL_MOYEN_P")
-    private BigInteger chouvelMoyenP;
+    private BigDecimal chouvelMoyenP;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "statistique")
     private Joueur joueur;
 
@@ -89,12 +98,12 @@ public class Statistique implements Serializable {
         this.nbVictoire = nbVictoire;
     }
 
-    public BigInteger getNbVictoireMoyen() {
-        return nbVictoireMoyen;
+    public BigDecimal getNbVictoireMoyenne() {
+        return nbVictoireMoyenne;
     }
 
-    public void setNbVictoireMoyen(BigInteger nbVictoireMoyen) {
-        this.nbVictoireMoyen = nbVictoireMoyen;
+    public void setNbVictoireMoyenne(BigDecimal nbVictoireMoyenne) {
+        this.nbVictoireMoyenne = nbVictoireMoyenne;
     }
 
     public BigInteger getNbPtsTot() {
@@ -105,11 +114,11 @@ public class Statistique implements Serializable {
         this.nbPtsTot = nbPtsTot;
     }
 
-    public BigInteger getScoreMoyen() {
+    public BigDecimal getScoreMoyen() {
         return scoreMoyen;
     }
 
-    public void setScoreMoyen(BigInteger scoreMoyen) {
+    public void setScoreMoyen(BigDecimal scoreMoyen) {
         this.scoreMoyen = scoreMoyen;
     }
 
@@ -121,11 +130,11 @@ public class Statistique implements Serializable {
         this.nbSuite = nbSuite;
     }
 
-    public BigInteger getSuiteMoyenG() {
+    public BigDecimal getSuiteMoyenG() {
         return suiteMoyenG;
     }
 
-    public void setSuiteMoyenG(BigInteger suiteMoyenG) {
+    public void setSuiteMoyenG(BigDecimal suiteMoyenG) {
         this.suiteMoyenG = suiteMoyenG;
     }
 
@@ -137,11 +146,11 @@ public class Statistique implements Serializable {
         this.nbChouvel = nbChouvel;
     }
 
-    public BigInteger getChouvelMoyenP() {
+    public BigDecimal getChouvelMoyenP() {
         return chouvelMoyenP;
     }
 
-    public void setChouvelMoyenP(BigInteger chouvelMoyenP) {
+    public void setChouvelMoyenP(BigDecimal chouvelMoyenP) {
         this.chouvelMoyenP = chouvelMoyenP;
     }
 

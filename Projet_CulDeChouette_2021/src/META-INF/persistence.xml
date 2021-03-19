@@ -5,6 +5,8 @@
     <class>Pojo.Joueur</class>
     <class>Pojo.Partie</class>
     <class>Pojo.Statistique</class>
+    <class>Pojo.Scorepartie</class>
+    <class>Pojo.Resumepartie</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr"/>
       <property name="javax.persistence.jdbc.user" value="pcazalis"/>
