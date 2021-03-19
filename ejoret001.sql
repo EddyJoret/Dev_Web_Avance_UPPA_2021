@@ -13,7 +13,7 @@ CREATE TABLE PARTIE
     Code_Joueur4 INT, /*FK -> JOUEUR*/
     Code_Joueur5 INT, /*FK -> JOUEUR*/
     Code_Joueur6 INT, /*FK -> JOUEUR*/
-    Termine BOOL /*Pour savoir si une partie est en cours ou non*/
+    Termine CHAR(1) /*Pour savoir si une partie est en cours ou non*/
 );
 
 CREATE TABLE SCOREPARTIE
