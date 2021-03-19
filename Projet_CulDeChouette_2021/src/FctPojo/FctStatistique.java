@@ -164,6 +164,18 @@ public class FctStatistique{
     }
 
         //Une stat du Code_Joueur (à définir en paramètre)
+    public String getStat(BigDecimal Code_Joueur, String Colonne) throws SQLException{
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        String stats = "{\""+Colonne+"\":";
+        
+        switch(Colonne){
+            case "Nb_Partie":
+                stats += stat.getNbPartie()+"}";
+                break;
+        }
+        
+        return stats;
+    }
 
     //MISE A JOUR 
     
