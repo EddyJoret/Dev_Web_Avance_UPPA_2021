@@ -50,13 +50,13 @@ CREATE TABLE STATISTIQUE
     Code_Joueur INT, /*PK*/
     Nb_Partie INT,
     Nb_Victoire INT,
-    Nb_Victoire_Moyen INT,
+    Nb_Victoire_Moyen NUMBER(4,3),
     Nb_Pts_Tot INT,
-    Score_Moyen INT,
+    Score_Moyen NUMBER(4,3),
     Nb_Suite INT, /*Ajout pour pouvoir calculer la moyenne gagnée*/
-    Suite_Moyen_G INT,
+    Suite_Moyen_G NUMBER(4,3),
     Nb_ChouVel INT, /*Ajout pour pouvoir calculer la moyenne perdu*/
-    ChouVel_Moyen_P INT
+    ChouVel_Moyen_P NUMBER(4,3)
 );
 
 ALTER TABLE PARTIE ADD CONSTRAINT PK_Code_Partie PRIMARY KEY (Code_Partie);

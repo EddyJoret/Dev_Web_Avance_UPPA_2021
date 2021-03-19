@@ -1,6 +1,16 @@
 package FctPojo;
 
+import java.sql.Connection;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 public class FctPartie {
+    
+    Connection connection;
+    
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
+    EntityManager em = emf.createEntityManager();
     
     //INITIALISATION
     
