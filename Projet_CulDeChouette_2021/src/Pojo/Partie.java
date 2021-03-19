@@ -7,7 +7,9 @@ package Pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,8 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Partie.findAll", query = "SELECT p FROM Partie p"),
     @NamedQuery(name = "Partie.findByCodePartie", query = "SELECT p FROM Partie p WHERE p.codePartie = :codePartie"),
-    @NamedQuery(name = "Partie.findByDernierL", query = "SELECT p FROM Partie p WHERE p.dernierL = :dernierL")})
+    @NamedQuery(name = "Partie.findByTermine", query = "SELECT p FROM Partie p WHERE p.termine = :termine")})
 public class Partie implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,8 +41,8 @@ public class Partie implements Serializable {
     @Basic(optional = false)
     @Column(name = "CODE_PARTIE")
     private BigDecimal codePartie;
-    @Column(name = "DERNIER_L")
-    private String dernierL;
+    @Column(name = "TERMINE")
+    private Character termine;
     @JoinColumn(name = "CODE_JOUEUR1", referencedColumnName = "CODE_JOUEUR")
     @ManyToOne
     private Joueur codeJoueur1;
@@ -57,6 +61,10 @@ public class Partie implements Serializable {
     @JoinColumn(name = "CODE_JOUEUR3", referencedColumnName = "CODE_JOUEUR")
     @ManyToOne
     private Joueur codeJoueur3;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partie")
+    private Collection<Resumepartie> resumepartieCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "partie")
+    private Collection<Scorepartie> scorepartieCollection;
 
     public Partie() {
     }
@@ -73,12 +81,12 @@ public class Partie implements Serializable {
         this.codePartie = codePartie;
     }
 
-    public String getDernierL() {
-        return dernierL;
+    public Character getTermine() {
+        return termine;
     }
 
-    public void setDernierL(String dernierL) {
-        this.dernierL = dernierL;
+    public void setTermine(Character termine) {
+        this.termine = termine;
     }
 
     public Joueur getCodeJoueur1() {
@@ -127,6 +135,24 @@ public class Partie implements Serializable {
 
     public void setCodeJoueur3(Joueur codeJoueur3) {
         this.codeJoueur3 = codeJoueur3;
+    }
+
+    @XmlTransient
+    public Collection<Resumepartie> getResumepartieCollection() {
+        return resumepartieCollection;
+    }
+
+    public void setResumepartieCollection(Collection<Resumepartie> resumepartieCollection) {
+        this.resumepartieCollection = resumepartieCollection;
+    }
+
+    @XmlTransient
+    public Collection<Scorepartie> getScorepartieCollection() {
+        return scorepartieCollection;
+    }
+
+    public void setScorepartieCollection(Collection<Scorepartie> scorepartieCollection) {
+        this.scorepartieCollection = scorepartieCollection;
     }
 
     @Override

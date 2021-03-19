@@ -29,12 +29,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Statistique.findAll", query = "SELECT s FROM Statistique s"),
     @NamedQuery(name = "Statistique.findByCodeJoueur", query = "SELECT s FROM Statistique s WHERE s.codeJoueur = :codeJoueur"),
-    @NamedQuery(name = "Statistique.findByNbParti", query = "SELECT s FROM Statistique s WHERE s.nbParti = :nbParti"),
+    @NamedQuery(name = "Statistique.findByNbPartie", query = "SELECT s FROM Statistique s WHERE s.nbPartie = :nbPartie"),
     @NamedQuery(name = "Statistique.findByNbVictoire", query = "SELECT s FROM Statistique s WHERE s.nbVictoire = :nbVictoire"),
+    @NamedQuery(name = "Statistique.findByNbVictoireMoyen", query = "SELECT s FROM Statistique s WHERE s.nbVictoireMoyen = :nbVictoireMoyen"),
     @NamedQuery(name = "Statistique.findByNbPtsTot", query = "SELECT s FROM Statistique s WHERE s.nbPtsTot = :nbPtsTot"),
-    @NamedQuery(name = "Statistique.findByScMoyen", query = "SELECT s FROM Statistique s WHERE s.scMoyen = :scMoyen"),
-    @NamedQuery(name = "Statistique.findBySuMoyenG", query = "SELECT s FROM Statistique s WHERE s.suMoyenG = :suMoyenG"),
-    @NamedQuery(name = "Statistique.findByCvMoyenP", query = "SELECT s FROM Statistique s WHERE s.cvMoyenP = :cvMoyenP")})
+    @NamedQuery(name = "Statistique.findByScoreMoyen", query = "SELECT s FROM Statistique s WHERE s.scoreMoyen = :scoreMoyen"),
+    @NamedQuery(name = "Statistique.findByNbSuite", query = "SELECT s FROM Statistique s WHERE s.nbSuite = :nbSuite"),
+    @NamedQuery(name = "Statistique.findBySuiteMoyenG", query = "SELECT s FROM Statistique s WHERE s.suiteMoyenG = :suiteMoyenG"),
+    @NamedQuery(name = "Statistique.findByNbChouvel", query = "SELECT s FROM Statistique s WHERE s.nbChouvel = :nbChouvel"),
+    @NamedQuery(name = "Statistique.findByChouvelMoyenP", query = "SELECT s FROM Statistique s WHERE s.chouvelMoyenP = :chouvelMoyenP")})
 public class Statistique implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,18 +46,24 @@ public class Statistique implements Serializable {
     @Basic(optional = false)
     @Column(name = "CODE_JOUEUR")
     private BigDecimal codeJoueur;
-    @Column(name = "NB_PARTI")
-    private BigInteger nbParti;
+    @Column(name = "NB_PARTIE")
+    private BigInteger nbPartie;
     @Column(name = "NB_VICTOIRE")
     private BigInteger nbVictoire;
+    @Column(name = "NB_VICTOIRE_MOYEN")
+    private BigInteger nbVictoireMoyen;
     @Column(name = "NB_PTS_TOT")
     private BigInteger nbPtsTot;
-    @Column(name = "SC_MOYEN")
-    private BigInteger scMoyen;
-    @Column(name = "SU_MOYEN_G")
-    private BigInteger suMoyenG; //suites moyennes gagnées
-    @Column(name = "CV_MOYEN_P")
-    private BigInteger cvMoyenP; //chouettee velutes moyennes perdues
+    @Column(name = "SCORE_MOYEN")
+    private BigInteger scoreMoyen;
+    @Column(name = "NB_SUITE")
+    private BigInteger nbSuite;
+    @Column(name = "SUITE_MOYEN_G")
+    private BigInteger suiteMoyenG;
+    @Column(name = "NB_CHOUVEL")
+    private BigInteger nbChouvel;
+    @Column(name = "CHOUVEL_MOYEN_P")
+    private BigInteger chouvelMoyenP;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "statistique")
     private Joueur joueur;
 
@@ -73,12 +82,12 @@ public class Statistique implements Serializable {
         this.codeJoueur = codeJoueur;
     }
 
-    public BigInteger getNbParti() {
-        return nbParti;
+    public BigInteger getNbPartie() {
+        return nbPartie;
     }
 
-    public void setNbParti(BigInteger nbParti) {
-        this.nbParti = nbParti;
+    public void setNbPartie(BigInteger nbPartie) {
+        this.nbPartie = nbPartie;
     }
 
     public BigInteger getNbVictoire() {
@@ -89,6 +98,14 @@ public class Statistique implements Serializable {
         this.nbVictoire = nbVictoire;
     }
 
+    public BigInteger getNbVictoireMoyen() {
+        return nbVictoireMoyen;
+    }
+
+    public void setNbVictoireMoyen(BigInteger nbVictoireMoyen) {
+        this.nbVictoireMoyen = nbVictoireMoyen;
+    }
+
     public BigInteger getNbPtsTot() {
         return nbPtsTot;
     }
@@ -97,28 +114,44 @@ public class Statistique implements Serializable {
         this.nbPtsTot = nbPtsTot;
     }
 
-    public BigInteger getScMoyen() {
-        return scMoyen;
+    public BigInteger getScoreMoyen() {
+        return scoreMoyen;
     }
 
-    public void setScMoyen(BigInteger scMoyen) {
-        this.scMoyen = scMoyen;
+    public void setScoreMoyen(BigInteger scoreMoyen) {
+        this.scoreMoyen = scoreMoyen;
     }
 
-    public BigInteger getSuMoyenG() {
-        return suMoyenG;
+    public BigInteger getNbSuite() {
+        return nbSuite;
     }
 
-    public void setSuMoyenG(BigInteger suMoyenG) {
-        this.suMoyenG = suMoyenG;
+    public void setNbSuite(BigInteger nbSuite) {
+        this.nbSuite = nbSuite;
     }
 
-    public BigInteger getCvMoyenP() {
-        return cvMoyenP;
+    public BigInteger getSuiteMoyenG() {
+        return suiteMoyenG;
     }
 
-    public void setCvMoyenP(BigInteger cvMoyenP) {
-        this.cvMoyenP = cvMoyenP;
+    public void setSuiteMoyenG(BigInteger suiteMoyenG) {
+        this.suiteMoyenG = suiteMoyenG;
+    }
+
+    public BigInteger getNbChouvel() {
+        return nbChouvel;
+    }
+
+    public void setNbChouvel(BigInteger nbChouvel) {
+        this.nbChouvel = nbChouvel;
+    }
+
+    public BigInteger getChouvelMoyenP() {
+        return chouvelMoyenP;
+    }
+
+    public void setChouvelMoyenP(BigInteger chouvelMoyenP) {
+        this.chouvelMoyenP = chouvelMoyenP;
     }
 
     public Joueur getJoueur() {

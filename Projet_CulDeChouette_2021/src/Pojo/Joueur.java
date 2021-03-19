@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Joueur.findByMdp", query = "SELECT j FROM Joueur j WHERE j.mdp = :mdp"),
     @NamedQuery(name = "Joueur.findByAge", query = "SELECT j FROM Joueur j WHERE j.age = :age"),
     @NamedQuery(name = "Joueur.findBySexe", query = "SELECT j FROM Joueur j WHERE j.sexe = :sexe"),
-    @NamedQuery(name = "Joueur.findByVille", query = "SELECT j FROM Joueur j WHERE j.ville = :ville"),
-    @NamedQuery(name = "Joueur.findByNbPtsActuel", query = "SELECT j FROM Joueur j WHERE j.nbPtsActuel = :nbPtsActuel")})
+    @NamedQuery(name = "Joueur.findByVille", query = "SELECT j FROM Joueur j WHERE j.ville = :ville")})
 public class Joueur implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,8 +55,6 @@ public class Joueur implements Serializable {
     private Character sexe;
     @Column(name = "VILLE")
     private String ville;
-    @Column(name = "NB_PTS_ACTUEL")
-    private BigInteger nbPtsActuel;
     @OneToMany(mappedBy = "codeJoueur1")
     private Collection<Partie> partieCollection;
     @OneToMany(mappedBy = "codeJoueur2")
@@ -127,14 +124,6 @@ public class Joueur implements Serializable {
 
     public void setVille(String ville) {
         this.ville = ville;
-    }
-
-    public BigInteger getNbPtsActuel() {
-        return nbPtsActuel;
-    }
-
-    public void setNbPtsActuel(BigInteger nbPtsActuel) {
-        this.nbPtsActuel = nbPtsActuel;
     }
 
     @XmlTransient
