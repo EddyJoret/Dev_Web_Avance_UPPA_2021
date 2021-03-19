@@ -6,7 +6,6 @@ import Pojo.Statistique;
 //import MATH
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Array;
 
 //import SQL
 import java.sql.Connection;
@@ -62,7 +61,7 @@ public class FctStatistique{
         return nbPartie;
     }
 
-        //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyen
+        //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyenne
     public double getMoyPartieGTot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
@@ -72,7 +71,7 @@ public class FctStatistique{
         
         while(res.next()){
             Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy += stat.getNbVictoireMoyen();
+            moy += stat.getNbVictoireMoyenne();
             nbPartie = res.getRow();
         }
         
@@ -152,7 +151,7 @@ public class FctStatistique{
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         String stats;
         stats = "{\"Nb_Partie\":"+stat.getNbPartie()+", \"Nb_Victoire\":"+stat.getNbVictoire()
-                +", \"Nb_Victoire_Moyen\":"+stat.getNbVictoireMoyen()
+                +", \"Nb_Victoire_Moyen\":"+stat.getNbVictoireMoyenne()
                 +", \"Nb_Pts_Tot\":"+stat.getNbPtsTot()
                 +", \"Score_Moyen\":"+stat.getScoreMoyen()
                 +", \"Nb_Suite\":"+stat.getNbSuite()
@@ -175,8 +174,8 @@ public class FctStatistique{
             case "Nb_Victoire":
                 stats += stat.getNbVictoire()+"}";
                 break;
-            case "Nb_Victoire_Moyen":
-                stats += stat.getNbVictoireMoyen()+"}";
+            case "Nb_Victoire_Moyenne":
+                stats += stat.getNbVictoireMoyenne()+"}";
                 break;
             case "Nb_Pts_Tot":
                 stats += stat.getNbPtsTot()+"}";
@@ -198,20 +197,56 @@ public class FctStatistique{
     //MISE A JOUR 
     
         //Incrémentation Nb_Partie
+    public void inc_Partie(BigDecimal Code_Joueur){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbPartie(stat.getNbPartie().add(new BigInteger("1")));
+    }
     
         //Incrémentation Nb_Victoire
+    public void inc_Victoire(BigDecimal Code_Joueur){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbVictoire(stat.getNbVictoire().add(new BigInteger("1")));
+    }
         
-        //Incrémentation Nb_Victoire_Moyen
+        //Maj Nb_Victoire_Moyenne
+    /*public void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbVictoireMoyenne(stat.getNbVictoire().divide(stat.getNbPartie()));
+    }*/
     
         //Incrémentation Nb_Pts_Tot
+    public void inc_Pts(BigDecimal Code_Joueur, BigInteger points){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbPtsTot(stat.getNbPtsTot().add(points));
+    }
     
-        //Incrémentation Score_Moyen
+        //Maj Score_Moyen
+    /*public void maj_Score_Moyen(BigDecimal Code_Joueur){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setScoreMoyen(stat.getNbPtsTot().divide(stat.getNbPartie()));
+    }*/
     
         //Incrémentation Nb_Suite
+    private void inc_Suite(BigDecimal Code_Joueur, BigInteger suite){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbSuite(stat.getNbSuite().add(suite));
+    }
     
-        //Incrémentation Suite_Moyen_G
+        //Maj Suite_Moyen_G
+    /*public void maj_Suite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        
+    }*/
     
         //Incrémentation Nb_ChouVel
+    private void inc_ChouVel(BigDecimal Code_Joueur, BigInteger chouvel){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        stat.setNbChouvel(stat.getNbChouvel().add(chouvel));
+    }
     
-        //Incrémentation ChouVel_Moyen_P
+        //Maj ChouVel_Moyen_P
+    /*public void maj_ChouVel_Moyen_p(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
+        Statistique stat = em.find(Statistique.class, Code_Joueur);
+        
+    }*/
 }

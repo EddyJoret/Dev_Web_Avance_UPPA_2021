@@ -50,7 +50,7 @@ CREATE TABLE STATISTIQUE
     Code_Joueur INT, /*PK*/
     Nb_Partie INT,
     Nb_Victoire INT,
-    Nb_Victoire_Moyen NUMBER(4,3),
+    Nb_Victoire_Moyenne NUMBER(4,3),
     Nb_Pts_Tot INT,
     Score_Moyen NUMBER(4,3),
     Nb_Suite INT, /*Ajout pour pouvoir calculer la moyenne gagnée*/
