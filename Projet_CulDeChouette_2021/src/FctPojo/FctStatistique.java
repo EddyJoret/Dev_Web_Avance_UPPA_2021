@@ -62,20 +62,20 @@ public class FctStatistique{
     }
 
         //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyenne
-    public double getMoyPartieGTot() throws SQLException{
+    public BigDecimal getMoyPartieGTot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
         int nbPartie = 0;
-        double moy = 0.0;
+        BigDecimal moy = new BigDecimal(0.0);
         
         while(res.next()){
             Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy += stat.getNbVictoireMoyenne();
+            moy.add(stat.getNbVictoireMoyenne());
             nbPartie = res.getRow();
         }
         
-        return (moy / nbPartie);
+        return (moy.divide(new BigDecimal(nbPartie)));
     }
     
         //Nombre de points totals gagnés calculé à partir de Nb_Pts_Tot
@@ -94,54 +94,54 @@ public class FctStatistique{
     }
 
         //Moyenne de points calculée à partir de Sc_Moyen
-    public double getScoreMoyTot() throws SQLException{
+    public BigDecimal getScoreMoyTot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
         int nbPartie = 0;
-        double moy = 0.0;
+        BigDecimal moy = new BigDecimal(0.0);
         
         while(res.next()){
             Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy += stat.getScoreMoyen();
+            moy.add(stat.getScoreMoyen());
             nbPartie = res.getRow();
         }
         
-        return (moy / nbPartie);
+        return (moy.divide(new BigDecimal(nbPartie)));
     }
 
         //Moyenne de suite gagnée calculée à partir de Su_Moyen_G
-    public double getSuiteMoyGTot() throws SQLException{
+    public BigDecimal getSuiteMoyGTot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
         int nbPartie = 0;
-        double moy = 0.0;
+        BigDecimal moy = new BigDecimal(0.0);
         
         while(res.next()){
             Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy += stat.getSuiteMoyenG();
+            moy.add(stat.getSuiteMoyenG());
             nbPartie = res.getRow();
         }
         
-        return (moy / nbPartie);
+        return (moy.divide(new BigDecimal(nbPartie)));
     }
 
         //Moyenne de chouette velute perdue calculée à partir de CV_Moyen_G
-    public double getChouVelPTot() throws SQLException{
+    public BigDecimal getChouVelPTot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
         int nbPartie = 0;
-        double moy = 0.0;
+        BigDecimal moy = new BigDecimal(0.0);
         
         while(res.next()){
             Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy += stat.getChouvelMoyenP();
+            moy.add(stat.getChouvelMoyenP());
             nbPartie = res.getRow();
         }
         
-        return (moy / nbPartie);
+        return (moy.divide(new BigDecimal(nbPartie)));
     }
 
         /*--------------------------POUR UN JOUEUR----------------------------*/
@@ -209,10 +209,10 @@ public class FctStatistique{
     }
         
         //Maj Nb_Victoire_Moyenne
-    /*public void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
+    public void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
-        stat.setNbVictoireMoyenne(stat.getNbVictoire().divide(stat.getNbPartie()));
-    }*/
+        stat.setNbVictoireMoyenne(new BigDecimal(stat.getNbVictoire()).divide(new BigDecimal(stat.getNbPartie())));
+    }
     
         //Incrémentation Nb_Pts_Tot
     public void inc_Pts(BigDecimal Code_Joueur, BigInteger points){
