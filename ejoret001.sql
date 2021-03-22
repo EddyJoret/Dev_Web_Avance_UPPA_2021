@@ -13,7 +13,7 @@ CREATE TABLE PARTIE
     Code_Joueur4 INT, /*FK -> JOUEUR*/
     Code_Joueur5 INT, /*FK -> JOUEUR*/
     Code_Joueur6 INT, /*FK -> JOUEUR*/
-    Termine CHAR(1) /*Pour savoir si une partie est en cours ou non*/
+    Termine CHAR(1)
 );
 
 CREATE TABLE SCOREPARTIE
@@ -40,9 +40,8 @@ CREATE TABLE JOUEUR
     Pseudo VARCHAR(30),
     Mdp VARCHAR(40),
     Age INT,
-    Sexe CHAR(1), /*F ou H*/
+    Sexe CHAR(1),
     Ville VARCHAR(30)
-    /*Nb_Pts_Actuel INT*/ /*A enlever car sert à rien avec SCOREPARTIE*/
 );
 
 CREATE TABLE STATISTIQUE
@@ -53,9 +52,9 @@ CREATE TABLE STATISTIQUE
     Nb_Victoire_Moyenne NUMBER(4,3),
     Nb_Pts_Tot INT,
     Score_Moyen NUMBER(4,3),
-    Nb_Suite INT, /*Ajout pour pouvoir calculer la moyenne gagnée*/
+    Nb_Suite INT,
     Suite_Moyen_G NUMBER(4,3),
-    Nb_ChouVel INT, /*Ajout pour pouvoir calculer la moyenne perdu*/
+    Nb_ChouVel INT,
     ChouVel_Moyen_P NUMBER(4,3)
 );
 

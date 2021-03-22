@@ -150,7 +150,8 @@ public class FctStatistique{
     public String getStats(BigDecimal Code_Joueur) throws SQLException{
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         String stats;
-        stats = "{\"Nb_Partie\":"+stat.getNbPartie()+", \"Nb_Victoire\":"+stat.getNbVictoire()
+        stats = "{\"Nb_Partie\":"+stat.getNbPartie()
+                +", \"Nb_Victoire\":"+stat.getNbVictoire()
                 +", \"Nb_Victoire_Moyen\":"+stat.getNbVictoireMoyenne()
                 +", \"Nb_Pts_Tot\":"+stat.getNbPtsTot()
                 +", \"Score_Moyen\":"+stat.getScoreMoyen()
