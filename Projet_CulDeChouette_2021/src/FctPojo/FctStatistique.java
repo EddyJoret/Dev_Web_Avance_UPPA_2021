@@ -232,7 +232,7 @@ public class FctStatistique{
         stat.setNbSuite(stat.getNbSuite().add(suite));
     }
     
-        //Maj Suite_Moyen_G
+        //Maj Suite_Moyen_G + appel inc_Suite
     public void maj_Suite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyG = new BigDecimal(stat.getNbSuite()).multiply(stat.getSuiteMoyenG());
@@ -247,7 +247,7 @@ public class FctStatistique{
         stat.setNbChouvel(stat.getNbChouvel().add(chouvel));
     }
     
-        //Maj ChouVel_Moyen_P
+        //Maj ChouVel_Moyen_P + appel inc_ChouVel
     public void maj_ChouVel_Moyen_p(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyP = new BigDecimal(stat.getNbChouvel()).multiply(stat.getChouvelMoyenP());
