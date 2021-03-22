@@ -3,6 +3,7 @@ package FctPojo;
 //import POJO
 import Pojo.Scorepartie;
 
+
 //import MATH
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -52,28 +53,106 @@ public class FctScorePartie {
     public BigInteger ScoreTotal(BigDecimal Code_Partie) throws SQLException{
         Statement req = connection.createStatement();
         
-        PreparedStatement reqParam = connection.prepareStatement("SELECT COUNT(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
+        PreparedStatement reqParam = connection.prepareStatement("SELECT SUM(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
         reqParam.setBigDecimal(1, Code_Partie);
         ResultSet res = reqParam.executeQuery();
-
-        return nbPts;
+        
+        BigInteger scoreTot = new BigInteger("0");
+        
+        while(res.next()){
+            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Partie"));
+            scoreTot.add(score.getScore());
+        }
+        
+        return scoreTot;
     }
     
         //Moyenne de suite gagnée
     
+    public BigDecimal MoySuitG(BigDecimal Code_Partie) throws SQLException{
+        Statement req = connection.createStatement();
+        
+        PreparedStatement reqParam = connection.prepareStatement("SELECT NB_SUITE_G FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
+        reqParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqParam.executeQuery();
+        
+        int nbSuiteG = 0;
+        BigDecimal moy = new BigDecimal(0.0);
+        
+        while(res.next()){
+            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Joueur"));
+            moy.add(new BigDecimal(score.getNbSuiteG()));
+            nbSuiteG = res.getRow();
+        }
+        
+        return (moy.divide(new BigDecimal(nbSuiteG)));
+    }
+    
         //Moyenne de Chouette Velute perdue
+    
+    public BigDecimal MoyChouVelPerdue(BigDecimal Code_Partie) throws SQLException{
+        Statement req = connection.createStatement();
+        
+        PreparedStatement reqParam = connection.prepareStatement("SELECT NB_CHOUVEL_P FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
+        reqParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqParam.executeQuery();
+        
+        int nbSuiteP = 0;
+        BigDecimal moy = new BigDecimal(0.0);
+        
+        while(res.next()){
+            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Joueur"));
+            moy.add(new BigDecimal(score.getNbChouvelP()));
+            nbSuiteP = res.getRow();
+        }
+        
+        return (moy.divide(new BigDecimal(nbSuiteP)));
+    }
     
         /*--------------------------POUR UN JOUEUR----------------------------*/
     
         //Score, Nb_Suite_G et Nb_ChouVel_P du Code_Joueur de Code_Partie
+    public String getScores(BigDecimal Code_Joueur) throws SQLException{
+        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
+        String scoreP;
+        scoreP = "{\"Score\":"+score.getScorepartiePK()
+                +", \"Nb_Suite_G\":"+score.getNbSuiteG()
+                +", \"Nb_ChouVel_P\":"+score.getNbChouvelP()+"}";
+        
+        return scoreP;
+    }
     
         //Une valeur précise du Code_Joueur de Code_Partie (à définir en paramètre)
+    public String getScore(BigDecimal Code_Joueur, String Colonne) throws SQLException{
+        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
+        String scoreP = "{\""+Colonne+"\":";
+        
+        switch(Colonne){
+            case "Score":
+                scoreP += score.getScore()+"}";
+                break;
+            case "Nb_Suite_G":
+                scoreP += score.getNbSuiteG()+"}";
+                break;
+            case "Nb_ChouVel_P":
+                scoreP += score.getNbChouvelP()+"}";
+                break;
+        }
+        
+        return scoreP;
+    }
     
     //MISE A JOUR
     
         //Incrémentation Score
+    private void inc_Score(BigDecimal Code_Joueur){
+        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
+        
+    }
     
         //Incrémentation Nb_Suite_G
     
-        //Incrémentation Nb_ChouVel_P   
+        //Incrémentation Nb_ChouVel_P
+    
+    
 }
