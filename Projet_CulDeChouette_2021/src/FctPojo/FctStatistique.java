@@ -201,11 +201,8 @@ public class FctStatistique{
         //appel inc_Partie
         inc_Partie(Code_Joueur);
         
-        //appel inc_Victoire si besoin + maj_Victoire_Moyenne
-        if(Victoire){
-            inc_Victoire(Code_Joueur);
-        }
-        maj_Victoire_Moyenne(Code_Joueur);
+        //appel maj_Victoire_Moyenne
+        maj_Victoire_Moyenne(Code_Joueur, Victoire);
         
         //transformation int -> BigInteger de Points et appel maj_Score_Moyen
         BigInteger Pts = BigInteger.valueOf(Points);
@@ -216,6 +213,10 @@ public class FctStatistique{
         BigInteger SteG = BigInteger.valueOf(SuiteG);
         maj_Suite_Moyen_G(Code_Joueur, Ste, SteG);
         
+        //transformation int -> Biginteger de Suite + SuiteG et maj_Suite_Moyen_G
+        BigInteger CV = BigInteger.valueOf(ChouVel);
+        BigInteger CVP = BigInteger.valueOf(ChouVelP);
+        maj_ChouVel_Moyen_P(Code_Joueur, CV, CVP);
     }
     
         //Incrémentation Nb_Partie
@@ -230,8 +231,11 @@ public class FctStatistique{
         stat.setNbVictoire(stat.getNbVictoire().add(new BigInteger("1")));
     }
         
-        //Maj Nb_Victoire_Moyenne
-    private void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
+        //Maj Nb_Victoire_Moyenne + appel inc_Victoire
+    private void maj_Victoire_Moyenne(BigDecimal Code_Joueur, boolean Victoire){
+        if(Victoire){
+            inc_Victoire(Code_Joueur);
+        }
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbVictoireMoyenne(new BigDecimal(stat.getNbVictoire()).divide(new BigDecimal(stat.getNbPartie())));
     }
@@ -271,7 +275,7 @@ public class FctStatistique{
     }
     
         //Maj ChouVel_Moyen_P + appel inc_ChouVel
-    private void maj_ChouVel_Moyen_p(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
+    private void maj_ChouVel_Moyen_P(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyP = new BigDecimal(stat.getNbChouvel()).multiply(stat.getChouvelMoyenP());
         inc_ChouVel(Code_Joueur, chouvel);
