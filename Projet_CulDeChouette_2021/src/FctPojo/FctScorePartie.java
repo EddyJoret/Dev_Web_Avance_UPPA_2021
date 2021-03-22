@@ -52,21 +52,10 @@ public class FctScorePartie {
     public BigInteger ScoreTotal(BigDecimal Code_Partie) throws SQLException{
         Statement req = connection.createStatement();
         
-        /*PreparedStatement reqParam = connection.prepareStatement("SELECT COUNT(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
-        reqParam.setBigDecimal(1, Code_Partie);
-        ResultSet res = reqParam.executeQuery();*/
-        
-        PreparedStatement reqParam = connection.prepareStatement("SELECT * FROM SCOREPARTIE WHERE SCOERPARTIE.CODE_PARTIE = ?");   
+        PreparedStatement reqParam = connection.prepareStatement("SELECT COUNT(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
         reqParam.setBigDecimal(1, Code_Partie);
         ResultSet res = reqParam.executeQuery();
-        
-        BigInteger nbPts = new BigInteger("0");
-        
-        while(res.next()){
-            Scorepartie stat = em.find(Scorepartie.class, Code_Partie);
-            nbPts.add(stat.getScore());
-        }
-        
+
         return nbPts;
     }
     

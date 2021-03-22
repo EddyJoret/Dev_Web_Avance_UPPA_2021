@@ -196,6 +196,28 @@ public class FctStatistique{
 
     //MISE A JOUR 
     
+        //Maj totale des données
+    public void maj_stats(BigDecimal Code_Joueur, boolean Victoire, int Points, int Suite, int SuiteG, int ChouVel, int ChouVelP){
+        //appel inc_Partie
+        inc_Partie(Code_Joueur);
+        
+        //appel inc_Victoire si besoin + maj_Victoire_Moyenne
+        if(Victoire){
+            inc_Victoire(Code_Joueur);
+        }
+        maj_Victoire_Moyenne(Code_Joueur);
+        
+        //transformation int -> BigInteger de Points et appel maj_Score_Moyen
+        BigInteger Pts = BigInteger.valueOf(Points);
+        maj_Score_Moyen(Code_Joueur, Pts);
+        
+        //transformation int -> Biginteger de Suite + SuiteG et maj_Suite_Moyen_G
+        BigInteger Ste = BigInteger.valueOf(Suite);
+        BigInteger SteG = BigInteger.valueOf(SuiteG);
+        maj_Suite_Moyen_G(Code_Joueur, Ste, SteG);
+        
+    }
+    
         //Incrémentation Nb_Partie
     private void inc_Partie(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
@@ -220,8 +242,9 @@ public class FctStatistique{
         stat.setNbPtsTot(stat.getNbPtsTot().add(points));
     }
     
-        //Maj Score_Moyen
-    private void maj_Score_Moyen(BigDecimal Code_Joueur){
+        //Maj Score_Moyen + appel inc_Pts
+    private void maj_Score_Moyen(BigDecimal Code_Joueur, BigInteger points){
+        inc_Pts(Code_Joueur, points);
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setScoreMoyen(new BigDecimal(stat.getNbPtsTot()).divide(new BigDecimal(stat.getNbPartie())));
     }
