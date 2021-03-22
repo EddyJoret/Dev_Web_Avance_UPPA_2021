@@ -197,31 +197,31 @@ public class FctStatistique{
     //MISE A JOUR 
     
         //Incrémentation Nb_Partie
-    public void inc_Partie(BigDecimal Code_Joueur){
+    private void inc_Partie(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbPartie(stat.getNbPartie().add(new BigInteger("1")));
     }
     
         //Incrémentation Nb_Victoire
-    public void inc_Victoire(BigDecimal Code_Joueur){
+    private void inc_Victoire(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbVictoire(stat.getNbVictoire().add(new BigInteger("1")));
     }
         
         //Maj Nb_Victoire_Moyenne
-    public void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
+    private void maj_Victoire_Moyenne(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbVictoireMoyenne(new BigDecimal(stat.getNbVictoire()).divide(new BigDecimal(stat.getNbPartie())));
     }
     
         //Incrémentation Nb_Pts_Tot
-    public void inc_Pts(BigDecimal Code_Joueur, BigInteger points){
+    private void inc_Pts(BigDecimal Code_Joueur, BigInteger points){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbPtsTot(stat.getNbPtsTot().add(points));
     }
     
         //Maj Score_Moyen
-    public void maj_Score_Moyen(BigDecimal Code_Joueur){
+    private void maj_Score_Moyen(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setScoreMoyen(new BigDecimal(stat.getNbPtsTot()).divide(new BigDecimal(stat.getNbPartie())));
     }
@@ -233,7 +233,7 @@ public class FctStatistique{
     }
     
         //Maj Suite_Moyen_G + appel inc_Suite
-    public void maj_Suite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
+    private void maj_Suite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyG = new BigDecimal(stat.getNbSuite()).multiply(stat.getSuiteMoyenG());
         inc_Suite(Code_Joueur, suite);
@@ -248,7 +248,7 @@ public class FctStatistique{
     }
     
         //Maj ChouVel_Moyen_P + appel inc_ChouVel
-    public void maj_ChouVel_Moyen_p(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
+    private void maj_ChouVel_Moyen_p(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyP = new BigDecimal(stat.getNbChouvel()).multiply(stat.getChouvelMoyenP());
         inc_ChouVel(Code_Joueur, chouvel);
