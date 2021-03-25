@@ -35,11 +35,11 @@ public class FctScorePartie {
     
         //Initialisation de tous les champs lié au Code_Partie et Code_Joueur (les
         //2 passés en paramètre) à 0
-    public void InitScorePartie(BigDecimal Code_Partie, BigDecimal Code_Joueur) throws SQLException{
+    public void InitScorePartie(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         PreparedStatement reqParam = connection.prepareStatement("INSERT INTO STATISTIQUE VALUES (?, ?, 0, 0, 0)");
-        reqParam.setBigDecimal(1, Code_Partie);
-        reqParam.setBigDecimal(2, Code_Joueur);
+        reqParam.setInt(1, Code_Partie.intValue());
+        reqParam.setInt(2, Code_Joueur.intValue());
         
         int nb = reqParam.executeUpdate();
         System.out.println("Nombre de ligne ajoutée: " + nb);
@@ -50,109 +50,130 @@ public class FctScorePartie {
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
     
         //Score totale d'une partie
-    public BigInteger ScoreTotal(BigDecimal Code_Partie) throws SQLException{
-        Statement req = connection.createStatement();
-        
+    public BigInteger ScoreTotal(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT SUM(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
-        reqParam.setBigDecimal(1, Code_Partie);
+        reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
-        
         BigInteger scoreTot = new BigInteger("0");
-        
         while(res.next()){
-            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Partie"));
-            scoreTot.add(score.getScore());
+            scoreTot.valueOf(res.getInt(1));
         }
-        
         return scoreTot;
     }
     
         //Moyenne de suite gagnée
-    
-    public BigDecimal MoySuitG(BigDecimal Code_Partie) throws SQLException{
-        Statement req = connection.createStatement();
-        
-        PreparedStatement reqParam = connection.prepareStatement("SELECT NB_SUITE_G FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
-        reqParam.setBigDecimal(1, Code_Partie);
+    public BigDecimal MoySuitG(BigInteger Code_Partie) throws SQLException{
+        PreparedStatement reqParam = connection.prepareStatement("SELECT AVG(NB_SUITE_G) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
+        reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
-        
-        int nbSuiteG = 0;
         BigDecimal moy = new BigDecimal(0.0);
-        
         while(res.next()){
-            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(new BigDecimal(score.getNbSuiteG()));
-            nbSuiteG = res.getRow();
+            moy.valueOf(res.getDouble(1));
         }
-        
-        return (moy.divide(new BigDecimal(nbSuiteG)));
+        return moy;
     }
     
         //Moyenne de Chouette Velute perdue
-    
-    public BigDecimal MoyChouVelPerdue(BigDecimal Code_Partie) throws SQLException{
-        Statement req = connection.createStatement();
-        
-        PreparedStatement reqParam = connection.prepareStatement("SELECT NB_CHOUVEL_P FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
-        reqParam.setBigDecimal(1, Code_Partie);
+    public BigDecimal MoyChouVelPerdue(BigInteger Code_Partie) throws SQLException{
+        PreparedStatement reqParam = connection.prepareStatement("SELECT AVG(NB_CHOUVEL_P) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
+        reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
-        
-        int nbSuiteP = 0;
         BigDecimal moy = new BigDecimal(0.0);
-        
         while(res.next()){
-            Scorepartie score = em.find(Scorepartie.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(new BigDecimal(score.getNbChouvelP()));
-            nbSuiteP = res.getRow();
+            moy.valueOf(res.getDouble(1));
         }
-        
-        return (moy.divide(new BigDecimal(nbSuiteP)));
+        return moy;
     }
     
         /*--------------------------POUR UN JOUEUR----------------------------*/
     
         //Score, Nb_Suite_G et Nb_ChouVel_P du Code_Joueur de Code_Partie
-    public String getScores(BigDecimal Code_Joueur) throws SQLException{
-        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
-        String scoreP;
-        scoreP = "{\"Score\":"+score.getScorepartiePK()
-                +", \"Nb_Suite_G\":"+score.getNbSuiteG()
-                +", \"Nb_ChouVel_P\":"+score.getNbChouvelP()+"}";
-        
+    public String getScores(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
+        PreparedStatement reqParam = connection.prepareStatement("SELECT * FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqParam.setInt(1, Code_Partie.intValue());
+        reqParam.setInt(2, Code_Joueur.intValue());
+        ResultSet res = reqParam.executeQuery();
+        String scoreP = "";
+        while(res.next()){
+            scoreP = "{\"Score\":"+res.getInt("Score")
+                +", \"Nb_Suite_G\":"+res.getInt("Nb_Suite_G")
+                +", \"Nb_ChouVel_P\":"+res.getInt("Nb_ChouVel_P")+"}";
+        }
         return scoreP;
     }
     
         //Une valeur précise du Code_Joueur de Code_Partie (à définir en paramètre)
-    public String getScore(BigDecimal Code_Joueur, String Colonne) throws SQLException{
-        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
+    public String getScore(BigInteger Code_Partie, BigInteger Code_Joueur, String Colonne) throws SQLException{
+        PreparedStatement reqParam = connection.prepareStatement("SELECT ? FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqParam.setInt(2, Code_Partie.intValue());
+        reqParam.setInt(3, Code_Joueur.intValue());
+        reqParam.setString(1, Colonne);
+        ResultSet res = reqParam.executeQuery();
         String scoreP = "{\""+Colonne+"\":";
-        
-        switch(Colonne){
-            case "Score":
-                scoreP += score.getScore()+"}";
-                break;
-            case "Nb_Suite_G":
-                scoreP += score.getNbSuiteG()+"}";
-                break;
-            case "Nb_ChouVel_P":
-                scoreP += score.getNbChouvelP()+"}";
-                break;
-        }
-        
+        while(res.next()){
+            scoreP += res.getInt(1);
+        }      
         return scoreP;
     }
     
     //MISE A JOUR
     
         //Incrémentation Score
-    private void inc_Score(BigDecimal Code_Joueur){
-        Scorepartie score = em.find(Scorepartie.class, Code_Joueur);
-        
+    private void inc_Score(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT SCORE FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqSelectParam.setInt(1, Code_Partie.intValue());
+        reqSelectParam.setInt(2, Code_Joueur.intValue());
+        ResultSet resSelect = reqSelectParam.executeQuery();
+        PreparedStatement reqUpdateParam;
+        int nb = 0;
+        while(resSelect.next()){
+            int newScore = resSelect.getInt(1) + Score;
+            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+            reqUpdateParam.setInt(2, Code_Partie.intValue());
+            reqUpdateParam.setInt(3, Code_Joueur.intValue());
+            reqUpdateParam.setInt(1, newScore);
+            nb = reqUpdateParam.executeUpdate();
+        }
+        System.out.println(nb + " ligne ont été update");
     }
     
         //Incrémentation Nb_Suite_G
+    private void inc_Nb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur, int Suite) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT NB_SUITE_G FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqSelectParam.setInt(1, Code_Partie.intValue());
+        reqSelectParam.setInt(2, Code_Joueur.intValue());
+        ResultSet resSelect = reqSelectParam.executeQuery();
+        PreparedStatement reqUpdateParam;
+        int nb = 0;
+        while(resSelect.next()){
+            int newSuite = resSelect.getInt(1) + Suite;
+            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_SUITE_G = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+            reqUpdateParam.setInt(2, Code_Partie.intValue());
+            reqUpdateParam.setInt(3, Code_Joueur.intValue());
+            reqUpdateParam.setInt(1, newSuite);
+            nb = reqUpdateParam.executeUpdate();
+        }
+        System.out.println(nb + " ligne ont été update");
+    }
     
         //Incrémentation Nb_ChouVel_P
+    private void inc_Nb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur, int ChouVel) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT NB_CHOUVEL_P FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqSelectParam.setInt(1, Code_Partie.intValue());
+        reqSelectParam.setInt(2, Code_Joueur.intValue());
+        ResultSet resSelect = reqSelectParam.executeQuery();
+        PreparedStatement reqUpdateParam;
+        int nb = 0;
+        while(resSelect.next()){
+            int newChouVel = resSelect.getInt(1) + ChouVel;
+            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_CHOUVEL_P = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+            reqUpdateParam.setInt(2, Code_Partie.intValue());
+            reqUpdateParam.setInt(3, Code_Joueur.intValue());
+            reqUpdateParam.setInt(1, newChouVel);
+            nb = reqUpdateParam.executeUpdate();
+        }
+        System.out.println(nb + " ligne ont été update");
+    }
     
     
 }
