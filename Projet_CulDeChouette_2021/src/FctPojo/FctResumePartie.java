@@ -125,7 +125,6 @@ public class FctResumePartie {
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
-        //BigInteger Val = BigInteger.valueOf(valeur);
         
         int nbLance = 0;
         while(res.next()){
