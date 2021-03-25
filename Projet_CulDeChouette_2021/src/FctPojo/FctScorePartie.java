@@ -37,7 +37,7 @@ public class FctScorePartie {
         //2 passés en paramètre) à 0
     public void InitScorePartie(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
-        PreparedStatement reqParam = connection.prepareStatement("INSERT INTO STATISTIQUE VALUES (?, ?, 0, 0, 0)");
+        PreparedStatement reqParam = connection.prepareStatement("INSERT INTO SCOREPARTIE VALUES (?, ?, 0, 0, 0)");
         reqParam.setInt(1, Code_Partie.intValue());
         reqParam.setInt(2, Code_Joueur.intValue());
         
