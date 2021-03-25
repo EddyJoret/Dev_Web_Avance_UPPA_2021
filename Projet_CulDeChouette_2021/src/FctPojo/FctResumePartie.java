@@ -164,7 +164,7 @@ public class FctResumePartie {
         //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
     public void maj_Des(BigInteger Code_Partie, int [] des) throws SQLException{
         int nbLance = lance(Code_Partie);
-        int nb = 0;
+        int nb;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
         reqUpdateParam.setInt(1,des[0]);
         reqUpdateParam.setInt(2,des[1]);
