@@ -75,18 +75,16 @@ public class FctResumePartie {
     public int total_Nb_Lance_De(int valeur) throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM RESUMEPARTIE");
-        BigInteger Val = BigInteger.valueOf(valeur);
         
         int nbLance = 0;
         while(res.next()){
-            Resumepartie resume = em.find(Resumepartie.class, res.getInt("Code_Partie"));
-            if(resume.getDes1() == Val){
+            if(res.getInt("Des_1") == valeur){
                 nbLance += 1;
             }
-            if(resume.getDes2() == Val){
+            if(res.getInt("Des_2") == valeur){
                 nbLance += 1;
             }
-            if(resume.getDes3() == Val){
+            if(res.getInt("Des_3") == valeur){
                 nbLance += 1;
             }
         }
