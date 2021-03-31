@@ -47,7 +47,7 @@ public class FctStatistique{
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
 
         //Moyenne de partie jouée calculée à partir de Nb_Partie
-    public BigInteger getMoyPartieTot() throws SQLException{
+    public BigInteger getMoy_Partie_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -62,7 +62,7 @@ public class FctStatistique{
     }
 
         //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyenne
-    public BigDecimal getMoyPartieGTot() throws SQLException{
+    public BigDecimal getMoy_Partie_G_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -79,7 +79,7 @@ public class FctStatistique{
     }
     
         //Nombre de points totals gagnés calculé à partir de Nb_Pts_Tot
-    public BigInteger getNbPtsTot() throws SQLException{
+    public BigInteger getNb_Pts_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -94,7 +94,7 @@ public class FctStatistique{
     }
 
         //Moyenne de points calculée à partir de Sc_Moyen
-    public BigDecimal getScoreMoyTot() throws SQLException{
+    public BigDecimal getScore_Moy_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -111,7 +111,7 @@ public class FctStatistique{
     }
 
         //Moyenne de suite gagnée calculée à partir de Su_Moyen_G
-    public BigDecimal getSuiteMoyGTot() throws SQLException{
+    public BigDecimal getSuite_Moy_G_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -128,7 +128,7 @@ public class FctStatistique{
     }
 
         //Moyenne de chouette velute perdue calculée à partir de CV_Moyen_G
-    public BigDecimal getChouVelPTot() throws SQLException{
+    public BigDecimal getChouVel_P_Tot() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
         
@@ -198,88 +198,88 @@ public class FctStatistique{
     //MISE A JOUR 
     
         //Maj totale des données
-    public void maj_stats(BigDecimal Code_Joueur, boolean Victoire, int Points, int Suite, int SuiteG, int ChouVel, int ChouVelP){
+    public void majStats(BigDecimal Code_Joueur, boolean Victoire, int Points, int Suite, int SuiteG, int ChouVel, int ChouVelP){
         //appel inc_Partie
-        inc_Partie(Code_Joueur);
+        incPartie(Code_Joueur);
         
         //appel maj_Victoire_Moyenne
-        maj_Victoire_Moyenne(Code_Joueur, Victoire);
+        majVictoire_Moyenne(Code_Joueur, Victoire);
         
         //transformation int -> BigInteger de Points et appel maj_Score_Moyen
         BigInteger Pts = BigInteger.valueOf(Points);
-        maj_Score_Moyen(Code_Joueur, Pts);
+        majScore_Moyen(Code_Joueur, Pts);
         
         //transformation int -> Biginteger de Suite + SuiteG et maj_Suite_Moyen_G
         BigInteger Ste = BigInteger.valueOf(Suite);
         BigInteger SteG = BigInteger.valueOf(SuiteG);
-        maj_Suite_Moyen_G(Code_Joueur, Ste, SteG);
+        majSuite_Moyen_G(Code_Joueur, Ste, SteG);
         
         //transformation int -> Biginteger de Suite + SuiteG et maj_Suite_Moyen_G
         BigInteger CV = BigInteger.valueOf(ChouVel);
         BigInteger CVP = BigInteger.valueOf(ChouVelP);
-        maj_ChouVel_Moyen_P(Code_Joueur, CV, CVP);
+        majChouVel_Moyen_P(Code_Joueur, CV, CVP);
     }
     
         //Incrémentation Nb_Partie
-    private void inc_Partie(BigDecimal Code_Joueur){
+    private void incPartie(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbPartie(stat.getNbPartie().add(new BigInteger("1")));
     }
     
         //Incrémentation Nb_Victoire
-    private void inc_Victoire(BigDecimal Code_Joueur){
+    private void incVictoire(BigDecimal Code_Joueur){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbVictoire(stat.getNbVictoire().add(new BigInteger("1")));
     }
         
         //Maj Nb_Victoire_Moyenne + appel inc_Victoire
-    private void maj_Victoire_Moyenne(BigDecimal Code_Joueur, boolean Victoire){
+    private void majVictoire_Moyenne(BigDecimal Code_Joueur, boolean Victoire){
         if(Victoire){
-            inc_Victoire(Code_Joueur);
+            incVictoire(Code_Joueur);
         }
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbVictoireMoyenne(new BigDecimal(stat.getNbVictoire()).divide(new BigDecimal(stat.getNbPartie())));
     }
     
         //Incrémentation Nb_Pts_Tot
-    private void inc_Pts(BigDecimal Code_Joueur, BigInteger points){
+    private void incPts(BigDecimal Code_Joueur, BigInteger points){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbPtsTot(stat.getNbPtsTot().add(points));
     }
     
         //Maj Score_Moyen + appel inc_Pts
-    private void maj_Score_Moyen(BigDecimal Code_Joueur, BigInteger points){
-        inc_Pts(Code_Joueur, points);
+    private void majScore_Moyen(BigDecimal Code_Joueur, BigInteger points){
+        incPts(Code_Joueur, points);
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setScoreMoyen(new BigDecimal(stat.getNbPtsTot()).divide(new BigDecimal(stat.getNbPartie())));
     }
     
         //Incrémentation Nb_Suite
-    private void inc_Suite(BigDecimal Code_Joueur, BigInteger suite){
+    private void incSuite(BigDecimal Code_Joueur, BigInteger suite){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbSuite(stat.getNbSuite().add(suite));
     }
     
         //Maj Suite_Moyen_G + appel inc_Suite
-    private void maj_Suite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
+    private void majSuite_Moyen_G(BigDecimal Code_Joueur, BigInteger suite, BigInteger suiteG){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyG = new BigDecimal(stat.getNbSuite()).multiply(stat.getSuiteMoyenG());
-        inc_Suite(Code_Joueur, suite);
+        incSuite(Code_Joueur, suite);
         moyG.add(new BigDecimal(suiteG));
         stat.setSuiteMoyenG(moyG.divide(new BigDecimal(stat.getNbSuite())));
     }
     
         //Incrémentation Nb_ChouVel
-    private void inc_ChouVel(BigDecimal Code_Joueur, BigInteger chouvel){
+    private void incChouVel(BigDecimal Code_Joueur, BigInteger chouvel){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         stat.setNbChouvel(stat.getNbChouvel().add(chouvel));
     }
     
         //Maj ChouVel_Moyen_P + appel inc_ChouVel
-    private void maj_ChouVel_Moyen_P(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
+    private void majChouVel_Moyen_P(BigDecimal Code_Joueur, BigInteger chouvel, BigInteger chouvelP){
         Statistique stat = em.find(Statistique.class, Code_Joueur);
         BigDecimal moyP = new BigDecimal(stat.getNbChouvel()).multiply(stat.getChouvelMoyenP());
-        inc_ChouVel(Code_Joueur, chouvel);
+        incChouVel(Code_Joueur, chouvel);
         moyP.add(new BigDecimal(chouvelP));
         stat.setChouvelMoyenP(moyP.divide(new BigDecimal(stat.getNbChouvel())));
     }

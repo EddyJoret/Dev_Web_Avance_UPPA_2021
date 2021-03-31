@@ -33,7 +33,7 @@ public class FctResumePartie {
     
         //Initialisation de tous les champs lié au Code_Partie (passé en
         //paramètre) et de Num_Lance_Des (calculé) à 0
-    public void init_Tour_Resume_Partie(BigInteger Code_Partie) throws SQLException{
+    public void initTourResumePartie(BigInteger Code_Partie) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         
         int numLance = 0;
@@ -57,7 +57,7 @@ public class FctResumePartie {
         /*----------------------POUR TOUTES LES PARTIES-----------------------*/
     
         //Nombre total de lancé de dès
-    public int total_Lance() throws SQLException{
+    public int getTotal_Lance() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM RESUMEPARTIE");
         
@@ -72,7 +72,7 @@ public class FctResumePartie {
     //fct de calcul du score à faire avant
     
         //Nombre total de fois qu'une valeur de dès précise est tombée
-    public int total_Nb_Lance_De(int valeur) throws SQLException{
+    public int getTotal_Nb_Lance_De(int valeur) throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM RESUMEPARTIE");
         
@@ -92,16 +92,16 @@ public class FctResumePartie {
     }
         
         //Moyenne totale d'une valeur de dès
-    public double total_Moyenne_Lance_De(int valeur) throws SQLException{
-        double total = new Double(total_Lance());
-        double nbLance = new Double(total_Nb_Lance_De(valeur));
+    public double getTotal_Moyenne_Lance_De(int valeur) throws SQLException{
+        double total = new Double(getTotal_Lance());
+        double nbLance = new Double(getTotal_Nb_Lance_De(valeur));
         return (nbLance/total);
     }
     
         /*--------------------------POUR UNE PARTIE---------------------------*/
     
         //Nombre de lancé de dès
-    public int lance(BigInteger Code_Partie) throws SQLException{
+    public int getLance(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
@@ -119,7 +119,7 @@ public class FctResumePartie {
     //fct de calcul du score à faire avant
     
         //Nombre de fois qu'une valeur de dès précise est tombée
-    public int nb_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
+    public int getNb_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
@@ -140,14 +140,14 @@ public class FctResumePartie {
     }
     
         //Moyenne d'une valeur de dès
-    public double moyenne_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
-        double total = new Double(lance(Code_Partie));
-        double nbLance = new Double(nb_Lance_De(Code_Partie, valeur));
+    public double getMoyenne_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
+        double total = new Double(getLance(Code_Partie));
+        double nbLance = new Double(getNb_Lance_De(Code_Partie, valeur));
         return (nbLance/total);
     }
     
         //3 valeurs du dernier lancé de dès
-    public int[] derniers_Des(BigInteger Code_Partie) throws SQLException{
+    public int[] getDerniers_Des(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
@@ -159,8 +159,8 @@ public class FctResumePartie {
     //MISE A JOUR
     
         //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
-    public void maj_Des(BigInteger Code_Partie, int [] des) throws SQLException{
-        int nbLance = lance(Code_Partie);
+    public void majDes(BigInteger Code_Partie, int [] des) throws SQLException{
+        int nbLance = getLance(Code_Partie);
         int nb;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
         reqUpdateParam.setInt(1,des[0]);

@@ -50,7 +50,7 @@ public class FctScorePartie {
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
     
         //Score totale d'une partie
-    public BigInteger ScoreTotal(BigInteger Code_Partie) throws SQLException{
+    public BigInteger getScore_Total(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT SUM(SCORE) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
         reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
@@ -62,7 +62,7 @@ public class FctScorePartie {
     }
     
         //Moyenne de suite gagnée
-    public BigDecimal MoySuitG(BigInteger Code_Partie) throws SQLException{
+    public BigDecimal getMoy_Suite_G(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT AVG(NB_SUITE_G) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
         reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
@@ -74,7 +74,7 @@ public class FctScorePartie {
     }
     
         //Moyenne de Chouette Velute perdue
-    public BigDecimal MoyChouVelPerdue(BigInteger Code_Partie) throws SQLException{
+    public BigDecimal getMoy_ChouVel_P(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT AVG(NB_CHOUVEL_P) FROM SCOREPARTIE WHERE CODE_PARTIE = ?");   
         reqParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqParam.executeQuery();
@@ -119,7 +119,7 @@ public class FctScorePartie {
     //MISE A JOUR
     
         //Incrémentation Score
-    private void inc_Score(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
+    private void incScore(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
         int nb = 0;
         int newScore = getValeur(Code_Partie, Code_Joueur, "score") + Score;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
@@ -132,7 +132,7 @@ public class FctScorePartie {
     }
     
         //Incrémentation Nb_Suite_G
-    private void inc_Nb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur, int Suite) throws SQLException{
+    private void incNb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur, int Suite) throws SQLException{
         int nb = 0;
         int newSuite = getValeur(Code_Partie, Code_Joueur, "suite") + Suite;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_SUITE_G = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
@@ -144,7 +144,7 @@ public class FctScorePartie {
     }
     
         //Incrémentation Nb_ChouVel_P
-    private void inc_Nb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur, int ChouVel) throws SQLException{
+    private void incNb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur, int ChouVel) throws SQLException{
         int nb = 0;
         int newChouVel = getValeur(Code_Partie, Code_Joueur, "chouvel") + ChouVel;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_CHOUVEL_P = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
