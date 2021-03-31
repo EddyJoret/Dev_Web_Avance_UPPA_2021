@@ -88,7 +88,7 @@ public class FctScorePartie {
         /*--------------------------POUR UN JOUEUR----------------------------*/
     
         //Score, Nb_Suite_G et Nb_ChouVel_P du Code_Joueur de Code_Partie
-    public String getScores(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
+    public String getValeurs(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT * FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqParam.setInt(1, Code_Partie.intValue());
         reqParam.setInt(2, Code_Joueur.intValue());
@@ -103,75 +103,55 @@ public class FctScorePartie {
     }
     
         //Une valeur précise du Code_Joueur de Code_Partie (à définir en paramètre)
-    public String getScore(BigInteger Code_Partie, BigInteger Code_Joueur, String Colonne) throws SQLException{
+    public int getValeur(BigInteger Code_Partie, BigInteger Code_Joueur, String Colonne) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT ? FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqParam.setInt(2, Code_Partie.intValue());
         reqParam.setInt(3, Code_Joueur.intValue());
         reqParam.setString(1, Colonne);
         ResultSet res = reqParam.executeQuery();
-        String scoreP = "{\""+Colonne+"\":";
+        int result = 0;
         while(res.next()){
-            scoreP += res.getInt(1);
+            result = res.getInt(1);
         }      
-        return scoreP;
+        return result;
     }
     
     //MISE A JOUR
     
         //Incrémentation Score
     private void inc_Score(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT SCORE FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-        reqSelectParam.setInt(1, Code_Partie.intValue());
-        reqSelectParam.setInt(2, Code_Joueur.intValue());
-        ResultSet resSelect = reqSelectParam.executeQuery();
-        PreparedStatement reqUpdateParam;
         int nb = 0;
-        while(resSelect.next()){
-            int newScore = resSelect.getInt(1) + Score;
-            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-            reqUpdateParam.setInt(2, Code_Partie.intValue());
-            reqUpdateParam.setInt(3, Code_Joueur.intValue());
-            reqUpdateParam.setInt(1, newScore);
-            nb = reqUpdateParam.executeUpdate();
-        }
+        int newScore = getValeur(Code_Partie, Code_Joueur, "score") + Score;
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqUpdateParam.setInt(2, Code_Partie.intValue());
+        reqUpdateParam.setInt(3, Code_Joueur.intValue());
+        reqUpdateParam.setInt(1, newScore);
+        nb = reqUpdateParam.executeUpdate();
+        
         System.out.println(nb + " ligne ont été update");
     }
     
         //Incrémentation Nb_Suite_G
     private void inc_Nb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur, int Suite) throws SQLException{
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT NB_SUITE_G FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-        reqSelectParam.setInt(1, Code_Partie.intValue());
-        reqSelectParam.setInt(2, Code_Joueur.intValue());
-        ResultSet resSelect = reqSelectParam.executeQuery();
-        PreparedStatement reqUpdateParam;
         int nb = 0;
-        while(resSelect.next()){
-            int newSuite = resSelect.getInt(1) + Suite;
-            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_SUITE_G = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-            reqUpdateParam.setInt(2, Code_Partie.intValue());
-            reqUpdateParam.setInt(3, Code_Joueur.intValue());
-            reqUpdateParam.setInt(1, newSuite);
-            nb = reqUpdateParam.executeUpdate();
-        }
+        int newSuite = getValeur(Code_Partie, Code_Joueur, "suite") + Suite;
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_SUITE_G = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqUpdateParam.setInt(2, Code_Partie.intValue());
+        reqUpdateParam.setInt(3, Code_Joueur.intValue());
+        reqUpdateParam.setInt(1, newSuite);
+        nb = reqUpdateParam.executeUpdate();
         System.out.println(nb + " ligne ont été update");
     }
     
         //Incrémentation Nb_ChouVel_P
     private void inc_Nb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur, int ChouVel) throws SQLException{
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT NB_CHOUVEL_P FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-        reqSelectParam.setInt(1, Code_Partie.intValue());
-        reqSelectParam.setInt(2, Code_Joueur.intValue());
-        ResultSet resSelect = reqSelectParam.executeQuery();
-        PreparedStatement reqUpdateParam;
         int nb = 0;
-        while(resSelect.next()){
-            int newChouVel = resSelect.getInt(1) + ChouVel;
-            reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_CHOUVEL_P = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
-            reqUpdateParam.setInt(2, Code_Partie.intValue());
-            reqUpdateParam.setInt(3, Code_Joueur.intValue());
-            reqUpdateParam.setInt(1, newChouVel);
-            nb = reqUpdateParam.executeUpdate();
-        }
+        int newChouVel = getValeur(Code_Partie, Code_Joueur, "chouvel") + ChouVel;
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_CHOUVEL_P = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqUpdateParam.setInt(2, Code_Partie.intValue());
+        reqUpdateParam.setInt(3, Code_Joueur.intValue());
+        reqUpdateParam.setInt(1, newChouVel);
+        nb = reqUpdateParam.executeUpdate();
         System.out.println(nb + " ligne ont été update");
     }
     
