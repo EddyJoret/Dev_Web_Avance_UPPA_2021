@@ -21,7 +21,7 @@ public class FctJoueur {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
-    FctStatistique stat;
+    FctStatistique fctstat;
     
     
     //INITIALISATION
@@ -114,7 +114,7 @@ public class FctJoueur {
         /*--------------------------POUR UN JOUEUR----------------------------*/
 
         //Informations du Pseudo
-      public String infoPseudo(String Pseudo) throws SQLException{
+      public String infosPseudo(String Pseudo) throws SQLException{
           Joueur info = em.find(Joueur.class, Pseudo);
           String stat;
           stat = "{\"Age\":"+info.getAge()
@@ -124,26 +124,71 @@ public class FctJoueur {
       }
       
       //Stats du pseudo
-      public String statPseudo(String Pseudo)throws SQLException{
+      public String statsPseudo(String Pseudo)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);
           ResultSet res = req.executeQuery();
           String resultat = "";
           while(res.next()){
-              resultat = stat.getStats(res.getBigDecimal(1));
+              resultat = fctstat.getStats(res.getBigDecimal(1));
           }
           return resultat;
       }
     
         //Une information du Pseudo (à définir en paramètre)
+      public String infoPseudo(String Pseudo, String Colonne )throws SQLException{
+          Joueur info = em.find(Joueur.class, Pseudo);
+        String stats = "";
+        
+        switch(Colonne){
+            case "Age":
+                stats = info.getAge().toString();
+                break;
+            case "Sexe":
+                stats = info.getSexe().toString();
+                break;
+            case "Ville":
+                stats = info.getVille().toString();
+                break;
+        }
+        return stats;
+      }
+      
+      //Une stat du pseudo
+      public String statPseudo(String Pseudo, String Colonne)throws SQLException{
+          PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
+          req.setString(1, Pseudo);
+          ResultSet res = req.executeQuery();
+          String resultat = "";
+          while(res.next()){
+              resultat = fctstat.getStat(res.getBigDecimal(1), Colonne);
+          }
+          return resultat;
+      }
     
     //MISE A JOUR
     
         //Changement MDP
+      public void changeMdp(String Pseudo, String Mdp)throws SQLException{
+          Joueur jou = em.find(Joueur.class, Pseudo);
+          jou.setMdp(Mdp);
+      }
     
-        //Changement Age (bien que je trouve ça con qu'on mette pas la date de naissance plutôt fin bon)
+        //Changement Age
+      public void changeAge(String Pseudo, BigInteger Age)throws SQLException{
+          Joueur jou = em.find(Joueur.class, Pseudo);
+          jou.setAge(Age);
+      }
     
         //Changement Sexe
+      public void changeSexe(String Pseudo, Character Sexe)throws SQLException{
+          Joueur jou = em.find(Joueur.class, Pseudo);
+          jou.setSexe(Sexe);
+      }
     
         //Changement Ville
+      public void changeVille(String Pseudo, String Ville)throws SQLException{
+          Joueur jou = em.find(Joueur.class, Pseudo);
+          jou.setVille(Ville);
+      }
 }
