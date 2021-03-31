@@ -3,9 +3,6 @@ package FctPojo;
 //import POJO
 import Pojo.Partie;
 
-//import FctPojo
-import FctPojo.FctScorePartie;
-
 //import MATH
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -66,20 +63,46 @@ public class FctPartie {
     public int getNb_Partie_Tot() throws SQLException{
         int numPartie = 0;
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM PARTIE");
+        ResultSet res = req.executeQuery("SELECT COUNT(*) FROM PARTIE");
         while(res.next()){
-            numPartie = res.getRow();
+            numPartie = res.getInt(1);
         }
         return numPartie;
     }
     
         //Nombre de partie total en cours
+     public int getNb_Partie_Tot_En_Cours() throws SQLException{
+        int numPartie = 0;
+        Statement req = connection.createStatement();
+        ResultSet res = req.executeQuery("SELECT COUNT(*) FROM PARTIE WHERE TERMINE = \'F\'");
+        while(res.next()){
+            numPartie = res.getInt(1);
+        }
+        return numPartie;
+    }
 
-        //Nombre de joueur total 
+        //Nombre de joueur total
+     public int getNb_Joueur_Tot() throws SQLException{
+        int nbJoueur = 0;
+        Statement req = connection.createStatement();
+        ResultSet res = req.executeQuery("SELECT * FROM PARTIE");
+        while(res.next()){
+            int i = 2;
+            while (res.getBigDecimal(i) != null && i < 8){
+                nbJoueur ++;
+            }
+        }
+        return nbJoueur;
+    }
 
         //Moyenne de joueur par partie
+    public float getMoy_Joueur() throws SQLException{
+        float nbPartie = (float)getNb_Partie_Tot();
+        float nbJoueur = (float)getNb_Joueur_Tot();
+        return nbJoueur/nbPartie;
+    }
 
-        //Score moyen
+        //Score moyen des parties terminées
     
         /*--------------------------POUR UNE PARTIE---------------------------*/
     
