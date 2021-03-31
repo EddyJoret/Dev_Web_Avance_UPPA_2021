@@ -29,12 +29,15 @@ public class FctStatistique{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
+    public void FctStatistique() throws SQLException{
+        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
+    }
+    
     //INITIALISATION
     
         //Initialisation de tous les champs lié au Code_Joueur (passé en
         //paramètre) à 0
     public void InitStat(BigDecimal Code_Joueur) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         PreparedStatement reqParam = connection.prepareStatement("INSERT INTO STATISTIQUE VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
         reqParam.setBigDecimal(1, Code_Joueur);
         
@@ -166,29 +169,29 @@ public class FctStatistique{
         //Une stat du Code_Joueur (à définir en paramètre)
     public String getStat(BigDecimal Code_Joueur, String Colonne) throws SQLException{
         Statistique stat = em.find(Statistique.class, Code_Joueur);
-        String stats = "{\""+Colonne+"\":";
+        String stats = "";
         
         switch(Colonne){
             case "Nb_Partie":
-                stats += stat.getNbPartie()+"}";
+                stats = stat.getNbPartie().toString();
                 break;
             case "Nb_Victoire":
-                stats += stat.getNbVictoire()+"}";
+                stats = stat.getNbVictoire().toString();
                 break;
             case "Nb_Victoire_Moyenne":
-                stats += stat.getNbVictoireMoyenne()+"}";
+                stats = stat.getNbVictoireMoyenne().toString();
                 break;
             case "Nb_Pts_Tot":
-                stats += stat.getNbPtsTot()+"}";
+                stats = stat.getNbPtsTot().toString();
                 break;
             case "Score_Moyen":
-                stats += stat.getScoreMoyen()+"}";
+                stats = stat.getScoreMoyen().toString();
                 break;
             case "Suite_Moyen_G":
-                stats += stat.getSuiteMoyenG()+"}";
+                stats = stat.getSuiteMoyenG().toString();
                 break;
             case "Chouvel_Moyen_P":
-                stats += stat.getChouvelMoyenP()+"}";
+                stats = stat.getChouvelMoyenP().toString();
                 break;
         }
         
