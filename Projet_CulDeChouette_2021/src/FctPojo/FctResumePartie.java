@@ -142,7 +142,7 @@ public class FctResumePartie {
     
         //Moyenne d'une valeur de dès
     public double getMoyenne_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
-        double total = new Double(getLance(Code_Partie));
+        double total = new Double(getNb_Lance(Code_Partie));
         double nbLance = new Double(getNb_Lance_De(Code_Partie, valeur));
         return (nbLance/total);
     }
@@ -172,7 +172,7 @@ public class FctResumePartie {
     
         //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
     public void majDes(BigInteger Code_Partie, int [] des) throws SQLException{
-        int nbLance = getLance(Code_Partie);
+        int nbLance = getNb_Lance(Code_Partie);
         int nb;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
         reqUpdateParam.setInt(1,des[0]);
