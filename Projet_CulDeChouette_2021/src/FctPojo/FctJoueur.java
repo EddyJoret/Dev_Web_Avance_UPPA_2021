@@ -39,19 +39,25 @@ public class FctJoueur {
         //Initialisation des champs récupérer lors de l'enregistrement 
         //+ création Code_Joueur correspondant 
         //+ création STATISTIQUE
-    public void InitJoueur(String Pseudo, String Mdp, BigInteger Age, Character Sexe, String Ville) throws SQLException{
+    public void InitJoueur(String Pseudo, String Mdp, int Age, Character Sexe, String Ville) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         int numJoueur = 0;
-        int codeJoueur = 1;
         
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM JOUEUR WHERE CODE_JOUEUR = ?");
-        ResultSet res = reqSelectParam.executeQuery();
+        Statement reqSelectParam = connection.createStatement();
+        ResultSet res = reqSelectParam.executeQuery("SELECT COUNT(*) FROM JOUEUR ");
         while(res.next()){
-            numJoueur = res.getRow();
+            numJoueur = res.getInt(1)+1;
         }
-        PreparedStatement reqParam = connection.prepareStatement("INSERT INTO JOUEUR VALUES (?, 0, 0, 0, 0, 0)");
-        reqParam.setInt(1, codeJoueur+1);
+        PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO JOUEUR VALUES (?, ?, ?, ?, ?, ?)");
+        reqInsertParam.setInt(1, numJoueur);
+        reqInsertParam.setString(2, Pseudo);
+        reqInsertParam.setString(3, Mdp);
+        reqInsertParam.setInt(4, Age);
+        reqInsertParam.setString(5, Character.toString(Sexe));
+        reqInsertParam.setString(6, Ville);
         
+        int nb = reqInsertParam.executeUpdate();
+        System.out.println("Nombre de ligne ajoutée: " + nb);
     }
     
     //AFFICHAGE
