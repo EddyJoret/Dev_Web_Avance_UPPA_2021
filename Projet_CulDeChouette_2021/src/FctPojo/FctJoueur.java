@@ -123,6 +123,7 @@ public class FctJoueur {
 
         /*--------------------------POUR UN JOUEUR----------------------------*/
       
+        //Pseudo à partir du Code_Joueur
       public String getPseudo(BigDecimal Code_Joueur){
           Joueur jou = em.find(Joueur.class, Code_Joueur);
           return jou.getPseudo();
