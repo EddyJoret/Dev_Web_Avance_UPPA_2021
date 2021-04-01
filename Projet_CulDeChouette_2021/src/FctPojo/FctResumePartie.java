@@ -1,10 +1,10 @@
 package FctPojo;
 
 //import POJO
-import Pojo.Resumepartie;
+//import Pojo.Resumepartie;
 
-//import MATH
-import java.math.BigDecimal;
+//import TYPE
+//import java.math.BigDecimal;
 import java.math.BigInteger;
 
 //import SQL

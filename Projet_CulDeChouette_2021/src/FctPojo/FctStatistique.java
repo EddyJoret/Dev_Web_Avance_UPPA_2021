@@ -3,7 +3,7 @@ package FctPojo;
 //import POJO
 import Pojo.Statistique;
 
-//import MATH
+//import TYPE
 import java.math.BigDecimal;
 import java.math.BigInteger;
 

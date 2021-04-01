@@ -1,18 +1,28 @@
 package FctPojo;
 
+//import POJO
 import Pojo.Joueur;
-import FctPojo.FctStatistique;
+
+//import TYPE
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+
+//import SQL
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+
+//import PERSISTENCE
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+//import EXCEPTION
+import java.sql.SQLException;
+
 
 public class FctJoueur {
     
@@ -62,7 +72,7 @@ public class FctJoueur {
      }
 
         //Liste des pseudos
-     public ArrayList<String> listePseudo() throws SQLException{
+     public ArrayList<String> getListePseudo() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT PSEUDO FROM JOUEUR");
         ArrayList<String> listP = new ArrayList<String>();
@@ -73,7 +83,7 @@ public class FctJoueur {
      }
 
         //Moyenne d'âge calculée à partir de Age
-     public float moyAge() throws SQLException{
+     public float getMoy_Age() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT AVG(AGE) FROM JOUEUR");
         
@@ -87,7 +97,7 @@ public class FctJoueur {
      }
 
         //Moyenne d'homme et de femmes calculée à partir de Sexe
-      public float moySexe() throws SQLException{
+      public float getMoy_Sexe() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(SEXE) FROM JOUEUR WHERE SEXE = H");
         
@@ -101,7 +111,7 @@ public class FctJoueur {
      }
 
         //Liste des villes à partir de Ville (sans répétitions si possible)
-      public ArrayList<String> listVilles() throws SQLException{
+      public ArrayList<String> getListe_Villes() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT DISTINCT VILLE FROM JOUEUR");
         ArrayList<String> liste = new ArrayList<String>();
@@ -112,9 +122,14 @@ public class FctJoueur {
       }
 
         /*--------------------------POUR UN JOUEUR----------------------------*/
+      
+      public String getPseudo(BigDecimal Code_Joueur){
+          Joueur jou = em.find(Joueur.class, Code_Joueur);
+          return jou.getPseudo();
+      }
 
         //Informations du Pseudo
-      public String infosPseudo(String Pseudo) throws SQLException{
+      public String getInfos_Pseudo(String Pseudo) throws SQLException{
           Joueur info = em.find(Joueur.class, Pseudo);
           String stat;
           stat = "{\"Age\":"+info.getAge()
@@ -124,7 +139,7 @@ public class FctJoueur {
       }
       
       //Stats du pseudo
-      public String statsPseudo(String Pseudo)throws SQLException{
+      public String getStats_Pseudo(String Pseudo)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);
           ResultSet res = req.executeQuery();
@@ -136,7 +151,7 @@ public class FctJoueur {
       }
     
         //Une information du Pseudo (à définir en paramètre)
-      public String infoPseudo(String Pseudo, String Colonne )throws SQLException{
+      public String getInfo_Pseudo(String Pseudo, String Colonne )throws SQLException{
           Joueur info = em.find(Joueur.class, Pseudo);
         String stats = "";
         
@@ -155,7 +170,7 @@ public class FctJoueur {
       }
       
       //Une stat du pseudo
-      public String statPseudo(String Pseudo, String Colonne)throws SQLException{
+      public String getStat_Pseudo(String Pseudo, String Colonne)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);
           ResultSet res = req.executeQuery();
@@ -169,25 +184,25 @@ public class FctJoueur {
     //MISE A JOUR
     
         //Changement MDP
-      public void changeMdp(String Pseudo, String Mdp)throws SQLException{
+      public void majMdp(String Pseudo, String Mdp)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setMdp(Mdp);
       }
     
         //Changement Age
-      public void changeAge(String Pseudo, BigInteger Age)throws SQLException{
+      public void majAge(String Pseudo, BigInteger Age)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setAge(Age);
       }
     
         //Changement Sexe
-      public void changeSexe(String Pseudo, Character Sexe)throws SQLException{
+      public void majSexe(String Pseudo, Character Sexe)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setSexe(Sexe);
       }
     
         //Changement Ville
-      public void changeVille(String Pseudo, String Ville)throws SQLException{
+      public void majVille(String Pseudo, String Ville)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setVille(Ville);
       }

@@ -1,9 +1,9 @@
 package FctPojo;
 
 //import POJO
-import Pojo.Partie;
+//import Pojo.Partie;
 
-//import MATH
+//import TYPE
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
