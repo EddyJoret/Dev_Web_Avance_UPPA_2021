@@ -51,12 +51,12 @@ public class FctJoueur {
         //Nombre total de joueur
      public int getNbTotJoueur() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM JOUEUR");
+        ResultSet res = req.executeQuery("SELECT COUNT(*) FROM JOUEUR");
         
         int nbJoueurTot = 0;
         
         while(res.next()){
-            nbJoueurTot = res.getRow();
+            nbJoueurTot = res.getInt(1);
         }
         return nbJoueurTot;
      }
