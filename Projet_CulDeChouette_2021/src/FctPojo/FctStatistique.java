@@ -46,102 +46,88 @@ public class FctStatistique{
     
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
 
-        //Moyenne de partie jouée calculée à partir de Nb_Partie
-    public BigInteger getMoy_Partie_Tot() throws SQLException{
+        //Moyenne de partie jouée
+    public float getMoy_Partie_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT AVG(NB_PARTIE) FROM STATISTIQUE");
         
-        BigInteger nbPartie = new BigInteger("0");
+        float nbPartie = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            nbPartie.add(stat.getNbPartie());
+            nbPartie = res.getFloat(1);
         }
         
         return nbPartie;
     }
 
-        //Moyenne de partie gagnée calculée à partir de Nb_Victoire_Moyenne
-    public BigDecimal getMoy_Partie_G_Tot() throws SQLException{
+        //Moyenne de partie gagnée
+    public float getMoy_Partie_G_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT AVG(NB_VICTOIRE) FROM STATISTIQUE");
         
-        int nbPartie = 0;
-        BigDecimal moy = new BigDecimal(0.0);
+        float moy = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(stat.getNbVictoireMoyenne());
-            nbPartie = res.getRow();
+            moy = res.getFloat(1);
         }
         
-        return (moy.divide(new BigDecimal(nbPartie)));
+        return moy;
     }
     
-        //Nombre de points totals gagnés calculé à partir de Nb_Pts_Tot
-    public BigInteger getNb_Pts_Tot() throws SQLException{
+        //Nombre de points totals gagnés
+    public int getNb_Pts_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT SUM(NB_PTS_TOT) FROM STATISTIQUE");
         
-        BigInteger nbPts = new BigInteger("0");
+        int nbPts = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            nbPts.add(stat.getNbPtsTot());
+            nbPts = res.getInt(1);
         }
         
         return nbPts;
     }
 
         //Moyenne de points calculée à partir de Sc_Moyen
-    public BigDecimal getScore_Moy_Tot() throws SQLException{
+    public float getScore_Moy_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT AVG(SCORE_MOYEN) FROM STATISTIQUE");
         
-        int nbPartie = 0;
-        BigDecimal moy = new BigDecimal(0.0);
+        float moy = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(stat.getScoreMoyen());
-            nbPartie = res.getRow();
+            moy = res.getFloat(1);
         }
         
-        return (moy.divide(new BigDecimal(nbPartie)));
+        return moy;
     }
 
         //Moyenne de suite gagnée calculée à partir de Su_Moyen_G
-    public BigDecimal getSuite_Moy_G_Tot() throws SQLException{
+    public float getSuite_Moy_G_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT AVG(SUITE_MOYEN_G) FROM STATISTIQUE");
         
-        int nbPartie = 0;
-        BigDecimal moy = new BigDecimal(0.0);
+        float moy = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(stat.getSuiteMoyenG());
-            nbPartie = res.getRow();
+            moy = res.getFloat(1);
         }
         
-        return (moy.divide(new BigDecimal(nbPartie)));
+        return moy;
     }
 
         //Moyenne de chouette velute perdue calculée à partir de CV_Moyen_G
-    public BigDecimal getChouVel_P_Tot() throws SQLException{
+    public float getChouVel_P_Tot() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM STATISTIQUE");
+        ResultSet res = req.executeQuery("SELECT AVG(CHOUVEL_MOYEN_P) FROM STATISTIQUE");
         
-        int nbPartie = 0;
-        BigDecimal moy = new BigDecimal(0.0);
+         float moy = 0;
         
         while(res.next()){
-            Statistique stat = em.find(Statistique.class, res.getBigDecimal("Code_Joueur"));
-            moy.add(stat.getChouvelMoyenP());
-            nbPartie = res.getRow();
+            moy = res.getFloat(1);
         }
         
-        return (moy.divide(new BigDecimal(nbPartie)));
+        return moy;
     }
 
         /*--------------------------POUR UN JOUEUR----------------------------*/

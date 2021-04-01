@@ -53,6 +53,9 @@ public class FctPartie {
                 reqInsertParam.setNull(i+2, Types.INTEGER);
             }
         }
+        
+        int nb = reqInsertParam.executeUpdate();
+        System.out.println("Nombre de ligne ajoutée: " + nb);
     }
     
     //AFFICHAGE
@@ -90,6 +93,7 @@ public class FctPartie {
             int i = 2;
             while (res.getBigDecimal(i) != null && i < 8){
                 nbJoueur ++;
+                i++;
             }
         }
         return nbJoueur;
@@ -103,10 +107,38 @@ public class FctPartie {
     }
 
         //Score moyen des parties terminées
+    public float getMoy_Score_Partie_F() throws SQLException{
+        float nbPartie = 0;
+        float moy = 0;
+        Statement req = connection.createStatement();
+        ResultSet res = req.executeQuery("SELECT * FROM PARTIE WHERE TERMINE = \'F\'");
+        while(res.next()){
+            nbPartie ++;
+            int i = 2;
+            while(i < 8 && res.getBigDecimal(i) != null){
+                moy += (float)FctScore.getValeur(BigInteger.valueOf(res.getInt(1)), BigInteger.valueOf(res.getInt(i)), "SCORE");
+            }
+        }
+        return moy/nbPartie;
+    }
     
         /*--------------------------POUR UNE PARTIE---------------------------*/
     
         //Nombre de joueur
+    public int getNb_Joueur(BigDecimal Code_Partie) throws SQLException{
+        int nbJoueur = 0;
+         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM PARTIE WHERE Code_PARTIE = ?");
+        reqSelectParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqSelectParam.executeQuery();
+        while(res.next()){
+            int i = 2;
+            while (res.getBigDecimal(i) != null && i < 8){
+                nbJoueur ++;
+                i++;
+            }
+        }
+        return nbJoueur;
+    }
     
         //Liste des joueurs
     

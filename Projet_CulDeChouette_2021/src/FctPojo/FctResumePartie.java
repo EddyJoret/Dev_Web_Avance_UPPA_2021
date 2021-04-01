@@ -41,6 +41,7 @@ public class FctResumePartie {
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
         while(res.next()){
+            res.last();
             numLance = res.getRow();
         }
         
@@ -59,11 +60,11 @@ public class FctResumePartie {
         //Nombre total de lancé de dès
     public int getTotal_Lance() throws SQLException{
         Statement req = connection.createStatement();
-        ResultSet res = req.executeQuery("SELECT * FROM RESUMEPARTIE");
+        ResultSet res = req.executeQuery("SELECT COUNT(*) FROM RESUMEPARTIE");
         
         int nbLance = 0;
         while(res.next()){
-            nbLance = res.getRow();
+            nbLance = res.getInt(1);
         }
         return nbLance;
     }
@@ -102,12 +103,12 @@ public class FctResumePartie {
     
         //Nombre de lancé de dès
     public int getLance(BigInteger Code_Partie) throws SQLException{
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(*) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
         int nbLance = 0;
         while(res.next()){
-            nbLance = res.getRow();
+            nbLance = res.getInt(1);
         }
         return nbLance;
     }
