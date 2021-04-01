@@ -31,7 +31,7 @@ public class FctJoueur {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
-    FctStatistique fctstat;
+    FctStatistique FctStat;
     
     
     //INITIALISATION
@@ -58,6 +58,8 @@ public class FctJoueur {
         
         int nb = reqInsertParam.executeUpdate();
         System.out.println("Nombre de ligne ajoutée: " + nb);
+        
+        FctStat.InitStat(new BigDecimal(numJoueur));
     }
     
     //AFFICHAGE
@@ -65,7 +67,7 @@ public class FctJoueur {
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
 
         //Nombre total de joueur
-    public int getNbTotJoueur() throws SQLException{
+    public int getNb_Tot_Joueur() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(*) FROM JOUEUR");
         
@@ -78,7 +80,7 @@ public class FctJoueur {
     }
 
         //Liste des pseudos
-    public ArrayList<String> getListePseudo() throws SQLException{
+    public ArrayList<String> getListe_Pseudo() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT PSEUDO FROM JOUEUR");
         ArrayList<String> listP = new ArrayList<String>();
@@ -113,7 +115,7 @@ public class FctJoueur {
             nbMoySexe = res.getFloat(1);
         }
         
-        return nbMoySexe/(float)getNbTotJoueur();
+        return nbMoySexe/(float)getNb_Tot_Joueur();
     }
 
         //Liste des villes à partir de Ville (sans répétitions si possible)
@@ -136,7 +138,7 @@ public class FctJoueur {
     }
     
         //Pseudo à partir du Code_Joueur
-    public BigDecimal getCodeJoueur(String Pseudo){
+    public BigDecimal getCode_Joueur(String Pseudo){
           Joueur jou = em.find(Joueur.class, Pseudo);
           return jou.getCodeJoueur();
     }
@@ -158,7 +160,7 @@ public class FctJoueur {
           ResultSet res = req.executeQuery();
           String resultat = "";
           while(res.next()){
-              resultat = fctstat.getStats(res.getBigDecimal(1));
+              resultat = FctStat.getStats(res.getBigDecimal(1));
           }
           return resultat;
     }
@@ -189,7 +191,7 @@ public class FctJoueur {
           ResultSet res = req.executeQuery();
           String resultat = "";
           while(res.next()){
-              resultat = fctstat.getStat(res.getBigDecimal(1), Colonne);
+              resultat = FctStat.getStat(res.getBigDecimal(1), Colonne);
           }
           return resultat;
     }

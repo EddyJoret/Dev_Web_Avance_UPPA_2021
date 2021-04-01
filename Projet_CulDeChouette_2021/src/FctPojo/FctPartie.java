@@ -207,19 +207,19 @@ public class FctPartie {
     
         //Score du Code_Joueur d'un Code_Partie
     public void majScore(BigDecimal Code_Partie, String Pseudo, int Score) throws SQLException{
-        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCode_Joueur(Pseudo).toString());
         FctScore.incScore(code_joueur, new BigInteger(Code_Partie.toString()), Score);
     }
     
         //Nb_Suite_G du Code_Joueur d'un Code_Partie
     public void majSuite_G(BigDecimal Code_Partie, String Pseudo, int Suite) throws SQLException{
-        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCode_Joueur(Pseudo).toString());
         FctScore.incNb_Suite_G(code_joueur, new BigInteger(Code_Partie.toString()), Suite);
     }
     
         //Nb_ChouVel_P du Code_Joueur d'un Code_Partie
     public void majChouVel_P(BigDecimal Code_Partie, String Pseudo, int ChouVel) throws SQLException{
-        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCode_Joueur(Pseudo).toString());
         FctScore.incNb_ChouVel_P(code_joueur, new BigInteger(Code_Partie.toString()), ChouVel);
     }
     
