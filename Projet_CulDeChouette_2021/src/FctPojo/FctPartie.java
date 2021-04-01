@@ -6,6 +6,7 @@ package FctPojo;
 //import TYPE
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 //import SQL
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 
 //import PERSISTENCE
 import javax.persistence.EntityManager;
@@ -21,7 +23,6 @@ import javax.persistence.Persistence;
 
 //import EXCEPTION
 import java.sql.SQLException;
-import java.sql.Types;
 
 public class FctPartie {
     
@@ -30,7 +31,9 @@ public class FctPartie {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
+    FctResumePartie FctResume;
     FctScorePartie FctScore;
+    FctJoueur FctJoueur;
     
     //INITIALISATION
     
@@ -127,7 +130,7 @@ public class FctPartie {
         //Nombre de joueur
     public int getNb_Joueur(BigDecimal Code_Partie) throws SQLException{
         int nbJoueur = 0;
-         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM PARTIE WHERE Code_PARTIE = ?");
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM PARTIE WHERE Code_PARTIE = ?");
         reqSelectParam.setBigDecimal(1, Code_Partie);
         ResultSet res = reqSelectParam.executeQuery();
         while(res.next()){
@@ -141,20 +144,89 @@ public class FctPartie {
     }
     
         //Liste des joueurs
+    public ArrayList<String> getJoueur(BigDecimal Code_Partie) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM PARTIE WHERE Code_PARTIE = ?");
+        reqSelectParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqSelectParam.executeQuery();
+        ArrayList<String> liste = new ArrayList<String>();
+        while(res.next()){
+            int i = 2;
+            while (res.getBigDecimal(i) != null && i < 8){
+                liste.add(FctJoueur.getPseudo(res.getBigDecimal(i)));
+                i++;
+            }
+        }
+        return liste;
+    }
     
         //Partie terminée?
+    public boolean getFinish(BigDecimal Code_Partie) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT TERMINE FROM PARTIE WHERE Code_PARTIE = ?");
+        reqSelectParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqSelectParam.executeQuery();
+        boolean termine = false;
+        while(res.next()){
+            termine = res.getString(1).equals("T");
+        }
+        return termine;
+    }
     
         //Statistiques des Code_Joueur
+    public ArrayList<String> getStats_Joueurs(BigDecimal Code_Partie) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM PARTIE WHERE Code_PARTIE = ?");
+        reqSelectParam.setBigDecimal(1, Code_Partie);
+        ResultSet res = reqSelectParam.executeQuery();
+        String pseudo = "";
+        ArrayList<String> stats = new ArrayList<String>();
+        while(res.next()){
+            int i = 2;
+            while (res.getBigDecimal(i) != null && i < 8){
+                pseudo = FctJoueur.getPseudo(res.getBigDecimal(i));
+                stats.add("{Pseudo:"+pseudo+FctJoueur.getStats_Pseudo(pseudo)+"}");
+                i++;
+            }
+        }
+        return stats;
+    }
     
         //Statistiques d'un Code_Joueur
-
+    public String getStats_Joueur(String Pseudo) throws SQLException{
+        String stats = "";
+        stats = FctJoueur.getStats_Pseudo(Pseudo);
+        return stats;
+    }
+    
+        //Statiqtique défini d'un Code_Joueur
+    public String getStat_Joueur(String Pseudo, String Colonne) throws SQLException{
+        String stats = "";
+        stats = FctJoueur.getStat_Pseudo(Pseudo,Colonne);
+        return stats;
+    }
+    
     //MISE A JOUR
     
         //Score du Code_Joueur d'un Code_Partie
+    public void majScore(BigDecimal Code_Partie, String Pseudo, int Score) throws SQLException{
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        FctScore.incScore(code_joueur, new BigInteger(Code_Partie.toString()), Score);
+    }
     
         //Nb_Suite_G du Code_Joueur d'un Code_Partie
+    public void majSuite_G(BigDecimal Code_Partie, String Pseudo, int Suite) throws SQLException{
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        FctScore.incNb_Suite_G(code_joueur, new BigInteger(Code_Partie.toString()), Suite);
+    }
     
         //Nb_ChouVel_P du Code_Joueur d'un Code_Partie
+    public void majChouVel_P(BigDecimal Code_Partie, String Pseudo, int ChouVel) throws SQLException{
+        BigInteger code_joueur = new BigInteger(FctJoueur.getCodeJoueur(Pseudo).toString());
+        FctScore.incNb_ChouVel_P(code_joueur, new BigInteger(Code_Partie.toString()), ChouVel);
+    }
     
         //Enregistrement du dernier lancé de dès effectué de Code_Partie
+
+    public void initLance(BigDecimal Code_Partie, int[] des) throws SQLException{
+        FctResume.initTourResumePartie(new BigInteger(Code_Partie.toString()));
+        FctResume.majDes(new BigInteger(Code_Partie.toString()), des);
+    }
 }

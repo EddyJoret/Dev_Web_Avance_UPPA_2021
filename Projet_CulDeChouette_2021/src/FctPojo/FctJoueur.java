@@ -39,7 +39,7 @@ public class FctJoueur {
         //Initialisation des champs récupérer lors de l'enregistrement 
         //+ création Code_Joueur correspondant 
         //+ création STATISTIQUE
-     public void InitJoueur(String Pseudo, String Mdp, BigInteger Age, Character Sexe, String Ville) throws SQLException{
+    public void InitJoueur(String Pseudo, String Mdp, BigInteger Age, Character Sexe, String Ville) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         int numJoueur = 0;
         int codeJoueur = 1;
@@ -59,7 +59,7 @@ public class FctJoueur {
         /*-----------------------POUR TOUT LES JOUEURS------------------------*/
 
         //Nombre total de joueur
-     public int getNbTotJoueur() throws SQLException{
+    public int getNbTotJoueur() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(*) FROM JOUEUR");
         
@@ -69,10 +69,10 @@ public class FctJoueur {
             nbJoueurTot = res.getInt(1);
         }
         return nbJoueurTot;
-     }
+    }
 
         //Liste des pseudos
-     public ArrayList<String> getListePseudo() throws SQLException{
+    public ArrayList<String> getListePseudo() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT PSEUDO FROM JOUEUR");
         ArrayList<String> listP = new ArrayList<String>();
@@ -80,10 +80,10 @@ public class FctJoueur {
             listP.add(res.getString(1));
         }
         return listP;
-     }
+    }
 
         //Moyenne d'âge calculée à partir de Age
-     public float getMoy_Age() throws SQLException{
+    public float getMoy_Age() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT AVG(AGE) FROM JOUEUR");
         
@@ -94,10 +94,10 @@ public class FctJoueur {
         }
         
         return nbMoyAge;
-     }
+    }
 
         //Moyenne d'homme et de femmes calculée à partir de Sexe
-      public float getMoy_Sexe() throws SQLException{
+    public float getMoy_Sexe() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(SEXE) FROM JOUEUR WHERE SEXE = H");
         
@@ -108,10 +108,10 @@ public class FctJoueur {
         }
         
         return nbMoySexe/(float)getNbTotJoueur();
-     }
+    }
 
         //Liste des villes à partir de Ville (sans répétitions si possible)
-      public ArrayList<String> getListe_Villes() throws SQLException{
+    public ArrayList<String> getListe_Villes() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT DISTINCT VILLE FROM JOUEUR");
         ArrayList<String> liste = new ArrayList<String>();
@@ -119,28 +119,34 @@ public class FctJoueur {
             liste.add(res.getString(1));
         }
         return liste;
-      }
+    }
 
         /*--------------------------POUR UN JOUEUR----------------------------*/
       
         //Pseudo à partir du Code_Joueur
-      public String getPseudo(BigDecimal Code_Joueur){
+    public String getPseudo(BigDecimal Code_Joueur){
           Joueur jou = em.find(Joueur.class, Code_Joueur);
           return jou.getPseudo();
-      }
+    }
+    
+        //Pseudo à partir du Code_Joueur
+    public BigDecimal getCodeJoueur(String Pseudo){
+          Joueur jou = em.find(Joueur.class, Pseudo);
+          return jou.getCodeJoueur();
+    }
 
         //Informations du Pseudo
-      public String getInfos_Pseudo(String Pseudo) throws SQLException{
+    public String getInfos_Pseudo(String Pseudo) throws SQLException{
           Joueur info = em.find(Joueur.class, Pseudo);
           String stat;
           stat = "{\"Age\":"+info.getAge()
                 +", \"Sexe\":"+info.getSexe()
                 +", \"Ville\":"+info.getVille()+"}";
           return stat;
-      }
+    }
       
-      //Stats du pseudo
-      public String getStats_Pseudo(String Pseudo)throws SQLException{
+        //Stats du pseudo
+    public String getStats_Pseudo(String Pseudo)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);
           ResultSet res = req.executeQuery();
@@ -149,10 +155,10 @@ public class FctJoueur {
               resultat = fctstat.getStats(res.getBigDecimal(1));
           }
           return resultat;
-      }
+    }
     
         //Une information du Pseudo (à définir en paramètre)
-      public String getInfo_Pseudo(String Pseudo, String Colonne )throws SQLException{
+    public String getInfo_Pseudo(String Pseudo, String Colonne )throws SQLException{
           Joueur info = em.find(Joueur.class, Pseudo);
         String stats = "";
         
@@ -168,10 +174,10 @@ public class FctJoueur {
                 break;
         }
         return stats;
-      }
+    }
       
       //Une stat du pseudo
-      public String getStat_Pseudo(String Pseudo, String Colonne)throws SQLException{
+    public String getStat_Pseudo(String Pseudo, String Colonne)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);
           ResultSet res = req.executeQuery();
@@ -180,31 +186,31 @@ public class FctJoueur {
               resultat = fctstat.getStat(res.getBigDecimal(1), Colonne);
           }
           return resultat;
-      }
+    }
     
     //MISE A JOUR
     
         //Changement MDP
-      public void majMdp(String Pseudo, String Mdp)throws SQLException{
+    public void majMdp(String Pseudo, String Mdp)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setMdp(Mdp);
-      }
+    }
     
         //Changement Age
-      public void majAge(String Pseudo, BigInteger Age)throws SQLException{
+    public void majAge(String Pseudo, BigInteger Age)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setAge(Age);
-      }
+    }
     
         //Changement Sexe
-      public void majSexe(String Pseudo, Character Sexe)throws SQLException{
+    public void majSexe(String Pseudo, Character Sexe)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setSexe(Sexe);
-      }
+    }
     
         //Changement Ville
-      public void majVille(String Pseudo, String Ville)throws SQLException{
+    public void majVille(String Pseudo, String Ville)throws SQLException{
           Joueur jou = em.find(Joueur.class, Pseudo);
           jou.setVille(Ville);
-      }
+    }
 }
