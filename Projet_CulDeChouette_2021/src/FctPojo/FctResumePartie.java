@@ -102,7 +102,7 @@ public class FctResumePartie {
         /*--------------------------POUR UNE PARTIE---------------------------*/
     
         //Nombre de lancé de dès
-    public int getLance(BigInteger Code_Partie) throws SQLException{
+    public int getNb_Lance(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(*) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
@@ -151,6 +151,17 @@ public class FctResumePartie {
     public int[] getDerniers_Des(BigInteger Code_Partie) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
+        ResultSet res = reqSelectParam.executeQuery();
+        res.last();
+        int [] des = {res.getInt("DES_1"),res.getInt("DES_2"),res.getInt("DES_3")};
+        return des;
+    }
+    
+        //3 valeurs lancé de dès choisit
+    public int[] getDes(BigInteger Code_Partie, int numLance) throws SQLException{
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ? and NUM_LANCE_DES = ?");
+        reqSelectParam.setInt(1, Code_Partie.intValue());
+        reqSelectParam.setInt(2, numLance);
         ResultSet res = reqSelectParam.executeQuery();
         res.last();
         int [] des = {res.getInt("DES_1"),res.getInt("DES_2"),res.getInt("DES_3")};
