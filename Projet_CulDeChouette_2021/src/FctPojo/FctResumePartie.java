@@ -183,4 +183,118 @@ public class FctResumePartie {
         nb = reqUpdateParam.executeUpdate();
         System.out.println(nb + " ligne ont été update");
     }
+    
+    public int getScore_Des(BigInteger Code_Partie) throws SQLException{
+        int[] derDes = getDerniers_Des(Code_Partie);
+        int nbLance = getNb_Lance(Code_Partie);
+        
+        if(nbLance > 1){
+            int[] des = getDes(Code_Partie, nbLance-1);
+            if(suite(des, derDes)){ //SUITE
+                //besoin thread pour savoir le perdant
+                //return -10;
+            }
+        }else if(derDes[0] == derDes[1] && (derDes[0] + derDes[1] == derDes[2])){ //CHOUETTE VELUTE
+            //besoin thread pour savoir le gagnant
+            //return velute(derDes[2]);
+        }else if(derDes[0] == derDes[1] && derDes[1] == derDes[2]){ //CUL DE CHOUETTE
+            return culDeChouette(derDes[0]);
+        }else if(derDes[0] == derDes[1]){ //CHOUETTE
+            return derDes[0] * derDes[1];
+        }else if(derDes[0] + derDes[1] == derDes[2]){ //VELUTE
+            return derDes[2] * derDes[2];
+        }
+        return 0;
+    }
+    
+    public boolean suite(int[] des, int [] derDes){
+        return suite1(des, derDes) || suite2(des, derDes);
+    }
+    
+    public boolean suite1(int [] des, int[] derDes){
+        boolean un = false;
+        boolean deux = false;
+        boolean trois = false;
+        boolean derTrois = false;
+        boolean derQuatre = false;
+        boolean derCinq = false;
+        
+        for(int i: des){
+            if(i == 1){
+                un = true;
+            }
+            if(i == 2){
+                deux = true;
+            }
+            if(i == 3){
+                trois = true;
+            }
+        }
+        
+        for(int i : derDes){
+            if(i == 3){
+                derTrois = true;
+            }
+            if(i == 4){
+                derQuatre = true;
+            }
+            if(i == 5){
+                derCinq = true;
+            }
+        }
+        
+        return (un && deux && trois) && (derTrois && derQuatre && derCinq);
+    }
+    
+    public boolean suite2(int [] des, int[] derDes){
+        boolean deux = false;
+        boolean trois = false;
+        boolean quatre = false;
+        boolean derQuatre = false;
+        boolean derCinq = false;
+        boolean derSix = false;
+        
+        for(int i: des){
+            if(i == 2){
+                deux = true;
+            }
+            if(i == 3){
+                trois = true;
+            }
+            if(i == 4){
+                quatre = true;
+            }
+        }
+        
+        for(int i : derDes){
+            if(i == 4){
+                derQuatre = true;
+            }
+            if(i == 5){
+                derCinq = true;
+            }
+            if(i == 6){
+                derSix = true;
+            }
+        }
+        
+        return (deux && trois && quatre) && (derQuatre && derCinq && derSix);
+    }
+    
+    public int culDeChouette(int des){
+        switch(des){
+            case 1:
+                return 50;
+            case 2:
+                return 60;
+            case 3:
+                return 70;
+            case 4:
+                return 80;
+            case 5:
+                return 90;
+            default:
+                return 100;
+        }
+    }
 }
