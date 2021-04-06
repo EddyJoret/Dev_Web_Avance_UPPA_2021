@@ -168,22 +168,7 @@ public class FctResumePartie {
         return des;
     }
     
-    //MISE A JOUR
-    
-        //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
-    public void majDes(BigInteger Code_Partie, int [] des) throws SQLException{
-        int nbLance = getNb_Lance(Code_Partie);
-        int nb;
-        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
-        reqUpdateParam.setInt(1,des[0]);
-        reqUpdateParam.setInt(2,des[1]);
-        reqUpdateParam.setInt(3,des[2]);
-        reqUpdateParam.setInt(4, Code_Partie.intValue());
-        reqUpdateParam.setInt(5, nbLance);
-        nb = reqUpdateParam.executeUpdate();
-        System.out.println(nb + " ligne ont été update");
-    }
-    
+        //Score des 3 derniers dès
     public int getScore_Des(BigInteger Code_Partie) throws SQLException{
         int[] derDes = getDerniers_Des(Code_Partie);
         int nbLance = getNb_Lance(Code_Partie);
@@ -207,10 +192,30 @@ public class FctResumePartie {
         return 0;
     }
     
+    //MISE A JOUR
+    
+        //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
+    public void majDes(BigInteger Code_Partie, int [] des) throws SQLException{
+        int nbLance = getNb_Lance(Code_Partie);
+        int nb;
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
+        reqUpdateParam.setInt(1,des[0]);
+        reqUpdateParam.setInt(2,des[1]);
+        reqUpdateParam.setInt(3,des[2]);
+        reqUpdateParam.setInt(4, Code_Partie.intValue());
+        reqUpdateParam.setInt(5, nbLance);
+        nb = reqUpdateParam.executeUpdate();
+        System.out.println(nb + " ligne ont été update");
+    }
+    
+    //FCT FALCULTATIVE
+    
+        //Savoir si il y a une suite
     public boolean suite(int[] des, int [] derDes){
         return suite1(des, derDes) || suite2(des, derDes);
     }
     
+        //Savoir si il y a une suite 1-2-3 => 3-4-5
     public boolean suite1(int [] des, int[] derDes){
         boolean un = false;
         boolean deux = false;
@@ -246,6 +251,7 @@ public class FctResumePartie {
         return (un && deux && trois) && (derTrois && derQuatre && derCinq);
     }
     
+        //Savoir si il y a une suite 2-3-4 => 4-5-6
     public boolean suite2(int [] des, int[] derDes){
         boolean deux = false;
         boolean trois = false;
@@ -281,6 +287,7 @@ public class FctResumePartie {
         return (deux && trois && quatre) && (derQuatre && derCinq && derSix);
     }
     
+        //Calcul point d'un Cul de Chouette
     public int culDeChouette(int des){
         switch(des){
             case 1:
