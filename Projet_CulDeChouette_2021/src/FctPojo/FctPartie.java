@@ -88,7 +88,7 @@ public class FctPartie {
     }
 
         //Nombre de joueur total
-     public int getNb_Joueur_Tot() throws SQLException{
+     public int getNb_Participation_Tot() throws SQLException{
         int nbJoueur = 0;
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM PARTIE");
@@ -105,7 +105,7 @@ public class FctPartie {
         //Moyenne de joueur par partie
     public float getMoy_Joueur() throws SQLException{
         float nbPartie = (float)getNb_Partie_Tot();
-        float nbJoueur = (float)getNb_Joueur_Tot();
+        float nbJoueur = (float)getNb_Participation_Tot();
         return nbJoueur/nbPartie;
     }
 
@@ -212,19 +212,18 @@ public class FctPartie {
     }
     
         //Nb_Suite_G du Code_Joueur d'un Code_Partie
-    public void majSuite_G(BigDecimal Code_Partie, String Pseudo, int Suite) throws SQLException{
+    public void incSuite_G(BigDecimal Code_Partie, String Pseudo) throws SQLException{
         BigInteger code_joueur = new BigInteger(FctJoueur.getCode_Joueur(Pseudo).toString());
-        FctScore.incNb_Suite_G(code_joueur, new BigInteger(Code_Partie.toString()), Suite);
+        FctScore.incNb_Suite_G(code_joueur, new BigInteger(Code_Partie.toString()), 1);
     }
     
         //Nb_ChouVel_P du Code_Joueur d'un Code_Partie
-    public void majChouVel_P(BigDecimal Code_Partie, String Pseudo, int ChouVel) throws SQLException{
+    public void incChouVel_P(BigDecimal Code_Partie, String Pseudo) throws SQLException{
         BigInteger code_joueur = new BigInteger(FctJoueur.getCode_Joueur(Pseudo).toString());
-        FctScore.incNb_ChouVel_P(code_joueur, new BigInteger(Code_Partie.toString()), ChouVel);
+        FctScore.incNb_ChouVel_P(code_joueur, new BigInteger(Code_Partie.toString()), 1);
     }
     
         //Enregistrement du dernier lancé de dès effectué de Code_Partie
-
     public void initLance(BigDecimal Code_Partie, int[] des) throws SQLException{
         FctResume.initTourResumePartie(new BigInteger(Code_Partie.toString()));
         FctResume.majDes(new BigInteger(Code_Partie.toString()), des);

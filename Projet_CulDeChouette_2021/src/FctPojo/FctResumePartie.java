@@ -37,12 +37,11 @@ public class FctResumePartie {
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         
         int numLance = 0;
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(NUM_LANCE_DES) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
         while(res.next()){
-            res.last();
-            numLance = res.getRow();
+            numLance = res.getInt(1);
         }
         
         PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO RESUMEPARTIE VALUES (?, ?, 0, 0, 0)");
