@@ -113,9 +113,6 @@ public class FctResumePartie {
         return nbLance;
     }
     
-        //Valeurs des dès tombées
-    //fct de calcul du score à faire avant
-    
         //Moyenne des valeurs des dès
     //fct de calcul du score à faire avant
     
