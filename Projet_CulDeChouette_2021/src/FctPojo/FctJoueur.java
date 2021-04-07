@@ -36,9 +36,9 @@ public class FctJoueur {
     
     //INITIALISATION
     
-        //Initialisation des champs récupérer lors de l'enregistrement 
+        //Initialisation des champs récupérés lors de l'enregistrement 
         //+ création Code_Joueur correspondant 
-        //+ création STATISTIQUE
+        //+ création STATISTIQUE correspondant
     public void InitJoueur(String Pseudo, String Mdp, int Age, Character Sexe, String Ville) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         int numJoueur = 0;
@@ -90,7 +90,7 @@ public class FctJoueur {
         return listP;
     }
 
-        //Moyenne d'âge calculée à partir de Age
+        //Moyenne d'âge
     public float getMoy_Age() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT AVG(AGE) FROM JOUEUR");
@@ -104,7 +104,7 @@ public class FctJoueur {
         return nbMoyAge;
     }
 
-        //Moyenne d'homme et de femmes calculée à partir de Sexe
+        //Moyenne d'homme et de femmes
     public float getMoy_Sexe() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(SEXE) FROM JOUEUR WHERE SEXE = H");
@@ -118,7 +118,7 @@ public class FctJoueur {
         return nbMoySexe/(float)getNb_Tot_Joueur();
     }
 
-        //Liste des villes à partir de Ville (sans répétitions si possible)
+        //Liste des villes
     public ArrayList<String> getListe_Villes() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT DISTINCT VILLE FROM JOUEUR");
@@ -131,13 +131,13 @@ public class FctJoueur {
 
         /*--------------------------POUR UN JOUEUR----------------------------*/
       
-        //Pseudo à partir du Code_Joueur
+        //Pseudo
     public String getPseudo(BigDecimal Code_Joueur){
           Joueur jou = em.find(Joueur.class, Code_Joueur);
           return jou.getPseudo();
     }
     
-        //Pseudo à partir du Code_Joueur
+        //Code_Joueur
     public BigDecimal getCode_Joueur(String Pseudo){
           Joueur jou = em.find(Joueur.class, Pseudo);
           return jou.getCodeJoueur();
@@ -184,7 +184,7 @@ public class FctJoueur {
         return stats;
     }
       
-      //Une stat du pseudo
+      //Une stat du pseudo (à définir en paramètre)
     public String getStat_Pseudo(String Pseudo, String Colonne)throws SQLException{
           PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
           req.setString(1, Pseudo);

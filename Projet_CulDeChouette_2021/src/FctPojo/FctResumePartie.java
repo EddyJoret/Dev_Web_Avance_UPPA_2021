@@ -56,7 +56,7 @@ public class FctResumePartie {
     
         /*----------------------POUR TOUTES LES PARTIES-----------------------*/
     
-        //Nombre total de lancé de dès
+        //Nombre total de lancer de dès
     public int getTotal_Lance() throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT COUNT(*) FROM RESUMEPARTIE");
@@ -68,10 +68,7 @@ public class FctResumePartie {
         return nbLance;
     }
     
-        //Moyenne totale des valeurs des dès
-    //fct de calcul du score à faire avant
-    
-        //Nombre total de fois qu'une valeur de dès précise est tombée
+        //Nombre total de fois qu'une valeur de dès précise est tombée (à définir en paramètre)
     public int getTotal_Nb_Lance_De(int valeur) throws SQLException{
         Statement req = connection.createStatement();
         ResultSet res = req.executeQuery("SELECT * FROM RESUMEPARTIE");
@@ -91,7 +88,7 @@ public class FctResumePartie {
         return nbLance;
     }
         
-        //Moyenne totale d'une valeur de dès
+        //Moyenne totale d'une valeur de dès (à définir en paramètre)
     public double getTotal_Moyenne_Lance_De(int valeur) throws SQLException{
         double total = new Double(getTotal_Lance());
         double nbLance = new Double(getTotal_Nb_Lance_De(valeur));
@@ -112,10 +109,7 @@ public class FctResumePartie {
         return nbLance;
     }
     
-        //Moyenne des valeurs des dès
-    //fct de calcul du score à faire avant
-    
-        //Nombre de fois qu'une valeur de dès précise est tombée
+        //Nombre de fois qu'une valeur de dès précise est tombée (à définir en paramètre)
     public int getNb_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
@@ -136,7 +130,7 @@ public class FctResumePartie {
         return nbLance;
     }
     
-        //Moyenne d'une valeur de dès
+        //Moyenne d'une valeur de dès (à définir en paramètre)
     public double getMoyenne_Lance_De(BigInteger Code_Partie, int valeur) throws SQLException{
         double total = new Double(getNb_Lance(Code_Partie));
         double nbLance = new Double(getNb_Lance_De(Code_Partie, valeur));
@@ -153,7 +147,7 @@ public class FctResumePartie {
         return des;
     }
     
-        //3 valeurs lancé de dès choisit
+        //3 valeurs lancé de dès choisit (à définir en paramètre)
     public int[] getDes(BigInteger Code_Partie, int numLance) throws SQLException{
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT * FROM RESUMEPARTIE WHERE CODE_PARTIE = ? and NUM_LANCE_DES = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
