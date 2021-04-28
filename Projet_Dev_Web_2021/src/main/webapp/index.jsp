@@ -14,7 +14,7 @@
             }
         %>
         <h1>Hello World!</h1>
-        <form name="loginForm" method="post" action="servletPersonne">
+        <form name="loginForm" method="post" action="Joueur">
                Nom: <input type="text" name="username"/> <br/>
                rue: <input type="text" name="rue"/> <br/>
                Code postal: <input type="text" name="cp"/> <br>
