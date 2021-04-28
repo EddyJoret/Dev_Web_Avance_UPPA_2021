@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="Projet_CulDeChouette_2021PU">
+    <class>com.mycompany.projet_dev_web_2021.pojo.Resumepartie</class>
+    <class>com.mycompany.projet_dev_web_2021.pojo.Statistique</class>
+    <class>com.mycompany.projet_dev_web_2021.pojo.Partie</class>
+    <class>com.mycompany.projet_dev_web_2021.pojo.Joueur</class>
+    <class>com.mycompany.projet_dev_web_2021.pojo.Scorepartie</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr"/>
+      <property name="javax.persistence.jdbc.user" value="pcazalis"/>
+      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="javax.persistence.jdbc.password" value="pcazalis"/>
+    </properties>
+  </persistence-unit>
+</persistence>
