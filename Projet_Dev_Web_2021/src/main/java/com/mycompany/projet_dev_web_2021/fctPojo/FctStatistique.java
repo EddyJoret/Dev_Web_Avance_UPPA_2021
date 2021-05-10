@@ -29,6 +29,10 @@ public class FctStatistique{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
+    public FctStatistique(){
+        
+    } 
+    
     //INITIALISATION
     
         //Initialisation de tous les champs lié au Code_Joueur (passé en
@@ -39,7 +43,7 @@ public class FctStatistique{
         reqParam.setBigDecimal(1, Code_Joueur);
         
         int nb = reqParam.executeUpdate();
-        System.out.println("Nombre de ligne ajoutée: " + nb);
+        System.out.println("Nombre de ligne ajoutée dans Statistique: " + nb);
     }
     
     //AFFICHAGE

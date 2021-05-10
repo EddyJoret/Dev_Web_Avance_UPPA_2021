@@ -6,22 +6,20 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%--
         <%! public boolean init = false; %> <!--Variable globale-->
         <%! 
             public boolean submitValue(){
                 System.out.println("submit");
                 return true;
             }
-        %>
-        <h1>Hello World!</h1>
-        <form name="loginForm" method="post" action="Joueur">
-               Nom: <input type="text" name="username"/> <br/>
-               rue: <input type="text" name="rue"/> <br/>
-               Code postal: <input type="text" name="cp"/> <br>
-               Ville: <input type="text" name="ville"/> <br>
-               <input type="submit" value="Login" onclick<%=submitValue()%>/>
-        </form>
-        <% 
+        %>--%>
+        <h1 style="text-align: center">Le jeu du cul de chouette</h1>
+        <div style="text-align: center; margin-top: 10%">
+            <a href="connexionJeu.jsp" style="font-size: 20px">Jouer</a>  
+        </div>
+        
+        <%-- 
             if(init){
                 String login = request.getParameter( "username" );
                 if(login == null){
@@ -38,6 +36,6 @@
             }
             
             
-        %>
+        --%>
     </body>
 </html>

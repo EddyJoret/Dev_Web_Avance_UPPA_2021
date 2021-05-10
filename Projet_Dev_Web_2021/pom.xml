@@ -23,6 +23,11 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>21.1.0.0</version>
+        </dependency>
     </dependencies>
     
      <build>
@@ -65,6 +70,14 @@
                                     <groupId>javax</groupId>
                                     <artifactId>javaee-api</artifactId>
                                     <version>${jakartaee}</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.oracle.database.jdbc</groupId>
+                                    <artifactId>ojdbc8</artifactId>
+                                    <version>21.1.0.0</version>
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>

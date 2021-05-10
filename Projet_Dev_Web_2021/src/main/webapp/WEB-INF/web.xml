@@ -3,6 +3,7 @@
     <servlet>
         <servlet-name>Joueur</servlet-name>
         <servlet-class>com.mycompany.projet_dev_web_2021.servlet.Joueur</servlet-class>
+        <!--<load-on-startup>0</load-on-startup>-->
     </servlet>
     <servlet-mapping>
         <servlet-name>Joueur</servlet-name>

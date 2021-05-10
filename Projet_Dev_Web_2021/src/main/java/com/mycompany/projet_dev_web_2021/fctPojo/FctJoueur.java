@@ -31,15 +31,17 @@ public class FctJoueur {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
-    FctStatistique FctStat;
+    FctStatistique FctStat = new FctStatistique();
     
-    
+    public FctJoueur() throws SQLException{
+       
+    }
     //INITIALISATION
     
         //Initialisation des champs récupérés lors de l'enregistrement 
         //+ création Code_Joueur correspondant 
         //+ création STATISTIQUE correspondant
-    public void InitJoueur(String Pseudo, String Mdp, int Age, Character Sexe, String Ville) throws SQLException{
+    public void InitJoueur(String Pseudo, String Mdp, int Age, String Sexe, String Ville) throws SQLException{
         connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         int numJoueur = 0;
         
@@ -53,13 +55,16 @@ public class FctJoueur {
         reqInsertParam.setString(2, Pseudo);
         reqInsertParam.setString(3, Mdp);
         reqInsertParam.setInt(4, Age);
-        reqInsertParam.setString(5, Character.toString(Sexe));
+        reqInsertParam.setString(5, Sexe);
         reqInsertParam.setString(6, Ville);
-        
-        int nb = reqInsertParam.executeUpdate();
-        System.out.println("Nombre de ligne ajoutée: " + nb);
-        
         FctStat.InitStat(new BigDecimal(numJoueur));
+        int nb = reqInsertParam.executeUpdate();
+        System.out.println("Nombre de ligne ajoutée dans Joueur: " + nb);
+        System.out.println(connection);
+    }
+    
+    public void getConnexion(){
+        System.out.println(connection);
     }
     
     //AFFICHAGE
