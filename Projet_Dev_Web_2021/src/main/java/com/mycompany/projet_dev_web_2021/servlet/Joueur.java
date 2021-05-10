@@ -62,35 +62,38 @@ public class Joueur extends HttpServlet {
             out.println("</html>");
         }*/
         
+        
         String operation = request.getParameter("operation");
-        String username = request.getParameter("Pseudo");
+        
+        
+        
+
+         if (operation.equals("connexion")) {
+             String username = request.getParameter("Pseudo");
             String mdp = request.getParameter("mot de passe");
             String ville = request.getParameter("ville");
             String sexe = request.getParameter("Sexe");
             int age = Integer.parseInt(request.getParameter("Age"));
-
             FctJoueur fctj = new FctJoueur();
-        if (operation.equals("connexion")) {
-             
+            ArrayList<String> ps = new ArrayList<String>();
+            ps = fctj.getListe_Pseudo();
             boolean existe = false;
-            /*int i = 0;
-            ArrayList<String> listps = new ArrayList<String>();
-            listps = fctj.getListe_Pseudo();
+            int i = 0;
             while(i < fctj.getNb_Tot_Joueur() && !existe){
-                if(username.equals(listps.get(i))){
+                if(username.equals(ps.get(i))){
                     existe = true;
                 }
-            }*/
-            if(!existe){
-              fctj.InitJoueur(username, mdp, age, sexe, ville);
-              System.out.println(username);
-              getServletConfig().getServletContext().getRequestDispatcher("/jeu.jsp").forward(request,response);
             }
-                 
-        }
-        fctj.InitJoueur(username, mdp, age, sexe, ville);
-        
-         
+            if(!existe){
+                fctj.InitJoueur(username, mdp, age, sexe, ville);
+                getServletConfig().getServletContext().getRequestDispatcher("/jeu.jsp").forward(request,response);
+            }else{
+                System.out.println("                        pseudo déjà existant");
+                //getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
+            }
+             
+             
+         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

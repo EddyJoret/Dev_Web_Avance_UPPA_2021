@@ -34,7 +34,7 @@ public class FctJoueur {
     FctStatistique FctStat = new FctStatistique();
     
     public FctJoueur() throws SQLException{
-       
+       connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
     }
     //INITIALISATION
     
@@ -42,7 +42,7 @@ public class FctJoueur {
         //+ création Code_Joueur correspondant 
         //+ création STATISTIQUE correspondant
     public void InitJoueur(String Pseudo, String Mdp, int Age, String Sexe, String Ville) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
+        
         int numJoueur = 0;
         
         Statement reqSelectParam = connection.createStatement();
@@ -50,6 +50,7 @@ public class FctJoueur {
         while(res.next()){
             numJoueur = res.getInt(1)+1;
         }
+        res.close();
         PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO JOUEUR VALUES (?, ?, ?, ?, ?, ?)");
         reqInsertParam.setInt(1, numJoueur);
         reqInsertParam.setString(2, Pseudo);
@@ -60,11 +61,9 @@ public class FctJoueur {
         FctStat.InitStat(new BigDecimal(numJoueur));
         int nb = reqInsertParam.executeUpdate();
         System.out.println("Nombre de ligne ajoutée dans Joueur: " + nb);
-        System.out.println(connection);
-    }
-    
-    public void getConnexion(){
-        System.out.println(connection);
+        
+        
+        
     }
     
     //AFFICHAGE
@@ -81,6 +80,7 @@ public class FctJoueur {
         while(res.next()){
             nbJoueurTot = res.getInt(1);
         }
+        res.close();
         return nbJoueurTot;
     }
 
@@ -92,6 +92,7 @@ public class FctJoueur {
         while(res.next()){
             listP.add(res.getString(1));
         }
+        res.close();
         return listP;
     }
 
