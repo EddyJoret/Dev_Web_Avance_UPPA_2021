@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
@@ -48,48 +49,34 @@ public class Joueur extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        /*try (PrintWriter out = response.getWriter()) {
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Joueur</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Joueur at " + request.getContextPath() + "</h1>");
-            out.println("<label for=\"nomClient\">Nom <span class=\"requis\">*</span></label>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
-        
         
         String operation = request.getParameter("operation");
-        
-        
-        
-
          if (operation.equals("connexion")) {
-             String username = request.getParameter("Pseudo");
+            String username = request.getParameter("Pseudo");
             String mdp = request.getParameter("mot de passe");
             String ville = request.getParameter("ville");
             String sexe = request.getParameter("Sexe");
             int age = Integer.parseInt(request.getParameter("Age"));
+            
             FctJoueur fctj = new FctJoueur();
             ArrayList<String> ps = new ArrayList<String>();
             ps = fctj.getListe_Pseudo();
             boolean existe = false;
             int i = 0;
+            
             while(i < fctj.getNb_Tot_Joueur() && !existe){
                 if(username.equals(ps.get(i))){
                     existe = true;
                 }
+                i++;
             }
+            
             if(!existe){
                 fctj.InitJoueur(username, mdp, age, sexe, ville);
                 getServletConfig().getServletContext().getRequestDispatcher("/jeu.jsp").forward(request,response);
             }else{
-                System.out.println("                        pseudo déjà existant");
-                //getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
+                System.out.println("pseudo déjà existant");
+                getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
             }
              
              

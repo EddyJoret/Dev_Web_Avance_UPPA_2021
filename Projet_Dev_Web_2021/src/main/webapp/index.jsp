@@ -16,7 +16,7 @@
         %>--%>
         <h1 style="text-align: center">Le jeu du cul de chouette</h1>
         <div style="text-align: center; margin-top: 10%">
-            <a href="connexionJeu.jsp" style="font-size: 20px">Jouer</a>  
+            <a href="connexionJeu.jsp" style="font-size: 20px" target="_blank">Jouer</a>  
         </div>
         
         <%-- 
