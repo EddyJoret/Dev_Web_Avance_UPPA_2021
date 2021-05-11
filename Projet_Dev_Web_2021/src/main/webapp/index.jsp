@@ -4,8 +4,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet"> 
     </head>
-    <body>
+    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive;">
         <%--
         <%! public boolean init = false; %> <!--Variable globale-->
         <%! 
@@ -14,10 +16,14 @@
                 return true;
             }
         %>--%>
-        <h1 style="text-align: center">Le jeu du cul de chouette</h1>
+        <h1 style="text-align: center; font-size: 50px">Le jeu du cul de chouette</h1>
         <div style="text-align: center; margin-top: 10%">
-            <a href="connexionJeu.jsp" style="font-size: 20px" target="_blank">Jouer</a>  
+            <a href="connexionJeu.jsp" style="font-size: 30px" target="_blank">Jouer</a>  
         </div>
+        <div class="img-container" style="text-align: center; margin-top: 70px"> <!-- Block parent element -->
+            <img src="./img/dice.png" style=""/>
+        </div>
+        
         
         <%-- 
             if(init){

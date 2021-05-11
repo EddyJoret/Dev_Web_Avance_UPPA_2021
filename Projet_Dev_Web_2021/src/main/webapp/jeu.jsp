@@ -11,11 +11,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body>
+    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive;">
         <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <h1>Hello World!</h1>
-    <c:forEach items="${requestScope.joueur}" var="sp">
-        <h3>${sp}</h3>
-    </c:forEach>
+        <c:forEach items="${requestScope.pseudo}" var="sp">
+            <h1 style="text-align: center">Hello ${sp}</h1>
+        </c:forEach>
+        <!--<button onclick="ouvrirConnexion() this.disabled = true;">Créer une partie</button>-->
+        <p>Liste des joueurs connecté</p>
+        <p id="listejoueur"></p>
     </body>
 </html>

@@ -51,7 +51,7 @@ public class Joueur extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String operation = request.getParameter("operation");
-         if (operation.equals("connexion")) {
+         if (operation.equals("inscription")) {
             String username = request.getParameter("Pseudo");
             String mdp = request.getParameter("mot de passe");
             String ville = request.getParameter("ville");
@@ -77,10 +77,34 @@ public class Joueur extends HttpServlet {
             }else{
                 System.out.println("pseudo déjà existant");
                 getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
-            }
-             
-             
+            } 
          }
+         
+        if(operation.equals("connexion")){
+            String usernameco = request.getParameter("usernameco");
+            //String mdpco = request.getParameter("mdpco");
+            FctJoueur fctj = new FctJoueur();
+            ArrayList<String> ps = new ArrayList<String>();
+            ps = fctj.getListe_Pseudo();
+            boolean existe = false;
+            int i = 0;
+            
+            while(i < fctj.getNb_Tot_Joueur() && !existe){
+                if(usernameco.equals(ps.get(i))){
+                    existe = true;
+                }
+                i++;
+            }
+            
+            if(existe){
+                 request.setAttribute("pseudo", usernameco);
+                getServletConfig().getServletContext().getRequestDispatcher("/jeu.jsp").forward(request,response);
+            }else{
+                System.out.println("joueur pas existant");
+                getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
+            } 
+            
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
