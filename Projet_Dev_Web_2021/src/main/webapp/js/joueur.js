@@ -2,7 +2,7 @@ var websocket;
 var Pseudo;
 
 function ouvrirConnexion() {
-    websocket = new WebSocket("ws://localhost:8080/Projet_Dev_Web_2021/Joueur");
+    websocket = new WebSocket("ws://localhost:8080/Projet_Dev_Web_2021/CulDeChouette");
     websocket.onopen = function(evt) {
         onOpen(evt);
     };

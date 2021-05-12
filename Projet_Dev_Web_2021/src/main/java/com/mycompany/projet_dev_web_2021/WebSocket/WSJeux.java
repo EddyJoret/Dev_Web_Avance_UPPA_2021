@@ -12,7 +12,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.json.JSONObject;
 
-@ServerEndpoint("/Joueur")
+@ServerEndpoint("/CulDeChouette")
 public class WSJeux {
      ObjectSocket OS;
     // la liste des websockets : en static pour être partagée

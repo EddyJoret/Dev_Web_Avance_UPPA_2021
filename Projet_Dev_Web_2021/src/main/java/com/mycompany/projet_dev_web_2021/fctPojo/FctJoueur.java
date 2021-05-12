@@ -148,6 +148,12 @@ public class FctJoueur {
           Joueur jou = em.find(Joueur.class, Pseudo);
           return jou.getCodeJoueur();
     }
+    
+        //Mot de passe
+    public String getMdp(String Pseudo){
+          //Joueur jou = em.find(Joueur.class, Pseudo);
+          return (String)em.createNativeQuery("SELECT MDP FROM JOUEUR WHERE PSEUDO = ?").setParameter(1, Pseudo).getSingleResult();
+    }
 
         //Informations du Pseudo
     public String getInfos_Pseudo(String Pseudo) throws SQLException{
