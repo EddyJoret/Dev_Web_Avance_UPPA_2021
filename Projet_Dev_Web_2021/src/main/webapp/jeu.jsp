@@ -1,12 +1,7 @@
-<%-- 
-    Document   : jeu
-    Created on : 3 mai 2021, 19:44:27
-    Author     : pauline
---%>
 
-<%@page import="com.mycompany.projet_dev_web_2021.servlet.CulDeChouette"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean class="com.mycompany.projet_dev_web_2021.servlet.CulDeChouette" id="essai"/>
+<%--<jsp:useBean class="com.mycompany.projet_dev_web_2021.servlet.CulDeChouette" id="essai" scope="session"/>--%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,8 +14,10 @@
             <h1 style="text-align: center" id="pseudo">${sp}</h1>
         </c:forEach>
             <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')">Jouer</button>
-            <button onclick="<% essai.essai();%>">Essai</button>
+            <button onclick="">Essai</button>
+            <p id="listePseudo"></p>
         <!--<p style="font-size: 25px">Joueurs en ligne</p>
         <p id="listejoueur"></p>-->
+        
     </body>
 </html>

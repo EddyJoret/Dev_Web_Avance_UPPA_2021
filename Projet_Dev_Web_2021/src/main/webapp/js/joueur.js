@@ -32,14 +32,37 @@ function onOpen(evt) {
 // appelée quand le serveur envoie un message : rajoute la donnée de
 // l'événement à la fin du paragraphe qui contient la liste des messages
 function onMessage(evt) {
-    liste = document.getElementById("listeMessages");
+    liste = document.getElementById("listePseudo");
     var msg = JSON.parse(evt.data)
     console.log(msg);
-    if(msg.Type == "Chat"){
-       liste.innerHTML = liste.innerHTML + "<br />" + msg.Pseudo + " : " + msg.Contenu; 
+    if(msg.Type == "ListePS"){
+        liste.innerHTML = "";
+        for(let i = 0; i < msg.Pseudos.length; i++){
+            liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\">" + msg.Pseudos[i] + "</a>";
+        }
     }
     if(msg.Type == "Invitation"){
-       liste.innerHTML = liste.innerHTML + "<br />"+ "Msg Prive : " + msg.Pseudo + " : " + msg.Contenu; 
+        //liste.innerHTML = liste.innerHTML + "<br />"+ "Msg Prive : " + msg.Pseudo + " : " + msg.Contenu; 
+        if ( confirm(msg.Pseudo + " te dis " + msg.Contenu) ) {
+            var rep = {
+                "Pseudo" : pseudo,
+                "Type" : "Reponse",
+                "Destinataire" : msg.Pseudo,
+                "Contenu" : "Oui"
+            }
+            websocket.send(JSON.stringify(rep));
+        } else {
+            var rep = {
+                "Pseudo" : pseudo,
+                "Type" : "Reponse",
+                "Destinataire" : msg.Pseudo,
+                "Contenu" : "Non"
+            }
+            websocket.send(JSON.stringify(rep));
+        }
+    }
+    if(msg.Type == "Reponse"){
+        //liste.innerHTML = liste.innerHTML + "<br />"+ "Msg Prive : " + msg.Pseudo + " : " + msg.Contenu; 
     }
 }
 
@@ -95,4 +118,7 @@ function envoyerMessagePrive() {
     document.getElementById("messageprive").value = "";
     document.getElementById("destinataire").value = "";
 }
+
+
+
 

@@ -35,17 +35,17 @@ public class CulDeChouette extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
+        FctJoueur fctj = new FctJoueur();
         response.setContentType("text/html;charset=UTF-8");
         String operation = request.getParameter("operation");
+        
          if (operation.equals("inscription")) {
             String username = request.getParameter("Pseudo");
             String mdp = request.getParameter("mot de passe");
             String ville = request.getParameter("ville");
             String sexe = request.getParameter("Sexe");
             int age = Integer.parseInt(request.getParameter("Age"));
-            
-            FctJoueur fctj = new FctJoueur();
+           
             ArrayList<String> ps = new ArrayList<String>();
             ps = fctj.getListe_Pseudo();
             boolean existe = false;
@@ -71,7 +71,6 @@ public class CulDeChouette extends HttpServlet {
         if(operation.equals("connexion")){
             String usernameco = request.getParameter("usernameco");
             String mdpco = request.getParameter("mdpco");
-            FctJoueur fctj = new FctJoueur();
             ArrayList<String> ps = new ArrayList<String>();
             ps = fctj.getListe_Pseudo();
             boolean existe = false;
@@ -92,11 +91,17 @@ public class CulDeChouette extends HttpServlet {
                 System.out.println("joueur pas existant");
                 getServletConfig().getServletContext().getRequestDispatcher("/connexionJeu.jsp").forward(request,response);
             } 
-            
         }
+        
+        if(operation.equals("essai")){
+            essai();
+        }
+        
+        
     }
     
     public static void essai(){
+        
         System.out.println("ok reussi");
     }
 
