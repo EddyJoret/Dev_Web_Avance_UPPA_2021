@@ -32,13 +32,17 @@ function onOpen(evt) {
 // appelée quand le serveur envoie un message : rajoute la donnée de
 // l'événement à la fin du paragraphe qui contient la liste des messages
 function onMessage(evt) {
-    liste = document.getElementById("listePseudo");
     var msg = JSON.parse(evt.data)
     console.log(msg);
+    console.log("Pseudo: " + Pseudo);
     if(msg.Type == "ListePS"){
+        liste = document.getElementById("listePseudo");
         liste.innerHTML = "";
         for(let i = 0; i < msg.Pseudos.length; i++){
-            liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\">" + msg.Pseudos[i] + "</a>";
+            if(msg.Pseudos[i] != Pseudo){
+                //liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\">" + msg.Pseudos[i] + "</a>";
+            }
+            
         }
     }
     if(msg.Type == "Invitation"){
