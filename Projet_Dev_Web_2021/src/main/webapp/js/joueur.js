@@ -40,6 +40,7 @@ function onMessage(evt) {
     var msg = JSON.parse(evt.data);
     console.log("Message reçu: ");
     console.log(msg);
+    
     if(msg.Type === "ListePS"){
         majListePS(msg.Pseudos);
     }
@@ -57,57 +58,11 @@ function onMessage(evt) {
     }
     
     if(msg.Type === "Reponse"){
-        var i = 0;
-        var existe = false;
-        while(i < attenteReponse.length && !existe){
-            if(attenteReponse[i].Pseudo === msg.Pseudo){
-                existe = true;
-            }else{
-              i++;  
-            }
-        }
-        
-        if(msg.Contenu === "Non"){
-            nbInvit++;
-            attenteReponse.splice(i,1);
-            if(attenteReponse.length === 0 && partieJoueur.length === 0){
-                document.getElementById("quittePartieHote").style.display = "none";
-                document.getElementById("lancerPartie").style.display = "none";
-            }
-        }else if(existe){
-            partieJoueur.push(attenteReponse.splice(i,1)[0]);
-        }
+        reponse(msg.Pseudo, msg.Contenu);
     }
     
     if(msg.Type === "Quitte"){
-        var i = 0;
-        var existe = false;
-        var joueur;
-        
-        while(i < partieJoueur.length && !existe){
-            if(partieJoueur[i].Pseudo === msg.Pseudo){
-                existe = true;
-                joueur = partieJoueur.splice(i,1);
-                nbInvit++;
-            }else{
-              i++;  
-            }
-        }
-        if(boolHote){
-            if(partieJoueur.length === 0 && attenteReponse.length === 0){
-                boolHote = false;
-                boolPartie = false;
-                document.getElementById("quittePartieHote").style.display = "none";
-                document.getElementById("lancerPartie").style.display = "none";
-            }
-            if(partieJoueur.length !== 0){
-                for(let i = 0; i < partieJoueur.length; i++){
-                    if(partieJoueur[i].Position > joueur[0].Position){
-                        partieJoueur[i].Position = partieJoueur[i].Position - 1;
-                    } 
-                }
-            }
-        }
+        quitte(msg.Pseudo);
     }
     
     if(msg.Type === "QuitteHote"){
@@ -171,7 +126,7 @@ function invitationJoueur(pseudo){
             var objet = {
                 "Pseudo" : pseudo,
                 "Position" : 6-nbInvit
-            }
+            };
             attenteReponse.push(objet);
             websocket.send(JSON.stringify(msg));
         }else{
@@ -182,12 +137,11 @@ function invitationJoueur(pseudo){
     }    
 }
 
-
 function ajoutPartieJoueur(pseudo){
     var objet = {
         "Pseudo" : pseudo,
         "Position" : 0
-    }
+    };
     partieJoueur.push(objet);
 }
 
@@ -214,6 +168,60 @@ function confirmationPartie(pseudo){
     websocket.send(JSON.stringify(rep));
 }
 
+function reponse(pseudo, contenu){
+    var i = 0;
+    var existe = false;
+    while(i < attenteReponse.length && !existe){
+        if(attenteReponse[i].Pseudo === pseudo){
+            existe = true;
+        }else{
+          i++;  
+        }
+    }
+
+    if(contenu === "Non"){
+        nbInvit++;
+        attenteReponse.splice(i,1);
+        if(attenteReponse.length === 0 && partieJoueur.length === 0){
+            document.getElementById("quittePartieHote").style.display = "none";
+            document.getElementById("lancerPartie").style.display = "none";
+        }
+    }else if(existe){
+        partieJoueur.push(attenteReponse.splice(i,1)[0]);
+    }
+}
+
+function quitte(pseudo){
+    var i = 0;
+    var existe = false;
+    var joueur;
+
+    while(i < partieJoueur.length && !existe){
+        if(partieJoueur[i].Pseudo === pseudo){
+            existe = true;
+            joueur = partieJoueur.splice(i,1);
+            nbInvit++;
+        }else{
+          i++;  
+        }
+    }
+    if(boolHote){
+        if(partieJoueur.length === 0 && attenteReponse.length === 0){
+            boolHote = false;
+            boolPartie = false;
+            document.getElementById("quittePartieHote").style.display = "none";
+            document.getElementById("lancerPartie").style.display = "none";
+        }
+        if(partieJoueur.length !== 0){
+            for(let i = 0; i < partieJoueur.length; i++){
+                if(partieJoueur[i].Position > joueur[0].Position){
+                    partieJoueur[i].Position = partieJoueur[i].Position - 1;
+                } 
+            }
+        }
+    }
+}
+
 function majListePS(Pseudos){
     liste = document.getElementById("listePseudo");
     liste.innerHTML = "";
@@ -231,7 +239,7 @@ function quitterPartie(){
         "Pseudo" : Pseudo,
         "Type" : "Quitte",
         "Destinataire" : ""
-    }
+    };
     document.getElementById("quittePartie").style.display = "none";
     for(let i = 0; i < partieJoueur.length; i++){
         message.Destinataire = partieJoueur[i].Pseudo;
@@ -247,7 +255,7 @@ function quitterPartieHote(){
             "Pseudo" : Pseudo,
             "Type" : "QuitteHote",
             "Destinataire" : ""
-        }
+        };
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
         for(let i = 0; i < partieJoueur.length; i++){
@@ -283,8 +291,3 @@ function lancerPartie(){
         alert("Impossible de lancer.\nIl reste au moins un joueur qui n'a pas répondu à votre invitation");
     }
 }
-
-
-
-
-
