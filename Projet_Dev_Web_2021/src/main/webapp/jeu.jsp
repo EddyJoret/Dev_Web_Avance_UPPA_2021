@@ -31,7 +31,5 @@
         <div id="divListePseudo">
             <p id="listePseudo"></p>
         </div>
-        
-        
     </body>
 </html>
