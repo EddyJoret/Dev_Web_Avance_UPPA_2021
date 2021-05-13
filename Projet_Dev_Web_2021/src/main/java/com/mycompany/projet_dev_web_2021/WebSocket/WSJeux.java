@@ -69,7 +69,8 @@ public class WSJeux {
         }
         
         //Cas pour Type = Invitation
-        if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") || jsonObject.getString("Type").equals("Quitte")){
+        if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
+                || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")){
             int i = 0;
             boolean done = false;
             while(!done){

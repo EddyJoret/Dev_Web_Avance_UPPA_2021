@@ -60,6 +60,7 @@ public class CulDeChouette extends HttpServlet {
             
             if(!existe){
                 fctj.InitJoueur(username, mdp, age, sexe, ville);
+                request.setAttribute("pseudo", username);
                 getServletConfig().getServletContext().getRequestDispatcher("/jeu.jsp").forward(request,response);
                 System.out.println(request.getContextPath());
             }else{
