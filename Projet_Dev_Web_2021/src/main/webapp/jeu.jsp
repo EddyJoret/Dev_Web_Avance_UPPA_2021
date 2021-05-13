@@ -13,7 +13,9 @@
         <c:forEach items="${pseudo}" var="sp">
             <h1 style="text-align: center" id="pseudo">${sp}</h1>
         </c:forEach>
-            <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')">Jouer</button>
+            <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')" id="jouerPartie">Jouer</button>
+            <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
+            <button style="display: none" onclick="quitterPartieHote()" id="quittePartieHote">Annuler la partie</button>
             <p id="listePseudo"></p>
         <!--<p style="font-size: 25px">Joueurs en ligne</p>
         <p id="listejoueur"></p>-->
