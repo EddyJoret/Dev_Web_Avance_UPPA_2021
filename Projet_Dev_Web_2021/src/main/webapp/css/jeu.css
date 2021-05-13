@@ -1,0 +1,56 @@
+#pseudo{
+    font-size: 40px;
+    margin-top: 30px;
+}
+
+#divButtonJouer{
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#jouerPartie{
+    border: none;
+    border-radius: 20px;
+    background-color: #9e9e9e;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#jouerPartie:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#listePseudo{
+  margin: 0;
+  position: absolute;
+  left: 90%;
+}
+
+#nomJoueur{
+    border: 2px solid black;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+}
+
+#nomJoueur:hover{
+   text-decoration: underline; 
+}
+
+#nomJoueur:visited{
+    color: black;
+}

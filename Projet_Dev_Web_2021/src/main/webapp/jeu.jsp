@@ -8,17 +8,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Profil de <%=request.getAttribute("pseudo")%></title>
         <script type="text/javascript" src="./js/joueur.js"></script>
+        <link rel="stylesheet" href="./css/jeu.css">
     </head>
     <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive;">
         
-            <h1 style="text-align: center" id="pseudo"><%=request.getAttribute("pseudo")%></h1>
+        <h1 style="text-align: center" id="pseudo">Bienvenue <%=request.getAttribute("pseudo")%></h1>
+        
+        <div style="text-align: center;" id="divButtonJouer">
             <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')" id="jouerPartie">Jouer</button>
-            <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
-            <button style="display: none" onclick="quitterPartieHote()" id="quittePartieHote">Annuler la partie</button>
-            <button style="display: none" onclick="lancerPartie()" id="lancerPartie">Lancer la partie</button>
-            <p id="listePseudo"></p>
-        <!--<p style="font-size: 25px">Joueurs en ligne</p>
-        <p id="listejoueur"></p>-->
+        </div>
+        
+        <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
+        <button style="display: none" onclick="quitterPartieHote()" id="quittePartieHote">Annuler la partie</button>
+        <button style="display: none" onclick="lancerPartie()" id="lancerPartie">Lancer la partie</button>
+        <p id="listePseudo"></p>
         
     </body>
 </html>
