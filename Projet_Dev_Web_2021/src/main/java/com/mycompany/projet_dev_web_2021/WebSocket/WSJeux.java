@@ -79,6 +79,10 @@ public class WSJeux {
         
         if(jsonObject.getString("Type").equals("LancerPartie")){
             System.out.println(jsonObject.getJSONArray("Pseudos"));
+            JSONArray jsonArray = jsonObject.getJSONArray("Pseudos");
+            jsonArray.forEach(item -> {
+                
+            });
         }
     }
     
