@@ -28,7 +28,6 @@ public class WSJeux {
         if(jsonObject.getString("Type").equals("Chat")){
             for(ObjectSocket os : WSJeux.listeOS) {
                 os.getWS().sendText(jsonObject.toString());
-                System.out.println("Message envoyé à : OS.Id : " + os.getId());
             }
         }
         
@@ -40,16 +39,10 @@ public class WSJeux {
                 if(WSJeux.listeOS.get(i).getId().compareTo(session.getId()) == 0){
                     WSJeux.listeOS.get(i).majPseudo(jsonObject.getString("Pseudo"));
                     done = true;
-                    System.out.println("WSJeux.listeOS.get(i):");
-                    System.out.println(WSJeux.listeOS.get(i).getPseudo());
-                    System.out.println(WSJeux.listeOS.get(i).getId());
-                    System.out.println("ListeOS length : " + WSJeux.listeOS.size());
                 }else{
                     i++;
                 }
             }
-            
-            System.out.println("Nouvelle liste de joueur à envoyer");
             
             String ListePS = "{\"Type\":\"ListePS\",\"Pseudos\":[";
             i = 1;
@@ -62,7 +55,6 @@ public class WSJeux {
                 }
                 i++;
             }
-            System.out.println("ListePS : " + ListePS);
             for(ObjectSocket os : WSJeux.listeOS) {
                 os.getWS().sendText(ListePS);
             }
@@ -70,7 +62,8 @@ public class WSJeux {
         
         //Cas pour Type = Invitation
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
-                || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")){
+                || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
+                || jsonObject.getString("Type").equals("ComplementPartie")){
             int i = 0;
             boolean done = false;
             while(!done){
@@ -95,14 +88,12 @@ public class WSJeux {
     
     @OnClose
     public void onClose(CloseReason reason, Session session) throws IOException {
-        System.out.println("Fermeture de la WS : " + session.getId());
         int i = 0;
         boolean done = false;
         while(!done){
             if(WSJeux.listeOS.get(i).getId().compareTo(session.getId()) == 0){
                 WSJeux.listeOS.remove(i);
                 done = true;
-                System.out.println("ListeOS length : " + WSJeux.listeOS.size());
             }else{
                 i++;
             }
@@ -119,7 +110,6 @@ public class WSJeux {
             }
             i++;
         }
-        System.out.println("ListePS : " + ListePS);
         for(ObjectSocket os : WSJeux.listeOS) {
             os.getWS().sendText(ListePS);
         }

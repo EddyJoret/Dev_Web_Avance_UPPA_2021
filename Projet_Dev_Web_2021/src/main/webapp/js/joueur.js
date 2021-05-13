@@ -47,7 +47,7 @@ function onMessage(evt) {
     
     if(msg.Type === "Invitation"){
         if(!boolPartie){
-            if ( confirm(msg.Pseudo + " t'invites ") ) {
+            if(confirm(msg.Pseudo + " t'invites ")){
                 confirmationPartie(msg.Pseudo);
             } else {
                 refusPartie(msg.Pseudo);
@@ -137,37 +137,6 @@ function invitationJoueur(pseudo){
     }    
 }
 
-function ajoutPartieJoueur(pseudo){
-    var objet = {
-        "Pseudo" : pseudo,
-        "Position" : 0
-    };
-    partieJoueur.push(objet);
-}
-
-function refusPartie(destinataire){
-    var rep = {
-        "Pseudo" : Pseudo,
-        "Type" : "Reponse",
-        "Destinataire" : destinataire,
-        "Contenu" : "Non"
-    };
-    websocket.send(JSON.stringify(rep));
-}
-
-function confirmationPartie(pseudo){
-    var rep = {
-        "Pseudo" : Pseudo,
-        "Type" : "Reponse",
-        "Destinataire" : pseudo,
-        "Contenu" : "Oui"
-    };
-    boolPartie = true;
-    ajoutPartieJoueur(pseudo);
-    document.getElementById("quittePartie").style.display = "block";
-    websocket.send(JSON.stringify(rep));
-}
-
 function reponse(pseudo, contenu){
     var i = 0;
     var existe = false;
@@ -188,6 +157,23 @@ function reponse(pseudo, contenu){
         }
     }else if(existe){
         partieJoueur.push(attenteReponse.splice(i,1)[0]);
+        for(i = 0; i < partieJoueur.length; i++){
+            if(pseudo !== partieJoueur[i].Pseudo){
+                var msg1 = {
+                    "Pseudo" : pseudo,
+                    "Type" : "ComplementPartie",
+                    "Destinataire" : partieJoueur[i].Pseudo
+                };
+                var msg2 = {
+                    "Pseudo" : partieJoueur[i].Pseudo,
+                    "Type" : "ComplementPartie",
+                    "Destinataire" : pseudo
+                };
+                
+                websocket.send(JSON.stringify(msg1));
+                websocket.send(JSON.stringify(msg2));
+            }
+        }
     }
 }
 
@@ -222,13 +208,43 @@ function quitte(pseudo){
     }
 }
 
+function ajoutPartieJoueur(pseudo){
+    var objet = {
+        "Pseudo" : pseudo,
+        "Position" : 0
+    };
+    partieJoueur.push(objet);
+}
+
+function refusPartie(destinataire){
+    var rep = {
+        "Pseudo" : Pseudo,
+        "Type" : "Reponse",
+        "Destinataire" : destinataire,
+        "Contenu" : "Non"
+    };
+    websocket.send(JSON.stringify(rep));
+}
+
+function confirmationPartie(pseudo){
+    var rep = {
+        "Pseudo" : Pseudo,
+        "Type" : "Reponse",
+        "Destinataire" : pseudo,
+        "Contenu" : "Oui"
+    };
+    boolPartie = true;
+    ajoutPartieJoueur(pseudo);
+    document.getElementById("quittePartie").style.display = "block";
+    websocket.send(JSON.stringify(rep));
+}
+
 function majListePS(Pseudos){
     liste = document.getElementById("listePseudo");
     liste.innerHTML = "";
     for(let i = 0; i < Pseudos.length; i++){
         if(Pseudos[i] !== Pseudo){
-            liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\" onclick=\"verifInvit('" +Pseudos[i]+ "')\">" + Pseudos[i] + "</a>";
-            
+            liste.innerHTML = liste.innerHTML + "<br />"+ "<a id=\"nomJoueur\" href=\"#\" onclick=\"verifInvit('" +Pseudos[i]+ "')\">" + Pseudos[i] + "</a>"; 
         }
 
     }
@@ -287,6 +303,12 @@ function lancerPartie(){
             "Pseudos" : joueurs
         };
         console.log(message);
+
+        document.getElementById("quittePartieHote").style.display = "none";
+        document.getElementById("lancerPartie").style.display = "none";
+        document.getElementById("listePseudo").style.display = "none";
+        
+        websocket.send(JSON.stringify(message));
     }else{
         alert("Impossible de lancer.\nIl reste au moins un joueur qui n'a pas répondu à votre invitation");
     }
