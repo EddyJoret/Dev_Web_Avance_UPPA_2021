@@ -60,7 +60,7 @@ public class WSJeux {
             }
         }
         
-        //Cas pour Type = Invitation
+        //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie")){
