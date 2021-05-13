@@ -40,7 +40,7 @@ function onMessage(evt) {
         liste.innerHTML = "";
         for(let i = 0; i < msg.Pseudos.length; i++){
             if(msg.Pseudos[i] != Pseudo){
-                //liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\">" + msg.Pseudos[i] + "</a>";
+                liste.innerHTML = liste.innerHTML + "<br />"+ "<a href=\"#\" onclick=\"invitationJoueur()\">" + msg.Pseudos[i] + "</a>";
             }
             
         }
@@ -122,7 +122,9 @@ function envoyerMessagePrive() {
     document.getElementById("messageprive").value = "";
     document.getElementById("destinataire").value = "";
 }
-
+function invitationJoueur(){
+    console.log("Coucou toi");
+}
 
 
 
