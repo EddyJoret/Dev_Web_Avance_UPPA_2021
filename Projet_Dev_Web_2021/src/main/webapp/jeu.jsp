@@ -9,6 +9,7 @@
         <title>Profil de <%=request.getAttribute("pseudo")%></title>
         <script type="text/javascript" src="./js/joueur.js"></script>
         <link rel="stylesheet" href="./css/jeu.css">
+        <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
     </head>
     <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive;">
         
@@ -17,11 +18,20 @@
         <div style="text-align: center;" id="divButtonJouer">
             <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')" id="jouerPartie">Jouer</button>
         </div>
+        <div style="text-align: center;" id="divButtonQuitte">
+            <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
+        </div>
+        <div style="text-align: center;" id="divButtonQuitteHote">
+            <button style="display: none" onclick="quitterPartieHote()" id="quittePartieHote">Annuler la partie</button>
+        </div>
+        <div style="text-align: center;" id="divButtonLancerPartie">
+            <button style="display: none" onclick="lancerPartie()" id="lancerPartie">Lancer la partie</button>
+        </div>
+        <p id="textJoueurCo">Joueurs connectés : </p>
+        <div id="divListePseudo">
+            <p id="listePseudo"></p>
+        </div>
         
-        <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
-        <button style="display: none" onclick="quitterPartieHote()" id="quittePartieHote">Annuler la partie</button>
-        <button style="display: none" onclick="lancerPartie()" id="lancerPartie">Lancer la partie</button>
-        <p id="listePseudo"></p>
         
     </body>
 </html>

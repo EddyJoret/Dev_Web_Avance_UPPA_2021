@@ -1,3 +1,6 @@
+*{
+    font-family: 'Fredericka the Great', cursive;
+}
 #pseudo{
     font-size: 40px;
     margin-top: 30px;
@@ -33,24 +36,136 @@
     transform: scale(1.1);
 }
 
-#listePseudo{
+#textJoueurCo{
+  margin-top: 10px;
+  position: absolute;
+  left: 85%;
+  font-size: 20px;
+}
+
+#divListePseudo{
   margin: 0;
   position: absolute;
-  left: 90%;
+  left: 85%;
+  top: 25%;
+  height: 60%;
+  width: 10%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  padding: 20px;
+}
+
+#listePseudo{
+  text-align: center;
 }
 
 #nomJoueur{
-    border: 2px solid black;
-    padding: 20px;
     text-decoration: none;
     font-size: 25px;
     color: black;
+    padding: 10px;
 }
 
 #nomJoueur:hover{
-   text-decoration: underline; 
+    border-radius: 20px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+   -webkit-transform: scale(1.3);
+    transform: scale(1.3);
 }
 
 #nomJoueur:visited{
     color: black;
 }
+
+#divButtonQuitte{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#quittePartie{
+    border: none;
+    border-radius: 20px;
+    background-color: #9e9e9e;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#quittePartie:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#divButtonQuitteHote{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#quittePartieHote{
+    border: none;
+    border-radius: 20px;
+    background-color: #9e9e9e;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#quittePartieHote:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+
+#divButtonLancerPartie{
+  margin: 0;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#lancerPartie{
+    border: none;
+    border-radius: 20px;
+    background-color: #9e9e9e;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#lancerPartie:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+

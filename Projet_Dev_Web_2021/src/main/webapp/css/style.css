@@ -1,6 +1,8 @@
 
 * {
 	box-sizing: border-box;
+        font-family: 'Fredericka the Great', cursive;
+        
 }
 
 body {
@@ -17,15 +19,15 @@ body {
 	border-radius: 20px;
         background-color: #9e9e9e;
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	padding: 12px 45px;
 	letter-spacing: 1px;
-	text-transform: uppercase;
 	-webkit-transform: scale(1);
 	transform: scale(1);
 	-webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
+        font-family: 'Fredericka the Great', cursive;
 }
 
 #inputSubmit:hover{
@@ -37,15 +39,15 @@ body {
 	border-radius: 20px;
 	background-color: #9e9e9e;
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	padding: 12px 45px;
 	letter-spacing: 1px;
-	text-transform: uppercase;
 	-webkit-transform: scale(1);
 	transform: scale(1);
 	-webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
+        font-family: 'Fredericka the Great', cursive;
 }
 
 #inputSubmitCo:hover{
