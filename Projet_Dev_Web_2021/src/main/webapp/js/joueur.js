@@ -244,7 +244,7 @@ function majListePS(Pseudos){
     liste.innerHTML = "";
     for(let i = 0; i < Pseudos.length; i++){
         if(Pseudos[i] !== Pseudo){
-            liste.innerHTML = liste.innerHTML + "<br />"+ "<a id=\"nomJoueur\" href=\"#\" onclick=\"verifInvit('" +Pseudos[i]+ "')\">" + Pseudos[i] + "</a>"; 
+            liste.innerHTML = liste.innerHTML + "<a id=\"nomJoueur\" href=\"#\" onclick=\"verifInvit('" +Pseudos[i]+ "')\">" + Pseudos[i] + "</a>"; 
         }
 
     }
@@ -299,7 +299,7 @@ function lancerPartie(){
         Position = 1;
         var message = {
             "Pseudo" : Pseudo,
-            "Type" : "Lancer partie",
+            "Type" : "LancerPartie",
             "Pseudos" : joueurs
         };
         console.log(message);

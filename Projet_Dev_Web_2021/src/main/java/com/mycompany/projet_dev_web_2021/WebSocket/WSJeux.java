@@ -10,6 +10,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 @ServerEndpoint("/CulDeChouette")
@@ -60,7 +61,7 @@ public class WSJeux {
             }
         }
         
-        //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote
+        //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote ou ComplementPartie
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie")){
@@ -76,7 +77,9 @@ public class WSJeux {
             }
         }
         
-        
+        if(jsonObject.getString("Type").equals("LancerPartie")){
+            System.out.println(jsonObject.getJSONArray("Pseudos"));
+        }
     }
     
     @OnOpen
