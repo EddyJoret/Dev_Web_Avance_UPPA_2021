@@ -2,6 +2,8 @@ package com.mycompany.projet_dev_web_2021.WebSocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -78,10 +80,24 @@ public class WSJeux {
         }
         
         if(jsonObject.getString("Type").equals("LancerPartie")){
-            System.out.println(jsonObject.getJSONArray("Pseudos"));
             JSONArray jsonArray = jsonObject.getJSONArray("Pseudos");
+            String PartiePS = "{\"Type\":\"LancerPartie\",\"Pseudos\":" + jsonArray.toString() + "}";
             jsonArray.forEach(item -> {
-                
+                JSONObject itm = new JSONObject(item.toString());
+                int i = 0;
+                boolean done = false;
+                while(!done){
+                    if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
+                        try {
+                            WSJeux.listeOS.get(i).getWS().sendText(PartiePS);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WSJeux.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        done = true;
+                    }else{
+                        i++;
+                    }
+                }
             });
         }
     }

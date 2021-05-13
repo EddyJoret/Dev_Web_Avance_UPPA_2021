@@ -70,6 +70,38 @@ function onMessage(evt) {
         partieJoueur.splice(0,partieJoueur.length);
         boolPartie = false;
     }
+    
+    if(msg.Type === "ComplementPartie"){
+        var obj = {
+            "Pseudo" : msg.Pseudo,
+            "Position" : 0
+        };
+        partieJoueur.push(obj);
+        console.log(partieJoueur);
+    }
+    
+    if(msg.Type === "LancerPartie"){
+        if(!boolHote){
+            for(var i = 0; i < msg.Pseudos.length; i++){
+                var j = 0;
+                var existe = false;
+                while(j < partieJoueur.length && !existe){
+                    if(partieJoueur[j].Pseudo === msg.Pseudos[i].Pseudo){
+                        partieJoueur[j].Position = msg.Pseudos[i].Position;
+                        existe = true;
+                    }
+                    j++;
+                }
+                if(!existe && msg.Pseudos[i].Pseudo === Pseudo){
+                    Position = msg.Pseudos[i].Position;
+                }
+            }
+            document.getElementById("quittePartie").style.display = "none";
+            document.getElementById("listePseudo").style.display = "none";
+        }
+        console.log(partieJoueur);
+        console.log("{ Pseudo: \"" + Pseudo + "\", Position: " + Position + " }");
+    }
 }
 
 // appelée quand il y a une erreur
@@ -186,7 +218,9 @@ function quitte(pseudo){
         if(partieJoueur[i].Pseudo === pseudo){
             existe = true;
             joueur = partieJoueur.splice(i,1);
-            nbInvit++;
+            if(boolHote){
+               nbInvit++; 
+            }
         }else{
           i++;  
         }
