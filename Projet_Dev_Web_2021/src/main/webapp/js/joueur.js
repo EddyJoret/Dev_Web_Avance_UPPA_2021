@@ -72,6 +72,7 @@ function onMessage(evt) {
             attenteReponse.splice(i,1);
             if(attenteReponse.length === 0 && partieJoueur.length === 0){
                 document.getElementById("quittePartieHote").style.display = "none";
+                document.getElementById("lancerPartie").style.display = "none";
             }
         }else if(existe){
             partieJoueur.push(attenteReponse.splice(i,1)[0]);
@@ -97,6 +98,7 @@ function onMessage(evt) {
                 boolHote = false;
                 boolPartie = false;
                 document.getElementById("quittePartieHote").style.display = "none";
+                document.getElementById("lancerPartie").style.display = "none";
             }
             if(partieJoueur.length !== 0){
                 for(let i = 0; i < partieJoueur.length; i++){
@@ -142,7 +144,7 @@ function invitationJoueur(pseudo){
     var i = 0;
     var existe = false;
     document.getElementById("quittePartieHote").style.display = "block";
-    
+    document.getElementById("lancerPartie").style.display = "block";
     while(i < attenteReponse.length && !existe){
         if(attenteReponse[i].Pseudo === pseudo){
             existe = true;
@@ -247,6 +249,7 @@ function quitterPartieHote(){
             "Destinataire" : ""
         }
         document.getElementById("quittePartieHote").style.display = "none";
+        document.getElementById("lancerPartie").style.display = "none";
         for(let i = 0; i < partieJoueur.length; i++){
             message.Destinataire = partieJoueur[i].Pseudo;
             websocket.send(JSON.stringify(message));
@@ -259,6 +262,26 @@ function quitterPartieHote(){
         alert("Il reste au moins un joueur qui n'a pas répondu à votre invitation");
     }
     
+}
+
+function lancerPartie(){
+    if(attenteReponse.length === 0){
+        var joueurs = partieJoueur;
+        var obj = {
+            "Pseudo" : Pseudo,
+            "Position" : 1
+        };
+        joueurs.push(obj);
+        Position = 1;
+        var message = {
+            "Pseudo" : Pseudo,
+            "Type" : "Lancer partie",
+            "Pseudos" : joueurs
+        };
+        console.log(message);
+    }else{
+        alert("Impossible de lancer.\nIl reste au moins un joueur qui n'a pas répondu à votre invitation");
+    }
 }
 
 
