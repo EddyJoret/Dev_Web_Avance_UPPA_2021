@@ -564,7 +564,7 @@ function incScore(){
     
     if(pts === -1){
         pts = 0;
-        chouetteVelute();
+        getChouetteVelute();
     }else if(pts === -2){
         pts = 0;
     }else{
@@ -653,7 +653,7 @@ function culDeChouette(){
     }
 }
 
-function chouetteVelute(){
+function getChouetteVelute(){
     var msg = {
         "Type" : "ChouetteVelute",
         "Destinataire" : "",
@@ -673,7 +673,7 @@ function chouetteVelutePerdu(){
     });
 }
 
-function suite(){
+function getSuite(){
     return suite1() || suite2();
 }
 
