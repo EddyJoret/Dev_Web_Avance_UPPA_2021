@@ -3,6 +3,8 @@ var websocket;
 
 //Variable Joueur
 var Pseudo;
+var Position;
+var Score;
 
 //Variables partie
 var attenteReponse = [];
@@ -17,6 +19,8 @@ var ptsJoueur = 0;
 var dice1;
 var dice2;
 var dice3;
+var desAvt = [];
+var desMnt = [];
 
 function ouvrirConnexion() {
     websocket = new WebSocket("ws://localhost:8080/Projet_Dev_Web_2021/CulDeChouette");
@@ -86,7 +90,6 @@ function onMessage(evt) {
             "Position" : 0
         };
         partieJoueur.push(obj);
-        console.log(partieJoueur);
     }
     
     if(msg.Type === "LancerPartie"){
@@ -105,9 +108,11 @@ function onMessage(evt) {
                     j++;
                 }
                 if(!existe && msg.Pseudos[i].Pseudo === Pseudo){
+                    Position = msg.Pseudos[i].Position;
+                    Score = 0;
                     var obj = {
                         "Pseudo" : Pseudo,
-                        "Position" : msg.Pseudos[i].Position
+                        "Position" : Position
                     };
                     partieJoueur.push(obj);
                 }
@@ -116,13 +121,37 @@ function onMessage(evt) {
             document.getElementById("divListePseudo").style.display = "none";
             document.getElementById("textJoueurCo").style.display = "none";
         }else{
-            
             document.getElementById("roll-button").style.display = "block";
             document.getElementById("dice").style.display = "grid";
             
         }
         document.getElementById("position-joueur").style.display = "inline-block";
         affichageListeJoueur();
+    }
+    
+    if(msg.Type === "Chouette"){
+        document.getElementById("dice").style.display = "grid";
+        document.getElementById("die-3").style.display = "none";
+        rollDiceSpec();
+        diceNumber(msg.Des1, msg.Des2);
+        desAvt.push(msg.Des1);
+        desAvt.push(msg.Des2);
+    }
+    
+    if(msg.Type === "Cu"){
+        document.getElementById("die-3").style.display = "grid";
+        rollDice3Spec();
+        dice3Number(msg.Des3);
+        desAvt.push(msg.Des3);
+    }
+    
+    if(msg.Type === "PassageMain"){
+        if(msg.Num !== Position){
+            document.getElementById("dice").style.display = "none";
+            desAvt.splice(0,desAvt.length);
+        }else{
+            document.getElementById("roll-button").style.display = "block";
+        }
     }
 }
 
@@ -208,6 +237,8 @@ function reponse(pseudo, contenu){
         if(attenteReponse.length === 0 && partieJoueur.length === 0){
             document.getElementById("quittePartieHote").style.display = "none";
             document.getElementById("lancerPartie").style.display = "none";
+            boolPartie = false;
+            boolHote = false;
         }
     }else if(existe){
         partieJoueur.push(attenteReponse.splice(i,1)[0]);
@@ -346,10 +377,12 @@ function quitterPartieHote(){
 
 function lancerPartie(){
     if(attenteReponse.length === 0){
+        Position = 1;
+        Score = 0;
         var joueurs = partieJoueur;
         var obj = {
             "Pseudo" : Pseudo,
-            "Position" : 1
+            "Position" : Position
         };
         joueurs.push(obj);
         var message = {
@@ -357,7 +390,6 @@ function lancerPartie(){
             "Type" : "LancerPartie",
             "Pseudos" : joueurs
         };
-        console.log(message);
 
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
@@ -381,78 +413,134 @@ function affichageListeJoueur(){
 /*---------------------Fonctions dés---------------------*/
 //Faire rouler les deux premiers dés pour le joueur
 function rollDice() {
-  const dice = [...document.querySelectorAll(".die-list")];
-  dice.forEach(die => {
-    toggleClasses(die);
-  });
-  document.getElementById("roll-button").style.display = "none";
-  document.getElementById("roll-button-die3").style.display = "block";
-  diceRandom();
+    const dice = [...document.querySelectorAll(".die-list")];
+    dice.forEach(die => {
+        toggleClasses(die);
+    });
+    document.getElementById("roll-button").style.display = "none";
+    document.getElementById("roll-button-die3").style.display = "block";
+    diceRandom();
 }
 
 //Faire rouler le 3ème dé pour le joueur
 function rollDice3() {
-  const dice = [...document.querySelectorAll(".die-list-3")];
-  dice.forEach(die => {
-    toggleClasses(die);
-  });
-  document.getElementById("roll-button-die3").style.display = "none";
-  dice3Random();
+    const dice = [...document.querySelectorAll(".die-list-3")];
+    dice.forEach(die => {
+        toggleClasses(die);
+    });
+    document.getElementById("roll-button-die3").style.display = "none";
+    dice3Random();
+    setTimeout(function(){
+        document.getElementById("dice").style.display = "none";
+        passageMain();
+    },5000);
 }
 
 //Faire rouler les deux premiers dés pour le spectateur
 function rollDiceSpec() {
-  const dice = [...document.querySelectorAll(".die-list")];
-  dice.forEach(die => {
-    toggleClasses(die);
-  });
+    const dice = [...document.querySelectorAll(".die-list")];
+    dice.forEach(die => {
+        toggleClasses(die);
+    });
 }
 
 //Faire rouler le 3ème dé pour le spectateur
 function rollDice3Spec() {
-  const dice = [...document.querySelectorAll(".die-list-3")];
-  dice.forEach(die => {
-    toggleClasses(die);
-  });
+    const dice = [...document.querySelectorAll(".die-list-3")];
+    dice.forEach(die => {
+        toggleClasses(die);
+    });
 }
 
 function toggleClasses(die) {
-  die.classList.toggle("odd-roll");
-  die.classList.toggle("even-roll");
+    die.classList.toggle("odd-roll");
+    die.classList.toggle("even-roll");
 }
 
 function getRandomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 //Mettre un nombre random pour les 2 premiers dès
 function diceRandom(){
-  dice1.dataset.roll = getRandomNumber(1, 6);
-  dice2.dataset.roll = getRandomNumber(1, 6);
-  console.log(dice1.dataset.roll);
-  console.log(dice2.dataset.roll);
+    dice1.dataset.roll = getRandomNumber(1, 6);
+    dice2.dataset.roll = getRandomNumber(1, 6);
+    desMnt.push(dice1.dataset.roll);
+    desMnt.push(dice2.dataset.roll);
+    var msg = {
+      "Pseudo" : Pseudo,
+      "Type" : "Chouette",
+      "Destinataire" : "",
+      "Des1" : dice1.dataset.roll,
+      "Des2" : dice2.dataset.roll
+    };
+
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msg.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msg));
+      }
+    }
 }
 
 //Mettre un nombre random pour le 3me dès
 function dice3Random(){
     dice3.dataset.roll = getRandomNumber(1, 6);
-    console.log(dice3.dataset.roll);
+    desMnt.push(dice3.dataset.roll);
+    var msg = {
+      "Pseudo" : Pseudo,
+      "Type" : "Cu",
+      "Destinataire" : "",
+      "Des3" : dice3.dataset.roll
+    };
+  
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msg.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msg));
+      }
+    }
 }
 
 //Mettre un nombre défini pour les 2 premiers dès
 function diceNumber(des1, des2){
-  dice1.dataset.roll = des1;
-  dice2.dataset.roll = des2;
-  console.log(dice1.dataset.roll);
-  console.log(dice2.dataset.roll);
+    dice1.dataset.roll = des1;
+    dice2.dataset.roll = des2;
 }
 
 //Mettre un nombre défini pour le 3me dès
 function dice3Number(des3){
     dice3.dataset.roll = des3;
-    console.log(dice3.dataset.roll);
+}
+
+function passageMain(){
+    console.log("   desAvt:");
+    console.log(desAvt);
+    console.log("   desMnt:");
+    console.log(desMnt);
+    
+    desAvt.splice(0, desAvt.length);
+    desMnt.splice(0, desMnt.length);
+    var newPos = Position + 1;
+    var msg = {
+         "Type" : "PassageMain",
+         "Destinataire" : "",
+         "Num" : 0
+    };
+    if(newPos <= partieJoueur.length){
+        msg.Num = newPos;
+    }else{
+        msg.Num = newPos % partieJoueur.length;
+    }
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msg.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msg));
+      }
+    }
 }
 
 function velute(){

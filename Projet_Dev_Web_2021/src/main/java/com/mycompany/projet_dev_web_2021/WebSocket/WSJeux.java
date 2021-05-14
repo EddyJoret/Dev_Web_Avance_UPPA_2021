@@ -63,10 +63,11 @@ public class WSJeux {
             }
         }
         
-        //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote ou ComplementPartie
+        //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote ou ComplementPartie ou Chouette ou Cu
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
-                || jsonObject.getString("Type").equals("ComplementPartie")){
+                || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("Chouette")
+                || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")){
             int i = 0;
             boolean done = false;
             while(!done){
