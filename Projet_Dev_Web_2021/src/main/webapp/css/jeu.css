@@ -191,7 +191,7 @@
 
 #anchor-pos{
     border-radius: 10px;
-    width: 20%;
+    width: auto;
     height: auto;
     background-color: white;
     -webkit-transform: scale(1);
@@ -204,6 +204,10 @@
 #anchor-pos:hover{
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+}
+
+#listePos{
+    
 }
 
 
