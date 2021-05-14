@@ -69,7 +69,7 @@ public class WSJeux {
                 || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")
                 || jsonObject.getString("Type").equals("MajScore") || jsonObject.getString("Type").equals("ChouetteVelute")
                 || jsonObject.getString("Type").equals("ChouetteVeluteGagne") || jsonObject.getString("Type").equals("Suite")
-                || jsonObject.getString("Type").equals("VictoirePartie")){
+                || jsonObject.getString("Type").equals("SuiteGagne") || jsonObject.getString("Type").equals("VictoirePartie")){
             int i = 0;
             boolean done = false;
             while(!done){
