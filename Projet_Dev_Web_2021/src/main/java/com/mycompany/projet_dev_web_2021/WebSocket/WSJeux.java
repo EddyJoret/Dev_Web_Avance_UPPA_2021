@@ -67,7 +67,8 @@ public class WSJeux {
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("Chouette")
-                || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")){
+                || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")
+                || jsonObject.getString("Type").equals("MajScore") || jsonObject.getString("Type").equals("ChouetteVelute")){
             int i = 0;
             boolean done = false;
             while(!done){

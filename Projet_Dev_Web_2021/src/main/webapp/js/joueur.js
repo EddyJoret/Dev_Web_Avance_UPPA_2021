@@ -12,6 +12,7 @@ var partieJoueur = [];
 var nbInvit = 5;
 var boolPartie = false;
 var boolHote = false;
+var CHV = false;
 
 //Variables dés
 var cptDice = 0;
@@ -134,15 +135,15 @@ function onMessage(evt) {
         document.getElementById("die-3").style.display = "none";
         rollDiceSpec();
         diceNumber(msg.Des1, msg.Des2);
-        desAvt.push(msg.Des1);
-        desAvt.push(msg.Des2);
+        desAvt.push(parseInt(msg.Des1));
+        desAvt.push(parseInt(msg.Des2));
     }
     
     if(msg.Type === "Cu"){
         document.getElementById("die-3").style.display = "grid";
         rollDice3Spec();
         dice3Number(msg.Des3);
-        desAvt.push(msg.Des3);
+        desAvt.push(parseInt(msg.Des3));
     }
     
     if(msg.Type === "PassageMain"){
@@ -152,6 +153,43 @@ function onMessage(evt) {
         }else{
             document.getElementById("roll-button").style.display = "block";
         }
+    }
+    
+    if(msg.Type === "MajScore"){
+        majScore(msg.Pseudo, msg.Score);
+    }
+    
+    if(msg.Type === "ChouetteVelute"){
+        CHV = true;
+        Swal.fire({
+            title: 'CHOUETTE VELUTE !!!',
+            confirmButtonText: `Pas mou le caillou!`
+        }).then((result) => {
+            if(result.isConfirmed){
+                if(CHV){
+                    var msgCHV = {
+                        "Pseudo" : Pseudo,
+                        "Type" : "ChouetteVeluteGagne",
+                        "Destinataire" : ""
+                    };
+                    for(var i = 0; i < partieJoueur.length; i++){
+                        if(partieJoueur[i].Pseudo !== Pseudo){
+                            msgCHV.Destinataire = partieJoueur[i].Pseudo;
+                            websocket.send(JSON.stringify(msgCHV));
+                        }
+                    }
+                    CHV = false;
+                    envoieScore(parseInt(msg.Points));
+                    majScore(Pseudo, msg.Points);
+                }else{
+                    chouettePerdu();
+                }
+            }
+        });
+    }
+    
+    if(msg.Type === "ChouetteVeluteGagne"){
+        CHV = false;
     }
 }
 
@@ -430,6 +468,7 @@ function rollDice3() {
     });
     document.getElementById("roll-button-die3").style.display = "none";
     dice3Random();
+    incScore();
     setTimeout(function(){
         document.getElementById("dice").style.display = "none";
         passageMain();
@@ -467,8 +506,8 @@ function getRandomNumber(min, max) {
 function diceRandom(){
     dice1.dataset.roll = getRandomNumber(1, 6);
     dice2.dataset.roll = getRandomNumber(1, 6);
-    desMnt.push(dice1.dataset.roll);
-    desMnt.push(dice2.dataset.roll);
+    desMnt.push(parseInt(dice1.dataset.roll));
+    desMnt.push(parseInt(dice2.dataset.roll));
     var msg = {
       "Pseudo" : Pseudo,
       "Type" : "Chouette",
@@ -488,7 +527,7 @@ function diceRandom(){
 //Mettre un nombre random pour le 3me dès
 function dice3Random(){
     dice3.dataset.roll = getRandomNumber(1, 6);
-    desMnt.push(dice3.dataset.roll);
+    desMnt.push(parseInt(dice3.dataset.roll));
     var msg = {
       "Pseudo" : Pseudo,
       "Type" : "Cu",
@@ -515,14 +554,90 @@ function dice3Number(des3){
     dice3.dataset.roll = des3;
 }
 
-function passageMain(){
+function incScore(){
     console.log("   desAvt:");
     console.log(desAvt);
     console.log("   desMnt:");
     console.log(desMnt);
     
+    var pts = getScore();
+    
+    if(pts === -1){
+        pts = 0;
+    }else if(pts === -2){
+        pts = 0;
+    }else{
+        Score = Score + pts;
+        var i = 0;
+        var existe = false;
+        while(i < partieJoueur.length && !existe){
+            if(partieJoueur[i].Pseudo === Pseudo){
+                existe = true;
+                document.getElementById(i.toString()).innerHTML = Score;
+            }else{
+              i++;  
+            }
+        }
+    }
+    
+    envoieScore(pts);
+
     desAvt.splice(0, desAvt.length);
     desMnt.splice(0, desMnt.length);
+}
+
+function envoieScore(pts){
+    var msgScore = {
+        "Pseudo" : Pseudo,
+        "Type" : "MajScore",
+        "Destinataire" : "",
+        "Score" : pts
+    };
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msgScore.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msgScore));
+      }
+    }
+}
+
+function majScore(pseudo, score){
+    var i = 0;
+        var existe = false;
+        while(i < partieJoueur.length && !existe){
+            if(partieJoueur[i].Pseudo === pseudo){
+                existe = true;
+                document.getElementById(i.toString()).innerHTML = parseInt(document.getElementById(i.toString()).innerHTML) + score;
+            }else{
+                i++;
+            }
+        }
+}
+
+function chouetteVelute(){
+    var msg = {
+        "Type" : "ChouetteVelute",
+        "Destinataire" : "",
+        "Points" : Math.pow(desMnt[2],2)
+    };
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msg.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msg));
+      }
+    }
+}
+
+function chouettePerdu(){
+    Swal.fire({
+        title: 'Dommage',
+        confirmButtonText: `Compris...`
+    });
+}
+
+function passageMain(){
     var newPos = Position + 1;
     var msg = {
          "Type" : "PassageMain",
@@ -543,37 +658,40 @@ function passageMain(){
     }
 }
 
-function velute(){
-    console.log("la velute");
-    cptDice = parseInt(dice1.dataset.roll) + parseInt(dice2.dataset.roll);
-    ptsJoueur = ptsJoueur + Math.pow(cptDice,2);
-    console.log(cptDice);
-    console.log(ptsJoueur)
-    
+function getScore(){
+    if(desMnt[0] === desMnt[1] && ((desMnt[0] + desMnt[1]) === desMnt[2])){
+        console.log("CHOUETTE VELUTE");
+        return -1;
+    }else if(desMnt[0] === desMnt[1] && desMnt[1] === desMnt[2]){
+        console.log("CUL DE CHOUETTE");
+        return culDeChouette();
+    }else if(desMnt[0] === desMnt[1]){
+        console.log("CHOUETTE");
+        return Math.pow(desMnt[0],2);
+    }else if((desMnt[0] + desMnt[1]) === desMnt[2]){
+        console.log("VELUTE");
+        return Math.pow(desMnt[2],2);
+    }else if(desAvt.length !== 0){
+        console.log("SUITE");
+        return -2;
+    }else{
+        return 0;
+    }
 }
 
-function chouette(){
-    console.log("la chouette");
-    cptDice = parseInt(dice1.dataset.roll);
-    ptsJoueur = ptsJoueur + Math.pow(cptDice,2);
-    console.log(cptDice);
-    console.log(ptsJoueur)
-}
-
-function culdechouette(){
-    console.log("cul de chouette");
-    if(dice1.dataset.roll === "1"){
-        ptsJoueur = ptsJoueur + 50;
-    }else if(dice1.dataset.roll === "2"){
-        ptsJoueur = ptsJoueur + 60;
-    }else if(dice1.dataset.roll === "3"){
-        ptsJoueur = ptsJoueur + 70;
-    }else if(dice1.dataset.roll === "4"){
-        ptsJoueur = ptsJoueur + 80;
-    }else if(dice1.dataset.roll === "5"){
-        ptsJoueur = ptsJoueur + 90;
-    }else if(dice.dataset.roll === "6"){
-        ptsJoueur = ptsJoueur + 100;
+function culDeChouette(){
+    if(desMnt[0] === 1){
+        return 50;
+    }else if(desMnt[0] === 2){
+        return 60;
+    }else if(desMnt[0] === 3){
+        return 70;
+    }else if(desMnt[0] === 4){
+        return 80;
+    }else if(desMnt[0] === 5){
+        return 90;
+    }else if(desMnt[0] === 6){
+        return 100;
     }
 }
 
