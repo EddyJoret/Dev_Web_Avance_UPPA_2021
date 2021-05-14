@@ -28,6 +28,11 @@
         <div style="text-align: center;" id="divButtonLancerPartie">
             <button style="display: none" onclick="lancerPartie()" id="lancerPartie">Lancer la partie</button>
         </div>
+        <div style="text-align: center; display: none;" id="divInputScore">
+            <label for="Score" style="font-size: 18px">Score maximum: </label>
+            <input type="number" id="scoremax" name="Score" min="10" max="345">
+            <button id="btnscoremax">Ok</button>
+        </div>
         <p id="textJoueurCo">Joueurs connectés : </p>
         <div id="divListePseudo">
             <p id="listePseudo"></p>

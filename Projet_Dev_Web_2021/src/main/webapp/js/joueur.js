@@ -221,6 +221,11 @@ function invitationJoueur(pseudo){
     var existe = false;
     document.getElementById("quittePartieHote").style.display = "block";
     document.getElementById("lancerPartie").style.display = "block";
+    document.getElementById("divInputScore").style.display = "block";
+    document.getElementById("btnscoremax").onclick = function(){
+        console.log(document.getElementById("scoremax").value); //Récupération de la valeur du input
+    }
+    
     while(i < attenteReponse.length && !existe){
         if(attenteReponse[i].Pseudo === pseudo){
             existe = true;
@@ -275,6 +280,7 @@ function reponse(pseudo, contenu){
         if(attenteReponse.length === 0 && partieJoueur.length === 0){
             document.getElementById("quittePartieHote").style.display = "none";
             document.getElementById("lancerPartie").style.display = "none";
+            document.getElementById("divInputScore").style.display = "none";
             boolPartie = false;
             boolHote = false;
         }
@@ -322,6 +328,7 @@ function quitte(pseudo){
             boolPartie = false;
             document.getElementById("quittePartieHote").style.display = "none";
             document.getElementById("lancerPartie").style.display = "none";
+            document.getElementById("divInputScore").style.display = "none";
         }
         if(partieJoueur.length !== 0){
             for(let i = 0; i < partieJoueur.length; i++){
@@ -399,6 +406,7 @@ function quitterPartieHote(){
         };
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
+        document.getElementById("divInputScore").style.display = "none";
         for(let i = 0; i < partieJoueur.length; i++){
             message.Destinataire = partieJoueur[i].Pseudo;
             websocket.send(JSON.stringify(message));
@@ -431,6 +439,7 @@ function lancerPartie(){
 
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
+        document.getElementById("divInputScore").style.display = "block";
         document.getElementById("divListePseudo").style.display = "none";
         document.getElementById("textJoueurCo").style.display = "none";
         
