@@ -1,12 +1,22 @@
+//Variable WebSocket
 var websocket;
 
+//Variable Joueur
 var Pseudo;
 
+//Variables partie
 var attenteReponse = [];
 var partieJoueur = [];
 var nbInvit = 5;
 var boolPartie = false;
 var boolHote = false;
+
+//Variables dés
+var cptDice = 0;
+var ptsJoueur = 0;
+var dice1;
+var dice2;
+var dice3;
 
 function ouvrirConnexion() {
     websocket = new WebSocket("ws://localhost:8080/Projet_Dev_Web_2021/CulDeChouette");
@@ -80,6 +90,9 @@ function onMessage(evt) {
     }
     
     if(msg.Type === "LancerPartie"){
+        dice1 = document.getElementById("die-1");
+        dice2 = document.getElementById("die-2");
+        dice3 = document.getElementById("die-3");
         if(!boolHote){
             for(var i = 0; i < msg.Pseudos.length; i++){
                 var j = 0;
@@ -102,6 +115,9 @@ function onMessage(evt) {
             document.getElementById("quittePartie").style.display = "none";
             document.getElementById("divListePseudo").style.display = "none";
             document.getElementById("textJoueurCo").style.display = "none";
+        }else{
+            document.getElementById("dice").style.display = "grid";
+            document.getElementById("roll-button").style.display = "block";
         }
         console.log(partieJoueur);
     }
@@ -349,4 +365,117 @@ function lancerPartie(){
     }else{
         alert("Impossible de lancer.\nIl reste au moins un joueur qui n'a pas répondu à votre invitation");
     }
+}
+
+
+/*---------------------Fonctions dés---------------------*/
+//Faire rouler les deux premiers dés
+function rollDice() {
+  const dice = [...document.querySelectorAll(".die-list")];
+  dice.forEach(die => {
+    toggleClasses(die);
+    //die.dataset.roll = getRandomNumber(1, 6);
+  });
+  document.getElementById("roll-button").style.display = "none";
+  document.getElementById("roll-button-die3").style.display = "block";
+  diceRandom();
+  
+}
+
+//Faire rouler le 3ème dé
+function rollDice3() {
+  const dice = [...document.querySelectorAll(".die-list-3")];
+  dice.forEach(die => {
+    toggleClasses(die);
+  });
+  dice3Random();
+}
+
+function toggleClasses(die) {
+  die.classList.toggle("odd-roll");
+  die.classList.toggle("even-roll");
+}
+
+function toggleClasse3(die) {
+  die.classList.toggle("odd-roll-die-3");
+}
+
+function getRandomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function dice3Random(){
+    dice3.dataset.roll = getRandomNumber(1, 6);
+    console.log(dice3.dataset.roll);
+    if(dice1.dataset.roll === dice2.dataset.roll && dice1.dataset.roll === dice3.dataset.roll
+          && dice2.dataset.roll === dice3.dataset.roll){
+      culdechouette();
+    }
+    if(dice1.dataset.roll === "1" && dice2.dataset.roll === "2" && dice3.dataset.roll === "3"){
+       suite(); 
+    }
+    
+}
+
+function diceRandom(){
+  dice1.dataset.roll = getRandomNumber(1, 6);
+  dice2.dataset.roll = getRandomNumber(1, 6);
+  console.log(dice1.dataset.roll);
+  console.log(dice2.dataset.roll);
+  if(dice1.dataset.roll !== dice2.dataset.roll){
+      velute();
+  }
+  
+  if(dice1.dataset.roll === dice2.dataset.roll){
+      chouette();
+  }
+ 
+  if(dice1.dataset.roll === dice2.dataset.roll && dice1.dataset.roll === dice3.dataset.roll
+          && dice2.dataset.roll === dice3.dataset.roll){
+      culdechouette();
+  }
+  if(dice1.dataset.roll === "1" && dice2.dataset.roll === "2" && dice3.dataset.roll === "3"){
+       suite(); 
+  }
+}
+
+function velute(){
+    console.log("la velute");
+    cptDice = parseInt(dice1.dataset.roll) + parseInt(dice2.dataset.roll);
+    ptsJoueur = ptsJoueur + Math.pow(cptDice,2);
+    console.log(cptDice);
+    console.log(ptsJoueur)
+    
+}
+
+function chouette(){
+    console.log("la chouette");
+    cptDice = parseInt(dice1.dataset.roll);
+    ptsJoueur = ptsJoueur + Math.pow(cptDice,2);
+    console.log(cptDice);
+    console.log(ptsJoueur)
+}
+
+function culdechouette(){
+    console.log("cul de chouette");
+    if(dice1.dataset.roll === "1"){
+        ptsJoueur = ptsJoueur + 50;
+    }else if(dice1.dataset.roll === "2"){
+        ptsJoueur = ptsJoueur + 60;
+    }else if(dice1.dataset.roll === "3"){
+        ptsJoueur = ptsJoueur + 70;
+    }else if(dice1.dataset.roll === "4"){
+        ptsJoueur = ptsJoueur + 80;
+    }else if(dice1.dataset.roll === "5"){
+        ptsJoueur = ptsJoueur + 90;
+    }else if(dice.dataset.roll === "6"){
+        ptsJoueur = ptsJoueur + 100;
+    }
+}
+
+function suite(){
+    console.log("grelotte ça picote !");
+    
 }
