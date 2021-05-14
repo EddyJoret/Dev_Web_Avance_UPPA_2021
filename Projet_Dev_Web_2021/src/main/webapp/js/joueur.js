@@ -379,20 +379,18 @@ function affichageListeJoueur(){
 
 
 /*---------------------Fonctions dés---------------------*/
-//Faire rouler les deux premiers dés
+//Faire rouler les deux premiers dés pour le joueur
 function rollDice() {
   const dice = [...document.querySelectorAll(".die-list")];
   dice.forEach(die => {
     toggleClasses(die);
-    //die.dataset.roll = getRandomNumber(1, 6);
   });
   document.getElementById("roll-button").style.display = "none";
   document.getElementById("roll-button-die3").style.display = "block";
   diceRandom();
-  
 }
 
-//Faire rouler le 3ème dé
+//Faire rouler le 3ème dé pour le joueur
 function rollDice3() {
   const dice = [...document.querySelectorAll(".die-list-3")];
   dice.forEach(die => {
@@ -402,13 +400,25 @@ function rollDice3() {
   dice3Random();
 }
 
+//Faire rouler les deux premiers dés pour le spectateur
+function rollDiceSpec() {
+  const dice = [...document.querySelectorAll(".die-list")];
+  dice.forEach(die => {
+    toggleClasses(die);
+  });
+}
+
+//Faire rouler le 3ème dé pour le spectateur
+function rollDice3Spec() {
+  const dice = [...document.querySelectorAll(".die-list-3")];
+  dice.forEach(die => {
+    toggleClasses(die);
+  });
+}
+
 function toggleClasses(die) {
   die.classList.toggle("odd-roll");
   die.classList.toggle("even-roll");
-}
-
-function toggleClasse3(die) {
-  die.classList.toggle("odd-roll-die-3");
 }
 
 function getRandomNumber(min, max) {
@@ -417,39 +427,32 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function dice3Random(){
-    dice3.dataset.roll = getRandomNumber(1, 6);
-    console.log(dice3.dataset.roll);
-    if(dice1.dataset.roll === dice2.dataset.roll && dice1.dataset.roll === dice3.dataset.roll
-          && dice2.dataset.roll === dice3.dataset.roll){
-      culdechouette();
-    }
-    if(dice1.dataset.roll === "1" && dice2.dataset.roll === "2" && dice3.dataset.roll === "3"){
-       suite(); 
-    }
-    
-}
-
+//Mettre un nombre random pour les 2 premiers dès
 function diceRandom(){
   dice1.dataset.roll = getRandomNumber(1, 6);
   dice2.dataset.roll = getRandomNumber(1, 6);
   console.log(dice1.dataset.roll);
   console.log(dice2.dataset.roll);
-  if(dice1.dataset.roll !== dice2.dataset.roll){
-      velute();
-  }
-  
-  if(dice1.dataset.roll === dice2.dataset.roll){
-      chouette();
-  }
- 
-  if(dice1.dataset.roll === dice2.dataset.roll && dice1.dataset.roll === dice3.dataset.roll
-          && dice2.dataset.roll === dice3.dataset.roll){
-      culdechouette();
-  }
-  if(dice1.dataset.roll === "1" && dice2.dataset.roll === "2" && dice3.dataset.roll === "3"){
-       suite(); 
-  }
+}
+
+//Mettre un nombre random pour le 3me dès
+function dice3Random(){
+    dice3.dataset.roll = getRandomNumber(1, 6);
+    console.log(dice3.dataset.roll);
+}
+
+//Mettre un nombre défini pour les 2 premiers dès
+function diceNumber(des1, des2){
+  dice1.dataset.roll = des1;
+  dice2.dataset.roll = des2;
+  console.log(dice1.dataset.roll);
+  console.log(dice2.dataset.roll);
+}
+
+//Mettre un nombre défini pour le 3me dès
+function dice3Number(des3){
+    dice3.dataset.roll = des3;
+    console.log(dice3.dataset.roll);
 }
 
 function velute(){
@@ -488,5 +491,4 @@ function culdechouette(){
 
 function suite(){
     console.log("grelotte ça picote !");
-    
 }
