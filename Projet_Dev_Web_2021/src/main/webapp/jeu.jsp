@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="./css/jeu.css">
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
     </head>
-    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive;">
+    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow-x: hidden">
         
         <h1 style="text-align: center" id="pseudo">Bienvenue <%=request.getAttribute("pseudo")%></h1>
         
@@ -141,7 +141,24 @@
                 </li>
             </ol>
         </div>
-        <button type="button" id="roll-button" onclick="rollDice()">Lancer la chouette</button>
-        <button type="button" id="roll-button-die3" onclick="rollDice3()">Lancer le cul</button>
+        <div style="text-align: center;" id="div-button-lancer">
+            <button type="button" id="roll-button" onclick="rollDice()">Lancer la chouette</button>
+            <button type="button" id="roll-button-die3" onclick="rollDice3()">Lancer le cul</button>
+        </div>
+        
+        <div id="position-joueur">
+            <p>Joueurs : </p>
+            <table>
+            <tbody>
+                <tr id="essai">
+                </tr>
+            </tbody>
+        </table>
+            <!--<div id="div-pos-joueur">
+                <p id="liste-position-joueur"></p>
+            </div>-->
+            
+            <p>Score : <span>0</span></p>
+        </div>
     </body>
 </html>

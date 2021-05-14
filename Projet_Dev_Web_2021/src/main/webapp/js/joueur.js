@@ -116,10 +116,13 @@ function onMessage(evt) {
             document.getElementById("divListePseudo").style.display = "none";
             document.getElementById("textJoueurCo").style.display = "none";
         }else{
-            document.getElementById("dice").style.display = "grid";
+            
             document.getElementById("roll-button").style.display = "block";
+            document.getElementById("dice").style.display = "grid";
+            
         }
-        console.log(partieJoueur);
+        document.getElementById("position-joueur").style.display = "inline-block";
+        affichageListeJoueur();
     }
 }
 
@@ -367,6 +370,13 @@ function lancerPartie(){
     }
 }
 
+function affichageListeJoueur(){
+    var pos = document.getElementById("essai");
+    for(let i = 0; i < partieJoueur.length; i++){
+        pos.innerHTML = pos.innerHTML + "<td id=\"anchor-pos\">"+"<a href=\"#\" id=\"listepos\">" + partieJoueur[i].Pseudo + "</a>" + "<br/>" + "Joueur " + partieJoueur[i].Position + "<br/>" + "Score: " + "<span id='" + i + "'>0</span>" + "</td>" + "<br/><br/>";
+    }
+}
+
 
 /*---------------------Fonctions dés---------------------*/
 //Faire rouler les deux premiers dés
@@ -388,6 +398,7 @@ function rollDice3() {
   dice.forEach(die => {
     toggleClasses(die);
   });
+  document.getElementById("roll-button-die3").style.display = "none";
   dice3Random();
 }
 

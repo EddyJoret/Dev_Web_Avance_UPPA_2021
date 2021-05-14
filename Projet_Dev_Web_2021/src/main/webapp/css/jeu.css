@@ -168,11 +168,50 @@
     transform: scale(1.1);
 }
 
+#liste-position-joueur{
+    width: auto;
+}
+
+#div-pos-joueur{
+    width: auto;
+}
+
+#position-joueur{
+    display: none;
+    border: 2px solid red;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    width: auto;
+    right: 0;
+    left: 0;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+
+#anchor-pos{
+    border-radius: 10px;
+    width: 20%;
+    height: auto;
+    background-color: white;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    border: 1px solid black;
+}
+
+#anchor-pos:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+
 /*-------------------------------------------------DES-------------------------------------------------------*/
 .dice {
   align-items: center;
   display: none;
-  grid-gap: 2rem;
+  grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   grid-template-rows: auto;
   justify-items: center;
@@ -199,6 +238,7 @@
   transform-style: preserve-3d;
   width: 6rem;
 }
+
 
 .even-roll {
   transition: transform 1.5s ease-out;
@@ -355,18 +395,34 @@
   grid-area: nine;
 }
 
+#div-button-lancer{
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 button {
-  align-self: center;
-  background-color: #efefef;
   border: none;
-  color: #333;
-  font-size: 1.25rem;
-  font-weight: 700;
-  justify-self: center;
-  padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #9e9e9e;
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
 }
 button:hover {
   cursor: pointer;
+  -webkit-transform: scale(1.1);
+   transform: scale(1.1);
 }
 
 #roll-button{
