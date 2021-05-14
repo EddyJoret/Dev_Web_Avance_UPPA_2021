@@ -112,7 +112,6 @@ function onMessage(evt) {
                 if(!existe && msg.Pseudos[i].Pseudo === Pseudo){
                     Position = msg.Pseudos[i].Position;
                     Score = 0;
-                    console.log("msg.Seuil : " + msg.Seuil);
                     if(parseInt(msg.Seuil) !== 0){
                         Seuil = parseInt(msg.Seuil);
                     }
@@ -487,7 +486,7 @@ function lancerPartie(){
     if(attenteReponse.length === 0){
         Position = 1;
         Score = 0;
-        if(document.getElementById("scoremax").value !== 0){
+        if(document.getElementById("scoremax").value !== 0 && document.getElementById("scoremax").value !== null){
             Seuil = document.getElementById("scoremax").value;
         }
         var joueurs = partieJoueur;
@@ -549,7 +548,7 @@ function rollDice3() {
             document.getElementById("dice").style.display = "none";
             passageMain();  
         }
-    },5000);
+    },3000);
 }
 
 //Faire rouler les deux premiers dés pour le spectateur
@@ -644,6 +643,7 @@ function incScore(){
         chouetteVelute();
     }else if(pts === -2){
         pts = 0;
+        suite();
     }else{
         Score = Score + pts;
         var i = 0;
@@ -663,7 +663,6 @@ function incScore(){
     desAvt.splice(0, desAvt.length);
     desMnt.splice(0, desMnt.length);
     
-    console.log("Seuil : " + Seuil);
     if(Score >= Seuil){
         var msgG = {
             "Pseudo" : Pseudo,
@@ -722,7 +721,7 @@ function getScore(){
         return Math.pow(desMnt[2],2);
     }else if(desAvt.length !== 0){
         if(getSuite()){
-           console.log("SUITE");
+            console.log("SUITE");
             return -2; 
         }else{
             console.log("RIEN");
