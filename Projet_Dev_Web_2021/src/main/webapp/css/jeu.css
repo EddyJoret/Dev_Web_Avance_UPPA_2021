@@ -178,27 +178,26 @@
 
 #position-joueur{
     display: none;
-    border: 2px solid red;
-    border-radius: 10px;
     position: absolute;
     bottom: 0;
     width: auto;
     right: 0;
     left: 0;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    padding: 10px;
 }
 
 
 #anchor-pos{
     border-radius: 10px;
-    width: auto;
-    height: auto;
+    width: 10%;
     background-color: white;
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
-    border: 1px solid black;
+    border: 1px solid grey;
+    text-align: center;
 }
 
 #anchor-pos:hover{
@@ -207,7 +206,11 @@
 }
 
 #listePos{
-    
+    text-decoration: none;
+}
+
+#listePos:visited{
+    color: black;
 }
 
 

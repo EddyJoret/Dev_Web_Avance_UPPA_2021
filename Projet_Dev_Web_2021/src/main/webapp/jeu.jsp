@@ -147,18 +147,16 @@
         </div>
         
         <div id="position-joueur">
-            <p>Joueurs : </p>
-            <table>
-            <tbody>
-                <tr id="essai">
-                </tr>
-            </tbody>
-        </table>
+            <p style="font-size: 18px">Joueurs : </p>
+            <table style="width: 90%">
+                <tbody>
+                    <tr id="essai">
+                    </tr>
+                </tbody>
+            </table>
             <!--<div id="div-pos-joueur">
                 <p id="liste-position-joueur"></p>
             </div>-->
-            
-            <p>Score : <span>0</span></p>
         </div>
     </body>
 </html>
