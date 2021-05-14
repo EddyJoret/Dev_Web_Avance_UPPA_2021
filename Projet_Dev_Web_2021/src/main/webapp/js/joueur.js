@@ -182,7 +182,7 @@ function onMessage(evt) {
                     envoieScore(parseInt(msg.Points));
                     majScore(Pseudo, msg.Points);
                 }else{
-                    chouettePerdu();
+                    chouetteVelutePerdu();
                 }
             }
         });
@@ -564,6 +564,7 @@ function incScore(){
     
     if(pts === -1){
         pts = 0;
+        chouetteVelute();
     }else if(pts === -2){
         pts = 0;
     }else{
@@ -604,57 +605,14 @@ function envoieScore(pts){
 
 function majScore(pseudo, score){
     var i = 0;
-        var existe = false;
-        while(i < partieJoueur.length && !existe){
-            if(partieJoueur[i].Pseudo === pseudo){
-                existe = true;
-                document.getElementById(i.toString()).innerHTML = parseInt(document.getElementById(i.toString()).innerHTML) + score;
-            }else{
-                i++;
-            }
+    var existe = false;
+    while(i < partieJoueur.length && !existe){
+        if(partieJoueur[i].Pseudo === pseudo){
+            existe = true;
+            document.getElementById(i.toString()).innerHTML = parseInt(document.getElementById(i.toString()).innerHTML) + score;
+        }else{
+            i++;
         }
-}
-
-function chouetteVelute(){
-    var msg = {
-        "Type" : "ChouetteVelute",
-        "Destinataire" : "",
-        "Points" : Math.pow(desMnt[2],2)
-    };
-    
-    for(var i = 0; i < partieJoueur.length; i++){
-      if(partieJoueur[i].Pseudo !== Pseudo){
-          msg.Destinataire = partieJoueur[i].Pseudo;
-          websocket.send(JSON.stringify(msg));
-      }
-    }
-}
-
-function chouettePerdu(){
-    Swal.fire({
-        title: 'Dommage',
-        confirmButtonText: `Compris...`
-    });
-}
-
-function passageMain(){
-    var newPos = Position + 1;
-    var msg = {
-         "Type" : "PassageMain",
-         "Destinataire" : "",
-         "Num" : 0
-    };
-    if(newPos <= partieJoueur.length){
-        msg.Num = newPos;
-    }else{
-        msg.Num = newPos % partieJoueur.length;
-    }
-    
-    for(var i = 0; i < partieJoueur.length; i++){
-      if(partieJoueur[i].Pseudo !== Pseudo){
-          msg.Destinataire = partieJoueur[i].Pseudo;
-          websocket.send(JSON.stringify(msg));
-      }
     }
 }
 
@@ -695,6 +653,117 @@ function culDeChouette(){
     }
 }
 
+function chouetteVelute(){
+    var msg = {
+        "Type" : "ChouetteVelute",
+        "Destinataire" : "",
+        "Points" : Math.pow(desMnt[2],2)
+    };
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+        msg.Destinataire = partieJoueur[i].Pseudo;
+        websocket.send(JSON.stringify(msg));
+    }
+}
+
+function chouetteVelutePerdu(){
+    Swal.fire({
+        title: 'Dommage',
+        confirmButtonText: `Compris...`
+    });
+}
+
 function suite(){
-    console.log("grelotte ça picote !");
+    return suite1() || suite2();
+}
+
+function suite1(){
+    var un = false;
+    var deux = false;
+    var trois = false;
+    var derTrois = false;
+    var derQuatre = false;
+    var derCinq = false;
+
+    for(var i = 0; i < desAvt.length; i++){
+        if(desAvt[i] === 1){
+            un = true;
+        }
+        if(desAvt[i] === 2){
+            deux = true;
+        }
+        if(desAvt[i] === 3){
+            trois = true;
+        }
+    }
+
+    for(var i = 0; i < desMnt.length; i++){
+        if(desMnt[i] === 3){
+            derTrois = true;
+        }
+        if(desMnt[i] === 4){
+            derQuatre = true;
+        }
+        if(desMnt[i] === 5){
+            derCinq = true;
+        }
+    }
+
+    return (un && deux && trois) && (derTrois && derQuatre && derCinq);
+}
+
+function suite2(){
+    var deux = false;
+    var trois = false;
+    var quatre = false;
+    var derQuatre = false;
+    var derCinq = false;
+    var derSix = false;
+
+    for(var i = 0; i < desAvt.length; i++){
+        if(desAvt[i] === 2){
+            deux = true;
+        }
+        if(desAvt[i] === 3){
+            trois = true;
+        }
+        if(desAvt[i] === 4){
+            quatre = true;
+        }
+    }
+
+    for(var i = 0; i < desMnt.length; i++){
+        if(desMnt[i] === 4){
+            derQuatre = true;
+        }
+        if(desMnt[i] === 5){
+            derCinq = true;
+        }
+        if(desMnt[i] === 6){
+            derSix = true;
+        }
+    }
+
+    return (deux && trois && quatre) && (derQuatre && derCinq && derSix);
+}
+
+function passageMain(){
+    var newPos = Position + 1;
+    var msg = {
+         "Type" : "PassageMain",
+         "Destinataire" : "",
+         "Num" : 0
+    };
+    if(newPos <= partieJoueur.length){
+        msg.Num = newPos;
+    }else{
+        msg.Num = newPos % partieJoueur.length;
+    }
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+      if(partieJoueur[i].Pseudo !== Pseudo){
+          msg.Destinataire = partieJoueur[i].Pseudo;
+          websocket.send(JSON.stringify(msg));
+      }
+    }
 }
