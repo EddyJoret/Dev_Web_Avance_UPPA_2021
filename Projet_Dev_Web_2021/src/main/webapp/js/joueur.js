@@ -1,7 +1,6 @@
 var websocket;
 
 var Pseudo;
-var Position = 0;
 
 var attenteReponse = [];
 var partieJoueur = [];
@@ -93,14 +92,18 @@ function onMessage(evt) {
                     j++;
                 }
                 if(!existe && msg.Pseudos[i].Pseudo === Pseudo){
-                    Position = msg.Pseudos[i].Position;
+                    var obj = {
+                        "Pseudo" : Pseudo,
+                        "Position" : msg.Pseudos[i].Position
+                    };
+                    partieJoueur.push(obj);
                 }
             }
             document.getElementById("quittePartie").style.display = "none";
-            document.getElementById("listePseudo").style.display = "none";
+            document.getElementById("divListePseudo").style.display = "none";
+            document.getElementById("textJoueurCo").style.display = "none";
         }
         console.log(partieJoueur);
-        console.log("{ Pseudo: \"" + Pseudo + "\", Position: " + Position + " }");
     }
 }
 
@@ -330,7 +333,6 @@ function lancerPartie(){
             "Position" : 1
         };
         joueurs.push(obj);
-        Position = 1;
         var message = {
             "Pseudo" : Pseudo,
             "Type" : "LancerPartie",
@@ -340,7 +342,8 @@ function lancerPartie(){
 
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
-        document.getElementById("listePseudo").style.display = "none";
+        document.getElementById("divListePseudo").style.display = "none";
+        document.getElementById("textJoueurCo").style.display = "none";
         
         websocket.send(JSON.stringify(message));
     }else{
