@@ -787,6 +787,7 @@ function SuitePerdu(){
         confirmButtonText: `Compris...`
     });
     envoieScore(-10);
+    Score = Score - 10;
     majScore(Pseudo, -10);
 }
 
