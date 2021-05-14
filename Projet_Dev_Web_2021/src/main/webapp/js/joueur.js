@@ -184,6 +184,7 @@ function onMessage(evt) {
                     }
                     CHV = false;
                     envoieScore(parseInt(msg.Points));
+                    Score = Score + parseInt(msg.Points);
                     majScore(Pseudo, msg.Points);
                 }else{
                     chouetteVelutePerdu();
