@@ -9,7 +9,6 @@ import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
-import javax.websocket.RemoteEndpoint.Basic;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import org.json.JSONArray;
@@ -68,7 +67,9 @@ public class WSJeux {
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("Chouette")
                 || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")
-                || jsonObject.getString("Type").equals("MajScore") || jsonObject.getString("Type").equals("ChouetteVelute")){
+                || jsonObject.getString("Type").equals("MajScore") || jsonObject.getString("Type").equals("ChouetteVelute")
+                || jsonObject.getString("Type").equals("ChouetteVeluteGagne") || jsonObject.getString("Type").equals("Suite")
+                || jsonObject.getString("Type").equals("VictoirePartie")){
             int i = 0;
             boolean done = false;
             while(!done){
@@ -83,7 +84,7 @@ public class WSJeux {
         
         if(jsonObject.getString("Type").equals("LancerPartie")){
             JSONArray jsonArray = jsonObject.getJSONArray("Pseudos");
-            String PartiePS = "{\"Type\":\"LancerPartie\",\"Pseudos\":" + jsonArray.toString() + "}";
+            String PartiePS = "{\"Type\":\"LancerPartie\",\"Pseudos\":" + jsonArray.toString() + ",\"Seuil\":" + jsonObject.getString("Seuil") + "}";
             jsonArray.forEach(item -> {
                 JSONObject itm = new JSONObject(item.toString());
                 int i = 0;

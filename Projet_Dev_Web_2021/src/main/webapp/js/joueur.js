@@ -7,16 +7,17 @@ var Position;
 var Score;
 
 //Variables partie
+var Seuil = 343;
 var attenteReponse = [];
 var partieJoueur = [];
 var nbInvit = 5;
 var boolPartie = false;
 var boolHote = false;
+var boolPartieFini = false;
 var CHV = false;
+var Suite;
 
 //Variables dés
-var cptDice = 0;
-var ptsJoueur = 0;
 var dice1;
 var dice2;
 var dice3;
@@ -111,6 +112,10 @@ function onMessage(evt) {
                 if(!existe && msg.Pseudos[i].Pseudo === Pseudo){
                     Position = msg.Pseudos[i].Position;
                     Score = 0;
+                    console.log("msg.Seuil : " + msg.Seuil);
+                    if(parseInt(msg.Seuil) !== 0){
+                        Seuil = parseInt(msg.Seuil);
+                    }
                     var obj = {
                         "Pseudo" : Pseudo,
                         "Position" : Position
@@ -191,6 +196,66 @@ function onMessage(evt) {
     if(msg.Type === "ChouetteVeluteGagne"){
         CHV = false;
     }
+    
+    if(msg.Type === "Suite"){
+        Suite = 0;
+        Swal.fire({
+            title: 'SUITE !!!',
+            confirmButtonText: `Grelotte ça picotte!`
+        }).then((result) => {
+            if(result.isConfirmed){
+                if(Suite >= (partieJoueur.length -1)){
+                    var msgCHV = {
+                        "Type" : "SuiteGagne",
+                        "Destinataire" : ""
+                    };
+                    for(var i = 0; i < partieJoueur.length; i++){
+                        if(partieJoueur[i].Pseudo !== Pseudo){
+                            msgCHV.Destinataire = partieJoueur[i].Pseudo;
+                            websocket.send(JSON.stringify(msgCHV));
+                        }
+                    }
+                    Suite = 0;
+                }else{
+                    SuitePerdu();
+                    Suite = 0;
+                }
+            }
+        });
+    }
+    
+    if(msg.Type === "SuiteGagne"){
+        Suite ++;
+    }
+    
+    if(msg.Type === "VictoirePartie"){
+        Swal.fire({
+            title: 'Partie terminée',
+            text: 'Le gagnant est' + msg.Pseudo,
+            confirmButtonText: `Good Game`
+        }).then((result) => {
+            Position = 0;
+            Score = 0;
+
+            Seuil = 343;
+            partieJoueur.splice(0, partieJoueur.length);
+            nbInvit = 5;
+            boolPartie = false;
+            boolHote = false;
+            boolPartieFini = false;
+            CHV = false;
+
+            desAvt.splice(0, desAvt.length);
+            desMnt.splice(0, desMnt.length);
+            
+            document.getElementById("divListePseudo").style.display = "block";
+            document.getElementById("textJoueurCo").style.display = "block";
+            document.getElementById("dice").style.display = "none";
+            document.getElementById("essai").innerHTML = "";
+            document.getElementById("position-joueur").style.display = "none";
+            
+        });
+    }
 }
 
 // appelée quand il y a une erreur
@@ -222,9 +287,6 @@ function invitationJoueur(pseudo){
     document.getElementById("quittePartieHote").style.display = "block";
     document.getElementById("lancerPartie").style.display = "block";
     document.getElementById("divInputScore").style.display = "block";
-    document.getElementById("btnscoremax").onclick = function(){
-        console.log(document.getElementById("scoremax").value); //Récupération de la valeur du input
-    }
     
     while(i < attenteReponse.length && !existe){
         if(attenteReponse[i].Pseudo === pseudo){
@@ -425,6 +487,9 @@ function lancerPartie(){
     if(attenteReponse.length === 0){
         Position = 1;
         Score = 0;
+        if(document.getElementById("scoremax").value !== 0){
+            Seuil = document.getElementById("scoremax").value;
+        }
         var joueurs = partieJoueur;
         var obj = {
             "Pseudo" : Pseudo,
@@ -434,12 +499,13 @@ function lancerPartie(){
         var message = {
             "Pseudo" : Pseudo,
             "Type" : "LancerPartie",
-            "Pseudos" : joueurs
+            "Pseudos" : joueurs,
+            "Seuil": document.getElementById("scoremax").value
         };
 
         document.getElementById("quittePartieHote").style.display = "none";
         document.getElementById("lancerPartie").style.display = "none";
-        document.getElementById("divInputScore").style.display = "block";
+        document.getElementById("divInputScore").style.display = "none";
         document.getElementById("divListePseudo").style.display = "none";
         document.getElementById("textJoueurCo").style.display = "none";
         
@@ -479,8 +545,10 @@ function rollDice3() {
     dice3Random();
     incScore();
     setTimeout(function(){
-        document.getElementById("dice").style.display = "none";
-        passageMain();
+        if(!boolPartieFini){
+            document.getElementById("dice").style.display = "none";
+            passageMain();  
+        }
     },5000);
 }
 
@@ -594,6 +662,20 @@ function incScore(){
 
     desAvt.splice(0, desAvt.length);
     desMnt.splice(0, desMnt.length);
+    
+    console.log("Seuil : " + Seuil);
+    if(Score >= Seuil){
+        var msgG = {
+            "Pseudo" : Pseudo,
+            "Type" : "VictoirePartie",
+            "Destinataire" : ""
+        };
+        for(var i = 0; i < partieJoueur.length; i++){
+            msgG.Destinataire = partieJoueur[i].Pseudo;
+            websocket.send(JSON.stringify(msgG));
+        }
+        boolPartieFini = true;
+    }
 }
 
 function envoieScore(pts){
@@ -682,9 +764,30 @@ function chouetteVelute(){
 
 function chouetteVelutePerdu(){
     Swal.fire({
-        title: 'Dommage',
+        title: 'Dommage Perdu',
         confirmButtonText: `Compris...`
     });
+}
+
+function suite(){
+    var msg = {
+        "Type" : "Suite",
+        "Destinataire" : ""
+    };
+    
+    for(var i = 0; i < partieJoueur.length; i++){
+        msg.Destinataire = partieJoueur[i].Pseudo;
+        websocket.send(JSON.stringify(msg));
+    }
+}
+
+function SuitePerdu(){
+    Swal.fire({
+        title: 'Dommage Perdu',
+        confirmButtonText: `Compris...`
+    });
+    envoieScore(-10);
+    majScore(Pseudo, -10);
 }
 
 function getSuite(){

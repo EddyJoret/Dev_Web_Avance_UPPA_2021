@@ -30,8 +30,7 @@
         </div>
         <div style="text-align: center; display: none;" id="divInputScore">
             <label for="Score" style="font-size: 18px">Score maximum: </label>
-            <input type="number" id="scoremax" name="Score" min="10" max="345">
-            <button id="btnscoremax">Ok</button>
+            <input type="number" id="scoremax" name="Score" min="1">
         </div>
         <p id="textJoueurCo">Joueurs connectés : </p>
         <div id="divListePseudo">
