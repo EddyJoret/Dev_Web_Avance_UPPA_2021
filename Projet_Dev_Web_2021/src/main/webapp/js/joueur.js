@@ -564,7 +564,7 @@ function incScore(){
     
     if(pts === -1){
         pts = 0;
-        getChouetteVelute();
+        chouetteVelute();
     }else if(pts === -2){
         pts = 0;
     }else{
@@ -630,8 +630,13 @@ function getScore(){
         console.log("VELUTE");
         return Math.pow(desMnt[2],2);
     }else if(desAvt.length !== 0){
-        console.log("SUITE");
-        return -2;
+        if(getSuite()){
+           console.log("SUITE");
+            return -2; 
+        }else{
+            console.log("RIEN");
+            return 0;
+        }
     }else{
         return 0;
     }
@@ -653,7 +658,7 @@ function culDeChouette(){
     }
 }
 
-function getChouetteVelute(){
+function chouetteVelute(){
     var msg = {
         "Type" : "ChouetteVelute",
         "Destinataire" : "",
