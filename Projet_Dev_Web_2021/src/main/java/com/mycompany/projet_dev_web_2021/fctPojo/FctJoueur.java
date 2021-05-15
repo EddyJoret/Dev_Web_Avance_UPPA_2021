@@ -106,7 +106,7 @@ public class FctJoueur {
         while(res.next()){
             nbMoyAge = res.getFloat(1);
         }
-        
+        res.close();
         return nbMoyAge;
     }
 
@@ -120,7 +120,7 @@ public class FctJoueur {
         while(res.next()){
             nbMoySexe = res.getFloat(1);
         }
-        
+        res.close();
         return nbMoySexe/(float)getNb_Tot_Joueur();
     }
 
@@ -132,6 +132,7 @@ public class FctJoueur {
         while(res.next()){
             liste.add(res.getString(1));
         }
+        res.close();
         return liste;
     }
 
@@ -145,13 +146,11 @@ public class FctJoueur {
     
         //Code_Joueur
     public BigDecimal getCode_Joueur(String Pseudo){
-          Joueur jou = em.find(Joueur.class, Pseudo);
-          return jou.getCodeJoueur();
+          return (BigDecimal)em.createNativeQuery("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?").setParameter(1, Pseudo).getSingleResult();
     }
     
         //Mot de passe
     public String getMdp(String Pseudo){
-          //Joueur jou = em.find(Joueur.class, Pseudo);
           return (String)em.createNativeQuery("SELECT MDP FROM JOUEUR WHERE PSEUDO = ?").setParameter(1, Pseudo).getSingleResult();
     }
 
@@ -174,12 +173,13 @@ public class FctJoueur {
           while(res.next()){
               resultat = FctStat.getStats(res.getBigDecimal(1));
           }
+          res.close();
           return resultat;
     }
     
         //Une information du Pseudo (à définir en paramètre)
     public String getInfo_Pseudo(String Pseudo, String Colonne )throws SQLException{
-          Joueur info = em.find(Joueur.class, Pseudo);
+        Joueur info = em.find(Joueur.class, Pseudo);
         String stats = "";
         
         switch(Colonne){
@@ -198,28 +198,29 @@ public class FctJoueur {
       
       //Une stat du pseudo (à définir en paramètre)
     public String getStat_Pseudo(String Pseudo, String Colonne)throws SQLException{
-          PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
-          req.setString(1, Pseudo);
-          ResultSet res = req.executeQuery();
-          String resultat = "";
-          while(res.next()){
-              resultat = FctStat.getStat(res.getBigDecimal(1), Colonne);
-          }
-          return resultat;
+        PreparedStatement req = connection.prepareStatement("SELECT CODE_JOUEUR FROM JOUEUR WHERE PSEUDO = ?");
+        req.setString(1, Pseudo);
+        ResultSet res = req.executeQuery();
+        String resultat = "";
+        while(res.next()){
+            resultat = FctStat.getStat(res.getBigDecimal(1), Colonne);
+        }
+        res.close();
+        return resultat;
     }
     
     //MISE A JOUR
     
         //Changement MDP
     public void majMdp(String Pseudo, String Mdp)throws SQLException{
-          Joueur jou = em.find(Joueur.class, Pseudo);
-          jou.setMdp(Mdp);
+        Joueur jou = em.find(Joueur.class, Pseudo);
+        jou.setMdp(Mdp);
     }
     
         //Changement Age
     public void majAge(String Pseudo, BigInteger Age)throws SQLException{
-          Joueur jou = em.find(Joueur.class, Pseudo);
-          jou.setAge(Age);
+        Joueur jou = em.find(Joueur.class, Pseudo);
+        jou.setAge(Age);
     }
     
         //Changement Sexe
@@ -230,7 +231,7 @@ public class FctJoueur {
     
         //Changement Ville
     public void majVille(String Pseudo, String Ville)throws SQLException{
-          Joueur jou = em.find(Joueur.class, Pseudo);
-          jou.setVille(Ville);
+        Joueur jou = em.find(Joueur.class, Pseudo);
+        jou.setVille(Ville);
     }
 }

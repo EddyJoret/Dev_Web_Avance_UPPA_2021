@@ -29,13 +29,15 @@ public class FctResumePartie {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
+    public FctResumePartie() throws SQLException{
+       connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
+    }
+    
     //INITIALISATION
     
         //Initialisation de tous les champs lié au Code_Partie (passé en
         //paramètre) et de Num_Lance_Des (calculé) à 0
     public void initTourResumePartie(BigInteger Code_Partie) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
-        
         int numLance = 0;
         PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(NUM_LANCE_DES) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
@@ -43,7 +45,7 @@ public class FctResumePartie {
         while(res.next()){
             numLance = res.getInt(1);
         }
-        
+        res.close();
         PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO RESUMEPARTIE VALUES (?, ?, 0, 0, 0)");
         reqInsertParam.setInt(1, Code_Partie.intValue());
         reqInsertParam.setInt(2, numLance+1);
@@ -65,6 +67,7 @@ public class FctResumePartie {
         while(res.next()){
             nbLance = res.getInt(1);
         }
+        res.close();
         return nbLance;
     }
     
@@ -85,6 +88,7 @@ public class FctResumePartie {
                 nbLance += 1;
             }
         }
+        res.close();
         return nbLance;
     }
         
@@ -106,6 +110,7 @@ public class FctResumePartie {
         while(res.next()){
             nbLance = res.getInt(1);
         }
+        res.close();
         return nbLance;
     }
     
@@ -127,6 +132,7 @@ public class FctResumePartie {
                 nbLance += 1;
             }
         }
+        res.close();
         return nbLance;
     }
     
@@ -144,6 +150,7 @@ public class FctResumePartie {
         ResultSet res = reqSelectParam.executeQuery();
         res.last();
         int [] des = {res.getInt("DES_1"),res.getInt("DES_2"),res.getInt("DES_3")};
+        res.close();
         return des;
     }
     
@@ -155,6 +162,7 @@ public class FctResumePartie {
         ResultSet res = reqSelectParam.executeQuery();
         res.last();
         int [] des = {res.getInt("DES_1"),res.getInt("DES_2"),res.getInt("DES_3")};
+        res.close();
         return des;
     }
     

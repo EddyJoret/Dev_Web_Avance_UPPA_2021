@@ -30,12 +30,15 @@ public class FctScorePartie {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
+    public FctScorePartie() throws SQLException{
+       connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
+    }
+    
     //INITIALISATION
     
         //Initialisation de tous les champs lié au Code_Partie et Code_Joueur (les
         //2 passés en paramètre) à 0
     public void InitScorePartie(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         PreparedStatement reqParam = connection.prepareStatement("INSERT INTO SCOREPARTIE VALUES (?, ?, 0, 0, 0)");
         reqParam.setInt(1, Code_Partie.intValue());
         reqParam.setInt(2, Code_Joueur.intValue());
@@ -57,6 +60,7 @@ public class FctScorePartie {
         while(res.next()){
             scoreTot.valueOf(res.getInt(1));
         }
+        res.close();
         return scoreTot;
     }
     
@@ -69,6 +73,7 @@ public class FctScorePartie {
         while(res.next()){
             moy.valueOf(res.getDouble(1));
         }
+        res.close();
         return moy;
     }
     
@@ -81,6 +86,7 @@ public class FctScorePartie {
         while(res.next()){
             moy.valueOf(res.getDouble(1));
         }
+        res.close();
         return moy;
     }
     
@@ -98,6 +104,7 @@ public class FctScorePartie {
                 +", \"Nb_Suite_G\":"+res.getInt("Nb_Suite_G")
                 +", \"Nb_ChouVel_P\":"+res.getInt("Nb_ChouVel_P")+"}";
         }
+        res.close();
         return scoreP;
     }
     
@@ -111,7 +118,8 @@ public class FctScorePartie {
         int result = 0;
         while(res.next()){
             result = res.getInt(1);
-        }      
+        }
+        res.close();
         return result;
     }
     

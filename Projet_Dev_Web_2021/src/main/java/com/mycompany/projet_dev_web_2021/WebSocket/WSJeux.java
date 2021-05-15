@@ -1,9 +1,12 @@
 package com.mycompany.projet_dev_web_2021.WebSocket;
 
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -11,8 +14,13 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.mycompany.projet_dev_web_2021.fctPojo.FctJoueur;
+import com.mycompany.projet_dev_web_2021.fctPojo.FctPartie;
+import java.sql.SQLException;
 
 @ServerEndpoint("/CulDeChouette")
 public class WSJeux {
@@ -20,11 +28,22 @@ public class WSJeux {
     // la liste des websockets : en static pour être partagée
     private static ArrayList<ObjectSocket> listeOS = new ArrayList<>();
     
+    // variables fctPojo
+    private boolean init = false;
+    FctJoueur fctJ;
+    FctPartie fctP;
+    
     @OnMessage
-    public void message(String message, Session session) throws IOException {
+    public void message(String message, Session session) throws IOException, SQLException {
         // on parcourt toutes les OS pour leur envoyer une à une le message
         System.out.println("Message : " + message);
         JSONObject jsonObject = new JSONObject(message);
+        
+        if(!init){
+            init = true;
+            fctJ = new FctJoueur();
+            fctP = new FctPartie();
+        }
         
         //Cas pour Type = Chat
         if(jsonObject.getString("Type").equals("Chat")){
@@ -84,6 +103,7 @@ public class WSJeux {
         
         if(jsonObject.getString("Type").equals("LancerPartie")){
             JSONArray jsonArray = jsonObject.getJSONArray("Pseudos");
+            ArrayList<Integer> CodeJoueur = new ArrayList<Integer>();
             String PartiePS = "{\"Type\":\"LancerPartie\",\"Pseudos\":" + jsonArray.toString() + ",\"Seuil\":" + jsonObject.getString("Seuil") + "}";
             jsonArray.forEach(item -> {
                 JSONObject itm = new JSONObject(item.toString());
@@ -91,6 +111,7 @@ public class WSJeux {
                 boolean done = false;
                 while(!done){
                     if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
+                        CodeJoueur.add(fctJ.getCode_Joueur(itm.getString("Pseudo")).intValue());
                         try {
                             WSJeux.listeOS.get(i).getWS().sendText(PartiePS);
                         } catch (IOException ex) {
@@ -102,6 +123,15 @@ public class WSJeux {
                     }
                 }
             });
+            
+            int[] CodeJoueurs = new int[CodeJoueur.size()];
+            for(int j = 0; j < CodeJoueur.size(); j++){
+                CodeJoueurs[j] = CodeJoueur.get(j);
+            }
+            
+            int CodePartie = fctP.initPartie(CodeJoueurs);
+            System.out.println("CodePartie : " + CodePartie);
+            
         }
     }
     

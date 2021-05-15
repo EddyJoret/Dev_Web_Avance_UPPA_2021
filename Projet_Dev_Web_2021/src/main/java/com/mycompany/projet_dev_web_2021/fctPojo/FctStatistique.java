@@ -29,8 +29,8 @@ public class FctStatistique{
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
-    public FctStatistique(){
-        
+    public FctStatistique() throws SQLException{
+        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
     } 
     
     //INITIALISATION
@@ -38,7 +38,6 @@ public class FctStatistique{
         //Initialisation de tous les champs lié au Code_Joueur (passé en
         //paramètre) à 0
     public void InitStat(BigDecimal Code_Joueur) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
         PreparedStatement reqParam = connection.prepareStatement("INSERT INTO STATISTIQUE VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)");
         reqParam.setBigDecimal(1, Code_Joueur);
         
@@ -60,7 +59,7 @@ public class FctStatistique{
         while(res.next()){
             nbPartie = res.getFloat(1);
         }
-        
+        res.close();
         return nbPartie;
     }
 
@@ -74,7 +73,7 @@ public class FctStatistique{
         while(res.next()){
             moy = res.getFloat(1);
         }
-        
+        res.close();
         return moy;
     }
     
@@ -88,7 +87,7 @@ public class FctStatistique{
         while(res.next()){
             nbPts = res.getInt(1);
         }
-        
+        res.close();
         return nbPts;
     }
 
@@ -102,7 +101,7 @@ public class FctStatistique{
         while(res.next()){
             moy = res.getFloat(1);
         }
-        
+        res.close();
         return moy;
     }
 
@@ -116,7 +115,7 @@ public class FctStatistique{
         while(res.next()){
             moy = res.getFloat(1);
         }
-        
+        res.close();
         return moy;
     }
 
@@ -130,7 +129,7 @@ public class FctStatistique{
         while(res.next()){
             moy = res.getFloat(1);
         }
-        
+        res.close();
         return moy;
     }
 

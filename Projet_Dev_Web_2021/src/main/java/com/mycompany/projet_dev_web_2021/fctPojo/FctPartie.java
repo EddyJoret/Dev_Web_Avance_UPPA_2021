@@ -31,27 +31,29 @@ public class FctPartie {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Projet_CulDeChouette_2021PU");
     EntityManager em = emf.createEntityManager();
     
-    FctResumePartie FctResume;
-    FctScorePartie FctScore;
-    FctJoueur FctJoueur;
+    FctResumePartie FctResume = new FctResumePartie();
+    FctScorePartie FctScore = new FctScorePartie();
+    FctJoueur FctJoueur = new FctJoueur();
+    
+    public FctPartie() throws SQLException{
+       connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
+    }
     
     //INITIALISATION
     
         //Initialisation avec les Code_Joueur en paramètres 
         //+ création Code_Partie
         //+ création des lignes correspondantes de SCOREPARTIE
-    public void initPartie(int[] Codes_Joueur) throws SQLException{
-        connection = DriverManager.getConnection("jdbc:oracle:thin:@//scinfe098.univ-pau.fr:1521/etud.univ-pau.fr", "pcazalis", "pcazalis");
-        
+    public int initPartie(int[] Codes_Joueur) throws SQLException{
         int numPartie = getNb_Partie_Tot();
         numPartie += 1;
         
-        PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO RESUMEPARTIE VALUES (?, ?, ?, ?, ?, ?, ?, \'F\')");
+        PreparedStatement reqInsertParam = connection.prepareStatement("INSERT INTO PARTIE VALUES (?, ?, ?, ?, ?, ?, ?, \'F\')");
         reqInsertParam.setInt(1, numPartie);
         for(int i = 0; i < 6; i++){
             if(i < Codes_Joueur.length){
+                System.out.println(Codes_Joueur[i]);
                 reqInsertParam.setInt(i+2, Codes_Joueur[i]);
-                FctScore.InitScorePartie(BigInteger.valueOf(numPartie), BigInteger.valueOf(Codes_Joueur[i]));
             }else{
                 reqInsertParam.setNull(i+2, Types.INTEGER);
             }
@@ -59,6 +61,12 @@ public class FctPartie {
         
         int nb = reqInsertParam.executeUpdate();
         System.out.println("Nombre de ligne ajoutée: " + nb);
+        
+        for(int i = 0; i < Codes_Joueur.length; i++){
+            FctScore.InitScorePartie(BigInteger.valueOf(numPartie), BigInteger.valueOf(Codes_Joueur[i]));
+        }
+        
+        return numPartie;
     }
     
     //AFFICHAGE
@@ -73,6 +81,7 @@ public class FctPartie {
         while(res.next()){
             numPartie = res.getInt(1);
         }
+        res.close();
         return numPartie;
     }
     
@@ -84,6 +93,7 @@ public class FctPartie {
         while(res.next()){
             numPartie = res.getInt(1);
         }
+        res.close();
         return numPartie;
     }
 
@@ -99,6 +109,7 @@ public class FctPartie {
                 i++;
             }
         }
+        res.close();
         return nbJoueur;
     }
 
@@ -122,6 +133,7 @@ public class FctPartie {
                 moy += (float)FctScore.getValeur(BigInteger.valueOf(res.getInt(1)), BigInteger.valueOf(res.getInt(i)), "SCORE");
             }
         }
+        res.close();
         return moy/nbPartie;
     }
     
@@ -140,6 +152,7 @@ public class FctPartie {
                 i++;
             }
         }
+        res.close();
         return nbJoueur;
     }
     
@@ -156,6 +169,7 @@ public class FctPartie {
                 i++;
             }
         }
+        res.close();
         return liste;
     }
     
@@ -168,6 +182,7 @@ public class FctPartie {
         while(res.next()){
             termine = res.getString(1).equals("T");
         }
+        res.close();
         return termine;
     }
     
@@ -186,6 +201,7 @@ public class FctPartie {
                 i++;
             }
         }
+        res.close();
         return stats;
     }
     
