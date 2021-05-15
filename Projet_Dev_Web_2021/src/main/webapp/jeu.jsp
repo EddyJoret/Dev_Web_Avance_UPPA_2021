@@ -26,6 +26,7 @@
         <div id="div-affiche-stat">
             <h2 style="text-align: center">Statistiques</h2>
             <i class="far fa-times" id="close-stat" onclick="closeStat()"style="position: absolute; left: 90%; top: 4%; font-size: 31px"></i>
+            <p id="listePseudostat"></p>
         </div>
         
         <div style="text-align: center;" id="divButtonQuitte">

@@ -66,9 +66,7 @@ body {
         background-color: #9e9e9e;
 	color: #FFFFFF;
 	font-size: 14px;
-	font-weight: bold;
 	padding: 12px 45px;
-	letter-spacing: 1px;
 	-webkit-transform: scale(1);
 	transform: scale(1);
 	-webkit-transition: .3s ease-in-out;
@@ -86,9 +84,7 @@ body {
 	background-color: #9e9e9e;
 	color: #FFFFFF;
 	font-size: 14px;
-	font-weight: bold;
 	padding: 12px 45px;
-	letter-spacing: 1px;
 	-webkit-transform: scale(1);
 	transform: scale(1);
 	-webkit-transition: .3s ease-in-out;

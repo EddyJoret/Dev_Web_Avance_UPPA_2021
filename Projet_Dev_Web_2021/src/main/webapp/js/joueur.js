@@ -435,12 +435,16 @@ function confirmationPartie(pseudo){
 
 function majListePS(Pseudos){
     liste = document.getElementById("listePseudo");
+    var listestat = document.getElementById("listePseudostat");
     liste.innerHTML = "";
+    listestat.innerHTML = "";
     for(let i = 0; i < Pseudos.length; i++){
+        listestat.innerHTML = listestat.innerHTML + "<br/>"+ "<h3>" + Pseudos[i] + " : "+ "</h3>" + "Nombre de Partie joués: " + "<span id=\"nbPartieJouer\">0</span>" + "<br/>"
+                + "Nombre de victoires: " + "<span id=\"nbVict\">0</span>" + "<br/>" + "Nombre moyen de victoires: " + "<span id=\"nbVictMoy\">0</span>" + "<br/>" 
+                + "Score moyen: " + "<span id=\"scoreMoyJoueur\">0</span>" + "<br/>" + "Moyenne suites gagnées: " + "<span id=\moySuiteG\">0</span>" + "<br/>" + "Moyenne chouettes velutes perdues: " + "<span id=\"moyChouettePerd\">0</span>" + "<br/>";
         if(Pseudos[i] !== Pseudo){
             liste.innerHTML = liste.innerHTML + "<br />"+ "<a id=\"nomJoueur\" href=\"#\" onclick=\"verifInvit('" +Pseudos[i]+ "')\">" + Pseudos[i] + "</a>" + "<br />"; 
         }
-
     }
 }
 

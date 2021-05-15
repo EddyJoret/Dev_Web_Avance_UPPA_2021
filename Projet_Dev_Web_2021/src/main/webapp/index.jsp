@@ -21,7 +21,7 @@
             <img src="./img/dice.png" style=""/>
         </div>
         <div id="div-regles">
-            <h3 style="text-align: center">Règles du jeu</h3>
+            <h2 style="text-align: center">Règles du jeu</h2>
             <i class="far fa-times" id="close-regles" onclick="closeRegles()"style="position: absolute; left: 90%; top: 4%; font-size: 31px"></i>
             <div style="width: 90%; margin-left: 10px">
                 <p>Les dés se lancent en 2 fois : d'abord 2 dés puis le troisième.</p>
