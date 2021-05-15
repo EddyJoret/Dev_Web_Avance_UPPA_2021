@@ -193,15 +193,25 @@ public class FctResumePartie {
     //MISE A JOUR
     
         //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
-    public void majDes(BigInteger Code_Partie, int [] des) throws SQLException{
+    public void majDes_Chouette(BigInteger Code_Partie, int [] des) throws SQLException{
         int nbLance = getNb_Lance(Code_Partie);
         int nb;
-        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ?, DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_1 = ?, DES_2 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
         reqUpdateParam.setInt(1,des[0]);
         reqUpdateParam.setInt(2,des[1]);
-        reqUpdateParam.setInt(3,des[2]);
-        reqUpdateParam.setInt(4, Code_Partie.intValue());
-        reqUpdateParam.setInt(5, nbLance);
+        reqUpdateParam.setInt(3, Code_Partie.intValue());
+        reqUpdateParam.setInt(4, nbLance);
+        nb = reqUpdateParam.executeUpdate();
+        System.out.println(nb + " ligne ont été update");
+    }
+    
+    public void majDes_Cu(BigInteger Code_Partie, int [] des) throws SQLException{
+        int nbLance = getNb_Lance(Code_Partie);
+        int nb;
+        PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE RESUMEPARTIE SET DES_3 = ? WHERE CODE_PARTIE = ? AND NUM_LANCE_DES = ?");
+        reqUpdateParam.setInt(1,des[0]);
+        reqUpdateParam.setInt(2, Code_Partie.intValue());
+        reqUpdateParam.setInt(3, nbLance);
         nb = reqUpdateParam.executeUpdate();
         System.out.println(nb + " ligne ont été update");
     }

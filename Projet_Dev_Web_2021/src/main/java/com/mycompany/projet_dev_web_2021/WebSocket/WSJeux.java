@@ -86,9 +86,22 @@ public class WSJeux {
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("Chouette")
                 || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")
-                || jsonObject.getString("Type").equals("MajScore") || jsonObject.getString("Type").equals("ChouetteVelute")
+                || jsonObject.getString("Type").equals("ChouetteVelute")
                 || jsonObject.getString("Type").equals("ChouetteVeluteGagne") || jsonObject.getString("Type").equals("Suite")
                 || jsonObject.getString("Type").equals("SuiteGagne") || jsonObject.getString("Type").equals("VictoirePartie")){
+            int i = 0;
+            boolean done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Destinataire")) == 0){
+                    WSJeux.listeOS.get(i).getWS().sendText(jsonObject.toString());
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+        }
+        
+        if(jsonObject.getString("Type").equals("MajScore")){
             int i = 0;
             boolean done = false;
             while(!done){
