@@ -1,5 +1,4 @@
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--<jsp:useBean class="com.mycompany.projet_dev_web_2021.servlet.CulDeChouette" id="essai" scope="session"/>--%>
@@ -11,6 +10,7 @@
         <script type="text/javascript" src="./js/joueur.js"></script>
         <link rel="stylesheet" href="./css/jeu.css">
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+        <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet">
     </head>
     <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow-x: hidden">
         
@@ -20,7 +20,12 @@
             <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')" id="jouerPartie">Jouer</button>
         </div>
         <div style="text-align: center;" id="divButtonStat">
-            <button id="statJoueur">Statistiques</button>
+            <button id="statJoueur" onclick="afficheStat()">Statistiques</button>
+        </div>
+        
+        <div id="div-affiche-stat">
+            <h2 style="text-align: center">Statistiques</h2>
+            <i class="far fa-times" id="close-stat" onclick="closeStat()"style="position: absolute; left: 90%; top: 4%; font-size: 31px"></i>
         </div>
         
         <div style="text-align: center;" id="divButtonQuitte">
@@ -168,4 +173,13 @@
             </div>-->
         </div>
     </body>
+    <script>
+        function afficheStat(){
+            document.getElementById('div-affiche-stat').style.display = "block"; 
+        }
+        
+        function closeStat(){
+            document.getElementById('div-affiche-stat').style.display = "none"; 
+        }
+    </script>
 </html>

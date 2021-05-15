@@ -40,7 +40,6 @@
     <script>
         
         function ouvrirRegles(){
-            console.log('ok');
             document.getElementById('div-regles').style.display = "block";
         }
         

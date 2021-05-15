@@ -46,6 +46,27 @@
   transform: translate(-50%, -50%);
 }
 
+#div-affiche-stat{
+    display: none; 
+    background-color: white; 
+    width: 500px; 
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    overflow-y: scroll;
+    border: 1px solid grey;
+    left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#close-stat:hover{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
 #textJoueurCo{
   margin-top: 10px;
   position: absolute;
