@@ -39,7 +39,7 @@ public class FctResumePartie {
         //paramètre) et de Num_Lance_Des (calculé) à 0
     public void initTourResumePartie(BigInteger Code_Partie) throws SQLException{
         int numLance = 0;
-        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(NUM_LANCE_DES) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
+        PreparedStatement reqSelectParam = connection.prepareStatement("SELECT COUNT(*) FROM RESUMEPARTIE WHERE CODE_PARTIE = ?");
         reqSelectParam.setInt(1, Code_Partie.intValue());
         ResultSet res = reqSelectParam.executeQuery();
         while(res.next()){

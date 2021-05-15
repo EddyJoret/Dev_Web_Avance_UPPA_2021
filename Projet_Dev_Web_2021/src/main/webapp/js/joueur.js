@@ -686,16 +686,11 @@ function envoieScore(pts){
     var msgScore = {
         "Pseudo" : Pseudo,
         "Type" : "MajScore",
-        "Destinataire" : "",
+        "Destinataires" : partieJoueur,
         "Score" : pts
     };
     
-    for(var i = 0; i < partieJoueur.length; i++){
-      if(partieJoueur[i].Pseudo !== Pseudo){
-          msgScore.Destinataire = partieJoueur[i].Pseudo;
-          websocket.send(JSON.stringify(msgScore));
-      }
-    }
+    websocket.send(JSON.stringify(msgScore));
 }
 
 function majScore(pseudo, score){

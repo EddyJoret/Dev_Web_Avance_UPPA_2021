@@ -20,6 +20,10 @@ import org.json.JSONObject;
 
 import com.mycompany.projet_dev_web_2021.fctPojo.FctJoueur;
 import com.mycompany.projet_dev_web_2021.fctPojo.FctPartie;
+import com.mycompany.projet_dev_web_2021.fctPojo.FctResumePartie;
+import com.mycompany.projet_dev_web_2021.fctPojo.FctScorePartie;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.SQLException;
 
 @ServerEndpoint("/CulDeChouette")
@@ -32,6 +36,8 @@ public class WSJeux {
     private boolean init = false;
     FctJoueur fctJ;
     FctPartie fctP;
+    FctResumePartie fctRP;
+    FctScorePartie fctSP;
     
     @OnMessage
     public void message(String message, Session session) throws IOException, SQLException {
@@ -43,6 +49,8 @@ public class WSJeux {
             init = true;
             fctJ = new FctJoueur();
             fctP = new FctPartie();
+            fctRP = new FctResumePartie();
+            fctSP = new FctScorePartie();
         }
         
         //Cas pour Type = Chat
@@ -84,10 +92,9 @@ public class WSJeux {
         //Cas pour Type = Invitation ou Reponse ou Quitte ou QuitteHote ou ComplementPartie ou Chouette ou Cu
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
-                || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("Chouette")
-                || jsonObject.getString("Type").equals("Cu") || jsonObject.getString("Type").equals("PassageMain")
-                || jsonObject.getString("Type").equals("ChouetteVelute")
-                || jsonObject.getString("Type").equals("ChouetteVeluteGagne") || jsonObject.getString("Type").equals("Suite")
+                || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("PassageMain")
+                || jsonObject.getString("Type").equals("ChouetteVelute") || jsonObject.getString("Type").equals("ChouetteVeluteGagne") 
+                || jsonObject.getString("Type").equals("Suite")
                 || jsonObject.getString("Type").equals("SuiteGagne") || jsonObject.getString("Type").equals("VictoirePartie")){
             int i = 0;
             boolean done = false;
@@ -101,7 +108,7 @@ public class WSJeux {
             }
         }
         
-        if(jsonObject.getString("Type").equals("MajScore")){
+        if(jsonObject.getString("Type").equals("Chouette")){
             int i = 0;
             boolean done = false;
             while(!done){
@@ -112,6 +119,83 @@ public class WSJeux {
                     i++;
                 }
             }
+            
+            int[] des = {jsonObject.getInt("Des1"), jsonObject.getInt("Des2")};
+            
+            i = 0;
+            done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
+                    fctP.initLance(new BigDecimal(WSJeux.listeOS.get(i).getCodePartie()), des);
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+        }
+        
+        if(jsonObject.getString("Type").equals("Cu")){
+            int i = 0;
+            boolean done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Destinataire")) == 0){
+                    WSJeux.listeOS.get(i).getWS().sendText(jsonObject.toString());
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+            
+            int[] des = {jsonObject.getInt("Des3")};
+            
+            i = 0;
+            done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
+                    fctRP.majDes_Cu(new BigInteger(String.valueOf(WSJeux.listeOS.get(i).getCodePartie())), des);
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+        }
+        
+        if(jsonObject.getString("Type").equals("MajScore")){
+            JSONArray jsonArray = jsonObject.getJSONArray("Destinataires");
+            String msgScore = "{\"Pseudo\":\"" + jsonObject.getString("Pseudo") + "\",\"Type\":\"MajScore\",\"Score\":" + jsonObject.getInt("Score") + "}";
+            jsonArray.forEach(item -> {
+                JSONObject itm = new JSONObject(item.toString());
+                int i = 0;
+                boolean done = false;
+                while(!done){
+                    if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
+                        done = true;
+                    }else if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
+                        try {
+                            WSJeux.listeOS.get(i).getWS().sendText(msgScore);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WSJeux.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        done = true;
+                    }else{
+                        i++;
+                    }
+                }
+            });
+            
+            int i = 0;
+            boolean done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
+                    BigInteger CodePartie = new BigInteger(String.valueOf(WSJeux.listeOS.get(i).getCodePartie()));
+                    BigInteger CodeJoueur = fctJ.getCode_Joueur(WSJeux.listeOS.get(i).getPseudo()).toBigInteger();
+                    //fctSP.incScore(CodePartie, CodeJoueur, jsonObject.getInt("Score"));
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+            
         }
         
         if(jsonObject.getString("Type").equals("LancerPartie")){

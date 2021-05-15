@@ -52,7 +52,6 @@ public class FctPartie {
         reqInsertParam.setInt(1, numPartie);
         for(int i = 0; i < 6; i++){
             if(i < Codes_Joueur.length){
-                System.out.println(Codes_Joueur[i]);
                 reqInsertParam.setInt(i+2, Codes_Joueur[i]);
             }else{
                 reqInsertParam.setNull(i+2, Types.INTEGER);

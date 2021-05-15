@@ -127,14 +127,15 @@ public class FctScorePartie {
     
         //Incrémentation Score
     public void incScore(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
+        System.out.println("            Début incScore");
         int nb = 0;
         int newScore = getValeur(Code_Partie, Code_Joueur, "SCORE") + Score;
+        System.out.println("            newScore = " + newScore);
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
+        reqUpdateParam.setInt(1, newScore);
         reqUpdateParam.setInt(2, Code_Partie.intValue());
         reqUpdateParam.setInt(3, Code_Joueur.intValue());
-        reqUpdateParam.setInt(1, newScore);
         nb = reqUpdateParam.executeUpdate();
-        
         System.out.println(nb + " ligne ont été update");
     }
     
