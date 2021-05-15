@@ -128,10 +128,21 @@ public class WSJeux {
             for(int j = 0; j < CodeJoueur.size(); j++){
                 CodeJoueurs[j] = CodeJoueur.get(j);
             }
-            
             int CodePartie = fctP.initPartie(CodeJoueurs);
-            System.out.println("CodePartie : " + CodePartie);
             
+            jsonArray.forEach(item -> {
+                JSONObject itm = new JSONObject(item.toString());
+                int i = 0;
+                boolean done = false;
+                while(!done){
+                    if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
+                        WSJeux.listeOS.get(i).majCodePartie(CodePartie);
+                        done = true;
+                    }else{
+                        i++;
+                    }
+                }
+            });
         }
     }
     

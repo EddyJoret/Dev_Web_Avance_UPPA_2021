@@ -15,6 +15,7 @@ public class ObjectSocket {
     private RemoteEndpoint.Basic WS;
     private String Id;
     private String Pseudo;
+    private int CodePartie;
     
     ObjectSocket(RemoteEndpoint.Basic ws, String id){
         WS = ws;
@@ -24,9 +25,17 @@ public class ObjectSocket {
     public void majPseudo(String pseudo){
         Pseudo = pseudo;
     }
+    
+    public void majCodePartie(int codepartie){
+        CodePartie = codepartie;
+    }
 
     public String getPseudo(){
         return Pseudo;
+    }
+    
+    public int getCodePartie(){
+        return CodePartie;
     }
     
     public RemoteEndpoint.Basic getWS(){
