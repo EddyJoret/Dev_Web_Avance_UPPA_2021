@@ -19,6 +19,10 @@
         <div style="text-align: center;" id="divButtonJouer">
             <button onclick="initialisation('<%=(String)request.getAttribute("pseudo")%>')" id="jouerPartie">Jouer</button>
         </div>
+        <div style="text-align: center;" id="divButtonStat">
+            <button id="statJoueur">Statistiques</button>
+        </div>
+        
         <div style="text-align: center;" id="divButtonQuitte">
             <button style="display: none" onclick="quitterPartie()" id="quittePartie">Quitter la partie</button>
         </div>
