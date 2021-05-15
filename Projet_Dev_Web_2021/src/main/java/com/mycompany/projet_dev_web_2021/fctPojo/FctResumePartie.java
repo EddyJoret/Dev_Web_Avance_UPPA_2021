@@ -192,7 +192,7 @@ public class FctResumePartie {
     
     //MISE A JOUR
     
-        //Maj de Des_1, Des_2 et Des_3 lors de la fin du tout d'un joueur
+        //Maj de Des_1, Des_2 et Des_3 lors de la fin du tour d'un joueur
     public void majDes_Chouette(BigInteger Code_Partie, int [] des) throws SQLException{
         int nbLance = getNb_Lance(Code_Partie);
         int nb;

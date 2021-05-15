@@ -242,6 +242,6 @@ public class FctPartie {
         //Enregistrement du dernier lancé de dès effectué de Code_Partie
     public void initLance(BigDecimal Code_Partie, int[] des) throws SQLException{
         FctResume.initTourResumePartie(new BigInteger(Code_Partie.toString()));
-        FctResume.majDes(new BigInteger(Code_Partie.toString()), des);
+        FctResume.majDes_Chouette(new BigInteger(Code_Partie.toString()), des);
     }
 }
