@@ -188,8 +188,12 @@ public class WSJeux {
             while(!done){
                 if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
                     BigInteger CodePartie = new BigInteger(String.valueOf(WSJeux.listeOS.get(i).getCodePartie()));
-                    BigInteger CodeJoueur = fctJ.getCode_Joueur(WSJeux.listeOS.get(i).getPseudo()).toBigInteger();
-                    //fctSP.incScore(CodePartie, CodeJoueur, jsonObject.getInt("Score"));
+                    System.out.println("CodePartie : " + CodePartie);
+                    BigInteger CodeJoueur = new BigInteger(String.valueOf(fctJ.getCode_Joueur(WSJeux.listeOS.get(i).getPseudo())));
+                    System.out.println("CodeJoueur : " + CodeJoueur);
+                    int Score = jsonObject.getInt("Score");
+                    System.out.println("Score : " + Score);
+                    fctSP.incScore(CodePartie, CodeJoueur, Score);
                     done = true;
                 }else{
                     i++;

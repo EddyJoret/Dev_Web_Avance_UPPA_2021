@@ -129,7 +129,7 @@ public class FctPartie {
             nbPartie ++;
             int i = 2;
             while(i < 8 && res.getBigDecimal(i) != null){
-                moy += (float)FctScore.getValeur(BigInteger.valueOf(res.getInt(1)), BigInteger.valueOf(res.getInt(i)), "SCORE");
+                moy += (float)FctScore.getScore(BigInteger.valueOf(res.getInt(1)), BigInteger.valueOf(res.getInt(i)));
             }
         }
         res.close();
