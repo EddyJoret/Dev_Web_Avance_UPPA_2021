@@ -48,7 +48,7 @@
 
 #div-affiche-stat{
     display: none; 
-    background-color: white; 
+    background-color: #fff6e4; 
     width: 500px; 
     height: 500px;
     position: absolute;
@@ -60,6 +60,7 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     z-index: 7;
+    border-radius: 10px;
 }
 
 #close-stat:hover{
@@ -269,6 +270,7 @@
 
 #listePos{
     text-decoration: none;
+    color: black;
 }
 
 #listePos:visited{
@@ -467,7 +469,7 @@
 #div-button-lancer{
     margin: 0;
   position: absolute;
-  top: 50%;
+  top: 58%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -496,7 +498,6 @@ button:hover {
 
 #roll-button{
     display: none;
-    margin-top: 80px;
 }
 
 #roll-button-die3{

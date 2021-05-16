@@ -128,7 +128,7 @@ function onMessage(evt) {
         }else{
             document.getElementById("roll-button").style.display = "block";
             document.getElementById("dice").style.display = "grid";
-            document.getElementById("statJoueur").style.marginTop = "120px";
+            document.getElementById("divButtonStat").style.top = "50%";
             
         }
         document.getElementById("position-joueur").style.display = "inline-block";
@@ -157,6 +157,7 @@ function onMessage(evt) {
             desAvt.splice(0,desAvt.length);
         }else{
             document.getElementById("roll-button").style.display = "block";
+            document.getElementById("divButtonStat").style.top = "50%";
         }
     }
     
