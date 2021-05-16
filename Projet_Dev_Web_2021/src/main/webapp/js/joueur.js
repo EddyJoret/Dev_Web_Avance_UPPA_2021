@@ -128,6 +128,7 @@ function onMessage(evt) {
         }else{
             document.getElementById("roll-button").style.display = "block";
             document.getElementById("dice").style.display = "grid";
+            document.getElementById("statJoueur").style.marginTop = "120px";
             
         }
         document.getElementById("position-joueur").style.display = "inline-block";

@@ -496,6 +496,7 @@ button:hover {
 
 #roll-button{
     display: none;
+    margin-top: 80px;
 }
 
 #roll-button-die3{

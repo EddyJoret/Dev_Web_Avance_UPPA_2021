@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
         <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet">
     </head>
-    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow-x: hidden">
+    <body id="bodyjeu" style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow-x: hidden">
         
         <h1 style="text-align: center" id="pseudo">Bienvenue <%=request.getAttribute("pseudo")%></h1>
         
@@ -176,11 +176,15 @@
     </body>
     <script>
         function afficheStat(){
-            document.getElementById('div-affiche-stat').style.display = "block"; 
+            document.getElementById('div-affiche-stat').style.display = "block";
+            document.getElementById("bodyjeu").style.background = "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('./img/parchemin2.jpg') no-repeat";
+            document.getElementById("bodyjeu").style.backgroundSize = "cover";
         }
         
         function closeStat(){
-            document.getElementById('div-affiche-stat').style.display = "none"; 
+            document.getElementById('div-affiche-stat').style.display = "none";
+            document.getElementById("bodyjeu").style.background = "url('./img/parchemin2.jpg') no-repeat";
+            document.getElementById("bodyjeu").style.backgroundSize = "cover";
         }
     </script>
 </html>

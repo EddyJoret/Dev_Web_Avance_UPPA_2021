@@ -9,7 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap" rel="stylesheet">
         <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet">
     </head>
-    <body style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow: hidden">
+    <body id="bodyindex" style="background-image: url('./img/parchemin2.jpg'); background-repeat: no-repeat; background-size: cover; font-family: 'Fredericka the Great', cursive; overflow: hidden">
         <h1 style="text-align: center; font-size: 50px; margin-top: -20px">Le jeu du cul de chouette</h1>
         <div style="text-align: center; margin-top: 5%">
             <a href="connexionJeu.jsp" style="font-size: 30px" target="_blank" id="jouermenuprinci">Jouer</a>  
@@ -41,10 +41,14 @@
         
         function ouvrirRegles(){
             document.getElementById('div-regles').style.display = "block";
+            document.getElementById("bodyindex").style.background = "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('./img/parchemin2.jpg') no-repeat";
+            document.getElementById("bodyindex").style.backgroundSize = "cover";
         }
         
         function closeRegles(){
             document.getElementById('div-regles').style.display = "none";
+            document.getElementById("bodyindex").style.background = "url('./img/parchemin2.jpg') no-repeat";
+            document.getElementById("bodyindex").style.backgroundSize = "cover";
         }
         
     </script>
