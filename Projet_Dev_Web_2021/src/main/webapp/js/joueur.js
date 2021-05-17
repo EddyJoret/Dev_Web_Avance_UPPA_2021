@@ -267,6 +267,7 @@ function initialisation(pseudo) {
     Pseudo = pseudo;
     ouvrirConnexion();
     document.getElementById("jouerPartie").style.display = "none";
+    document.getElementById("divButtonStat").style.display = "block";
 }
 
 function verifInvit(pseudo){

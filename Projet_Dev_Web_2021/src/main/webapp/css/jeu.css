@@ -38,6 +38,7 @@
 }
 
 #divButtonStat{
+  display: none;
   margin: 0;
   position: absolute;
   top: 40%;
