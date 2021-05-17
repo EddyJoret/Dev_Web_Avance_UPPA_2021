@@ -62,11 +62,18 @@ function onMessage(evt) {
     
     if(msg.Type === "Invitation"){
         if(!boolPartie){
-            if(confirm(msg.Pseudo + " t'invites ")){
-                confirmationPartie(msg.Pseudo);
-            } else {
-                refusPartie(msg.Pseudo);
-            }
+            Swal.fire({
+                title: 'Invitation à jouer de ' + msg.Pseudo,
+                showDenyButton: true,
+                confirmButtonText: `Rejoindre`,
+                denyButtonText: `Ne pas rejoindre`
+            }).then((result) => {
+                if(result.isConfirmed){
+                    confirmationPartie(msg.Pseudo);
+                }else if(result.isDenied){
+                   refusPartie(msg.Pseudo); 
+                }
+            });
         }else{
             refusPartie(msg.Pseudo);
         }
