@@ -93,8 +93,7 @@ public class WSJeux {
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("PassageMain")
-                || jsonObject.getString("Type").equals("ChouetteVelute") || jsonObject.getString("Type").equals("Suite")
-                || jsonObject.getString("Type").equals("VictoirePartie")){
+                || jsonObject.getString("Type").equals("ChouetteVelute") || jsonObject.getString("Type").equals("Suite")){
             int i = 0;
             boolean done = false;
             while(!done){
@@ -284,6 +283,28 @@ public class WSJeux {
                 while(!done){
                     if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
                         WSJeux.listeOS.get(i).majCodePartie(CodePartie);
+                        done = true;
+                    }else{
+                        i++;
+                    }
+                }
+            });
+        }
+        
+        if(jsonObject.getString("Type").equals("VictoirePartie")){
+            JSONArray jsonArray = jsonObject.getJSONArray("Destinataires");
+            String PartiePS = "{\"Pseudo\":\"" + jsonObject.getString("Pseudo") + "\",\"Type\":\"VictoirePartie\"}";
+            jsonArray.forEach(item -> {
+                JSONObject itm = new JSONObject(item.toString());
+                int i = 0;
+                boolean done = false;
+                while(!done){
+                    if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
+                        try {
+                            WSJeux.listeOS.get(i).getWS().sendText(PartiePS);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WSJeux.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         done = true;
                     }else{
                         i++;

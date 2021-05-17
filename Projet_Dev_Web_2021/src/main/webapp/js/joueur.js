@@ -670,12 +670,9 @@ function incScore(){
         var msgG = {
             "Pseudo" : Pseudo,
             "Type" : "VictoirePartie",
-            "Destinataire" : ""
+            "Destinataires" : partieJoueur
         };
-        for(var i = 0; i < partieJoueur.length; i++){
-            msgG.Destinataire = partieJoueur[i].Pseudo;
-            websocket.send(JSON.stringify(msgG));
-        }
+        websocket.send(JSON.stringify(msgG));
         boolPartieFini = true;
     }
 }
