@@ -213,25 +213,21 @@ public class FctJoueur {
     
         //Changement MDP
     public void majMdp(String Pseudo, String Mdp)throws SQLException{
-        Joueur jou = em.find(Joueur.class, Pseudo);
-        jou.setMdp(Mdp);
+        em.createNamedQuery("UPDATE JOUEUR SET MDP = ? WHERE PSEUDO = ?").setParameter(1, Mdp).setParameter(1, Pseudo);
     }
     
         //Changement Age
     public void majAge(String Pseudo, BigInteger Age)throws SQLException{
-        Joueur jou = em.find(Joueur.class, Pseudo);
-        jou.setAge(Age);
+        em.createNamedQuery("UPDATE JOUEUR SET AGE = ? WHERE PSEUDO = ?").setParameter(1, Age).setParameter(1, Pseudo);
     }
     
         //Changement Sexe
     public void majSexe(String Pseudo, Character Sexe)throws SQLException{
-          Joueur jou = em.find(Joueur.class, Pseudo);
-          jou.setSexe(Sexe);
+          em.createNamedQuery("UPDATE JOUEUR SET SEXE = ? WHERE PSEUDO = ?").setParameter(1, Sexe).setParameter(1, Pseudo);
     }
     
         //Changement Ville
     public void majVille(String Pseudo, String Ville)throws SQLException{
-        Joueur jou = em.find(Joueur.class, Pseudo);
-        jou.setVille(Ville);
+        em.createNamedQuery("UPDATE JOUEUR SET VILLE = ? WHERE PSEUDO = ?").setParameter(1, Ville).setParameter(1, Pseudo);
     }
 }
