@@ -208,15 +208,11 @@ function onMessage(evt) {
             if(result.isConfirmed){
                 if(Suite >= (partieJoueur.length -1)){
                     var msgCHV = {
+                        "Pseudo" : Pseudo,
                         "Type" : "SuiteGagne",
-                        "Destinataire" : ""
+                        "Destinataires" : partieJoueur
                     };
-                    for(var i = 0; i < partieJoueur.length; i++){
-                        if(partieJoueur[i].Pseudo !== Pseudo){
-                            msgCHV.Destinataire = partieJoueur[i].Pseudo;
-                            websocket.send(JSON.stringify(msgCHV));
-                        }
-                    }
+                    websocket.send(JSON.stringify(msgCHV));
                     Suite = 0;
                 }else{
                     SuitePerdu();
