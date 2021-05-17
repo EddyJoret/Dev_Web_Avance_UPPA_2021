@@ -112,9 +112,7 @@ public class FctScorePartie {
     public int getScore(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT SCORE FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqParam.setInt(1, Code_Partie.intValue());
-        System.out.println("                    CodePartie : " + Code_Partie);
         reqParam.setInt(2, Code_Joueur.intValue());
-        System.out.println("                    CodeJoueur : " + Code_Joueur);
         ResultSet res = reqParam.executeQuery();
         int result = 0;
         while(res.next()){
@@ -128,9 +126,7 @@ public class FctScorePartie {
     public int getNb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT NB_SUITE_G FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqParam.setInt(1, Code_Partie.intValue());
-        System.out.println("                    CodePartie : " + Code_Partie);
         reqParam.setInt(2, Code_Joueur.intValue());
-        System.out.println("                    CodeJoueur : " + Code_Joueur);
         ResultSet res = reqParam.executeQuery();
         int result = 0;
         while(res.next()){
@@ -144,9 +140,7 @@ public class FctScorePartie {
     public int getNb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         PreparedStatement reqParam = connection.prepareStatement("SELECT NB_CHOUVEL_P FROM SCOREPARTIE WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqParam.setInt(1, Code_Partie.intValue());
-        System.out.println("                    CodePartie : " + Code_Partie);
         reqParam.setInt(2, Code_Joueur.intValue());
-        System.out.println("                    CodeJoueur : " + Code_Joueur);
         ResultSet res = reqParam.executeQuery();
         int result = 0;
         while(res.next()){
@@ -160,11 +154,9 @@ public class FctScorePartie {
     
         //Incrémentation Score
     public void incScore(BigInteger Code_Partie, BigInteger Code_Joueur, int Score) throws SQLException{
-        System.out.println("            Début incScore");
         int nb = 0;
         //int newScore = getValeur(Code_Partie, Code_Joueur, "SCORE") + Score;
         int newScore = getScore(Code_Partie, Code_Joueur) + Score;
-        System.out.println("            newScore = " + newScore);
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET SCORE = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqUpdateParam.setInt(1, newScore);
         reqUpdateParam.setInt(2, Code_Partie.intValue());
@@ -174,9 +166,9 @@ public class FctScorePartie {
     }
     
         //Incrémentation Nb_Suite_G
-    public void incNb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur, int Suite) throws SQLException{
+    public void incNb_Suite_G(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         int nb = 0;
-        int newSuite = getNb_Suite_G(Code_Partie, Code_Joueur) + Suite;
+        int newSuite = getNb_Suite_G(Code_Partie, Code_Joueur) + 1;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_SUITE_G = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqUpdateParam.setInt(2, Code_Partie.intValue());
         reqUpdateParam.setInt(3, Code_Joueur.intValue());
@@ -186,9 +178,9 @@ public class FctScorePartie {
     }
     
         //Incrémentation Nb_ChouVel_P
-    public void incNb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur, int ChouVel) throws SQLException{
+    public void incNb_ChouVel_P(BigInteger Code_Partie, BigInteger Code_Joueur) throws SQLException{
         int nb = 0;
-        int newChouVel = getNb_ChouVel_P(Code_Partie, Code_Joueur) + ChouVel;
+        int newChouVel = getNb_ChouVel_P(Code_Partie, Code_Joueur) + 1;
         PreparedStatement reqUpdateParam = connection.prepareStatement("UPDATE SCOREPARTIE SET NB_CHOUVEL_P = ? WHERE CODE_PARTIE = ? AND CODE_JOUEUR = ?");
         reqUpdateParam.setInt(2, Code_Partie.intValue());
         reqUpdateParam.setInt(3, Code_Joueur.intValue());

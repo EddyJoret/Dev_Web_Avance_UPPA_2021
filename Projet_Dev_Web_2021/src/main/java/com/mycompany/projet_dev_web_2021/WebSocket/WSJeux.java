@@ -93,8 +93,7 @@ public class WSJeux {
         if(jsonObject.getString("Type").equals("Invitation") || jsonObject.getString("Type").equals("Reponse") 
                 || jsonObject.getString("Type").equals("Quitte") || jsonObject.getString("Type").equals("QuitteHote")
                 || jsonObject.getString("Type").equals("ComplementPartie") || jsonObject.getString("Type").equals("PassageMain")
-                || jsonObject.getString("Type").equals("ChouetteVelute") || jsonObject.getString("Type").equals("ChouetteVeluteGagne") 
-                || jsonObject.getString("Type").equals("Suite")
+                || jsonObject.getString("Type").equals("ChouetteVelute") || jsonObject.getString("Type").equals("Suite")
                 || jsonObject.getString("Type").equals("SuiteGagne") || jsonObject.getString("Type").equals("VictoirePartie")){
             int i = 0;
             boolean done = false;
@@ -160,6 +159,21 @@ public class WSJeux {
             }
         }
         
+        if(jsonObject.getString("Type").equals("ChouetteVeluteGagne")){
+            int i = 0;
+            boolean done = false;
+            while(!done){
+                if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Destinataire")) == 0){
+                    WSJeux.listeOS.get(i).getWS().sendText(jsonObject.toString());
+                    BigInteger CodePartie = new BigInteger(String.valueOf(WSJeux.listeOS.get(i).getCodePartie()));
+                    fctP.incChouVel_P(CodePartie, jsonObject.getString("Destinataire"));
+                    done = true;
+                }else{
+                    i++;
+                }
+            }
+        }
+        
         if(jsonObject.getString("Type").equals("MajScore")){
             JSONArray jsonArray = jsonObject.getJSONArray("Destinataires");
             String msgScore = "{\"Pseudo\":\"" + jsonObject.getString("Pseudo") + "\",\"Type\":\"MajScore\",\"Score\":" + jsonObject.getInt("Score") + "}";
@@ -168,7 +182,7 @@ public class WSJeux {
                 int i = 0;
                 boolean done = false;
                 while(!done){
-                    if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
+                    if(itm.getString("Pseudo").compareTo(jsonObject.getString("Pseudo")) == 0){
                         done = true;
                     }else if(WSJeux.listeOS.get(i).getPseudo().compareTo(itm.getString("Pseudo")) == 0){
                         try {
@@ -188,12 +202,8 @@ public class WSJeux {
             while(!done){
                 if(WSJeux.listeOS.get(i).getPseudo().compareTo(jsonObject.getString("Pseudo")) == 0){
                     BigInteger CodePartie = new BigInteger(String.valueOf(WSJeux.listeOS.get(i).getCodePartie()));
-                    System.out.println("CodePartie : " + CodePartie);
-                    BigInteger CodeJoueur = new BigInteger(String.valueOf(fctJ.getCode_Joueur(WSJeux.listeOS.get(i).getPseudo())));
-                    System.out.println("CodeJoueur : " + CodeJoueur);
                     int Score = jsonObject.getInt("Score");
-                    System.out.println("Score : " + Score);
-                    fctSP.incScore(CodePartie, CodeJoueur, Score);
+                    fctP.majScore(CodePartie, jsonObject.getString("Pseudo"), Score);
                     done = true;
                 }else{
                     i++;
